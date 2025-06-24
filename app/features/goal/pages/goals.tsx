@@ -12,7 +12,7 @@ export default function GoalsPage() {
     <main className="flex items-center justify-center pt-16 pb-4">
       <div className="flex-1 flex flex-col items-center gap-16 min-h-0">
 				goal list page. <br/><br/>
-				목표 리스트가 들어갈 예정입니다.
+				목표 목록이 들어갈 예정입니다.
       </div>
     </main>
   );

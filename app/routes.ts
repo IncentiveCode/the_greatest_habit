@@ -23,6 +23,7 @@ export default [
 	route("/reward", "features/reward/pages/reward.tsx"),
 
 	// my
+	route("/notifications", "features/my/pages/notifications.tsx"),
 	route("/profile", "features/my/pages/profile.tsx"),
 	route("/settings", "features/my/pages/settings.tsx"),
 ] satisfies RouteConfig;

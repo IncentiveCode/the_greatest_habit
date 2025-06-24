@@ -135,7 +135,7 @@ export default function Navigation({
 				{isSignIn ?
 					<div className="flex items-center gap-2">
 						<Button size="icon" variant="ghost" asChild className="relative">
-							<Link to="/my/notifications">
+							<Link to="/notifications">
 								<BellIcon className="size-4" />
 								{hasNotification && (
 									<span className="absolute top-1.5 right-1.5 size-2 bg-red-500 text-white rounded-full" />
