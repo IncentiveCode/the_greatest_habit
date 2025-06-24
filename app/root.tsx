@@ -5,10 +5,14 @@ import {
   Outlet,
   Scripts,
   ScrollRestoration,
+  useLocation,
 } from "react-router";
+import { useEffect, useState } from "react";
 
 import type { Route } from "./+types/root";
 import "./app.css";
+import Navigation from "./common/components/navigation";
+import { Settings } from "luxon";
 
 export const links: Route.LinksFunction = () => [
   { rel: "preconnect", href: "https://fonts.googleapis.com" },
@@ -24,8 +28,35 @@ export const links: Route.LinksFunction = () => [
 ];
 
 export function Layout({ children }: { children: React.ReactNode }) {
+  const [theme, setTheme] = useState<'light' | 'dark'>('light');
+  const location = useLocation();
+
+  // locale, timezone setting
+  Settings.defaultLocale = "ko";
+  Settings.defaultZone = "Asia/Seoul";
+
+  useEffect(() => {
+    // 시스템 다크 모드 설정 확인
+    const isDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches;
+    setTheme(isDarkMode ? 'dark' : 'light');
+
+    // 시스템 테마 변경 감지
+    const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
+    const handleChange = (e: MediaQueryListEvent) => {
+      setTheme(e.matches ? 'dark' : 'light');
+    };
+
+    mediaQuery.addEventListener('change', handleChange);
+    return () => mediaQuery.removeEventListener('change', handleChange);
+  }, []);
+
+  // 페이지 전환 시에도 테마 유지
+  useEffect(() => {
+    document.documentElement.className = theme;
+  }, [theme, location]);
+
   return (
-    <html lang="en">
+    <html lang="en" className={theme}>
       <head>
         <meta charSet="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -33,7 +64,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
         <Links />
       </head>
       <body>
-        {children}
+        <main className="px-20">{children}</main>
         <ScrollRestoration />
         <Scripts />
       </body>
@@ -42,7 +73,14 @@ export function Layout({ children }: { children: React.ReactNode }) {
 }
 
 export default function App() {
-  return <Outlet />;
+  const [isSignIn, setSignIn] = useState(false);
+
+  return (
+    <div className="py-28">
+      <Navigation isSignIn={isSignIn} onSignInChange={setSignIn} hasNotification={false} />
+      <Outlet />
+    </div>
+  )
 }
 
 export function ErrorBoundary({ error }: Route.ErrorBoundaryProps) {
