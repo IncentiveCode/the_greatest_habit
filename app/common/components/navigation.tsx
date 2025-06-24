@@ -81,13 +81,13 @@ export default function Navigation({
 					<NavigationMenuList>
 					{isSignIn ? <>
 						{menus.map((menu) => (
-						<NavigationMenuItem>
+						<NavigationMenuItem key={menu.name}>
 							{menu.items ? <>
 							<NavigationMenuTrigger>{menu.name}</NavigationMenuTrigger>
 								<NavigationMenuContent>
 									<ul className="grid w-[400px] gap-4">
 									{menu.items?.map((item) => (
-										<li>
+										<li key={item.name}>
 											<NavigationMenuLink asChild>
 												<Link to={item.to}>
 													<div className="text-sm leading-none font-medium">{item.name}</div>
@@ -112,7 +112,7 @@ export default function Navigation({
 					))}
 					</> : <>
 						{public_menus.map((menu) => (
-							<NavigationMenuItem>
+							<NavigationMenuItem key={menu.name}>
 								<NavigationMenuLink asChild className={navigationMenuTriggerStyle()}>
 									<Link to={menu.to}>{menu.name}</Link>
 								</NavigationMenuLink>
@@ -157,26 +157,20 @@ export default function Navigation({
 								<DropdownMenuSeparator />
 								<DropdownMenuGroup>
 									<DropdownMenuItem asChild className="cursor-pointer">
-										<Link to="/my/dashboard">
-											<BarChart3Icon className="w-4 h-4 mr-2" />
-											Dashboard
-										</Link>
-									</DropdownMenuItem>
-									<DropdownMenuItem asChild className="cursor-pointer">
-										<Link to="/my/profile">
+										<Link to="/profile">
 											<UserIcon className="w-4 h-4 mr-2" />
 											Profile
 										</Link>
 									</DropdownMenuItem>
 									<DropdownMenuItem asChild className="cursor-pointer">
-										<Link to="/my/settings">
+										<Link to="/settings">
 											<SettingsIcon className="w-4 h-4 mr-2" />
 											Settings
 										</Link>
 									</DropdownMenuItem>
 									<DropdownMenuSeparator />
 									<DropdownMenuItem asChild className="cursor-pointer">
-										<Link to="/auth/signout">
+										<Link to="/signout">
 											<LogOutIcon className="w-4 h-4 mr-2" />
 											Sign-out
 										</Link>
@@ -188,10 +182,10 @@ export default function Navigation({
 					: 
 					<div className="flex items-center gap-4">
 						<Button asChild variant="outline">
-							<Link to="/auth/signin">Sign In</Link>
+							<Link to="/signin">Sign In</Link>
 						</Button>
 						<Button>
-							<Link to="/auth/join">Join</Link>
+							<Link to="/join">Join</Link>
 						</Button>
 					</div>
 				}
