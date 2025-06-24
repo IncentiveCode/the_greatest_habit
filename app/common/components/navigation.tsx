@@ -44,19 +44,14 @@ const menus = [
 				to: "/habits",	
 			},
 			{
-				name: "습관 만들기",
-				description: "삶을 바꾸는 작은 습관 만들기",
-				to: "create-habit",
-			},
-			{
 				name: "목표 관리",
 				description: "목표 달성을 위해 오늘 해야 할 일",
 				to: "/goals",
 			},
 			{
-				name: "목표 만들기",
-				description: "새로운 목표를 작성합니다.",
-				to: "create-goal",
+				name: "습관/목표 만들기",
+				description: "새로운 습관 또는 목표를 작성합니다.",
+				to: "create-habit",
 			}
 		]
 	},
@@ -79,51 +74,55 @@ export default function Navigation({
 }) {
 	return (
 		<nav className="flex px-20 h-16 items-center justify-between backdrop-blur-50 fixed top-0 left-0 right-0 z-50 bg-background/50">
-			<NavigationMenu>
+			<div className="flex items-center gap-4">
 				<Link to={isSignIn ? "/dashboard" : "/"} className="font-bold tracking-tighter text-lg">The greatest habit</Link>
 				<Separator orientation="vertical" className="!h-6 mx-4 bg-primary" />
-				<NavigationMenuList>
-				{isSignIn ? <>
-					{menus.map((menu) => (
-					<NavigationMenuItem>
-						{menu.items ? <>
-						<NavigationMenuTrigger>{menu.name}</NavigationMenuTrigger>
-							<NavigationMenuContent>
-								<ul className="grid w-[600px] font-light gap-3 p-4 grid-cols-2">
-								{menu.items?.map((item) => (
-									<NavigationMenuLink asChild>
-										<Link to={item.to}>
-											<div className="text-sm leading-none font-medium">{item.name}</div>
-											<p className="text-muted-foreground line-clamp-2 text-sm leading-snug">
-												{item.description}
-											</p>
-										</Link>
+				<NavigationMenu>
+					<NavigationMenuList>
+					{isSignIn ? <>
+						{menus.map((menu) => (
+						<NavigationMenuItem>
+							{menu.items ? <>
+							<NavigationMenuTrigger>{menu.name}</NavigationMenuTrigger>
+								<NavigationMenuContent>
+									<ul className="grid w-[400px] gap-4">
+									{menu.items?.map((item) => (
+										<li>
+											<NavigationMenuLink asChild>
+												<Link to={item.to}>
+													<div className="text-sm leading-none font-medium">{item.name}</div>
+													<p className="text-muted-foreground line-clamp-2 text-sm leading-snug">
+														{item.description}
+													</p>
+												</Link>
+											</NavigationMenuLink>
+										</li>
+									))}
+									</ul>
+								</NavigationMenuContent>
+							</> : <>
+								<NavigationMenuItem>
+									<NavigationMenuLink asChild className={navigationMenuTriggerStyle()}>
+										<Link to={menu.to}>{menu.name}</Link>
 									</NavigationMenuLink>
-								))}
-								</ul>
-							</NavigationMenuContent>
-						</> : <>
+								</NavigationMenuItem>
+							</>
+						}
+						</NavigationMenuItem>
+					))}
+					</> : <>
+						{public_menus.map((menu) => (
 							<NavigationMenuItem>
 								<NavigationMenuLink asChild className={navigationMenuTriggerStyle()}>
 									<Link to={menu.to}>{menu.name}</Link>
 								</NavigationMenuLink>
 							</NavigationMenuItem>
-						</>
+						))}
+					</>
 					}
-					</NavigationMenuItem>
-				))}
-				</> : <>
-					{public_menus.map((menu) => (
-						<NavigationMenuItem>
-							<NavigationMenuLink asChild className={navigationMenuTriggerStyle()}>
-								<Link to={menu.to}>{menu.name}</Link>
-							</NavigationMenuLink>
-						</NavigationMenuItem>
-					))}
-				</>
-				}
-				</NavigationMenuList>
-			</NavigationMenu>
+					</NavigationMenuList>
+				</NavigationMenu>
+			</div>
 			<div className="flex items-center gap-4">
 				<Label htmlFor="sign-in-mode">Sign out</Label>
 				<Switch id="sign-in-mode" 
@@ -131,6 +130,8 @@ export default function Navigation({
 					onCheckedChange={onSignInChange}
 				 />
 				<Label htmlFor="sign-in-mode">Sign in</Label>
+			</div>
+			<div>
 				{isSignIn ?
 					<div className="flex items-center gap-2">
 						<Button size="icon" variant="ghost" asChild className="relative">
