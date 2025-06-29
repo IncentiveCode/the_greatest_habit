@@ -13,17 +13,17 @@ const public_menus = [
 	{
 		name: "About",
 		description: "The greatest habit 에 대해서 알아봅니다.",
-		to: "/about",
+		to: "/#about",
 	},
 	{
 		name: "How to use",
 		description: "The greatest habit 의 사용법에 대해서 알아봅니다.",
-		to: "/tutorial"
+		to: "/#tutorial"
 	},
 	{
 		name: "Plan",
 		description: "가격 정책에 대해서 알아봅니다.",
-		to: "/plan",
+		to: "/#plan",
 	},
 	{
 		name: "Blog",
@@ -75,7 +75,7 @@ export default function Navigation({
 	return (
 		<nav className="flex px-20 h-16 items-center justify-between backdrop-blur-50 fixed top-0 left-0 right-0 z-50 bg-background/50">
 			<div className="flex items-center gap-4">
-				<Link to={isSignIn ? "/dashboard" : "/"} className="font-bold tracking-tighter text-lg">The greatest habit</Link>
+				<Link to={isSignIn ? "/dashboard" : "/#home"} className="font-bold tracking-tighter text-lg">The greatest habit</Link>
 				<Separator orientation="vertical" className="!h-6 mx-4 bg-primary" />
 				<NavigationMenu>
 					<NavigationMenuList>
@@ -182,10 +182,10 @@ export default function Navigation({
 					: 
 					<div className="flex items-center gap-4">
 						<Button asChild variant="outline">
-							<Link to="/signin">Sign In</Link>
+							<Link to="/auth/signin">Sign In</Link>
 						</Button>
 						<Button>
-							<Link to="/join">Join</Link>
+							<Link to="/auth/join">Join</Link>
 						</Button>
 					</div>
 				}

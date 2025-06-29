@@ -64,7 +64,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
         <Links />
       </head>
       <body>
-        <main className="px-20">{children}</main>
+        <main>{children}</main>
         <ScrollRestoration />
         <Scripts />
       </body>
@@ -74,10 +74,17 @@ export function Layout({ children }: { children: React.ReactNode }) {
 
 export default function App() {
   const [isSignIn, setSignIn] = useState(false);
+  const { pathname } = useLocation();
 
   return (
-    <div className="py-28">
-      <Navigation isSignIn={isSignIn} onSignInChange={setSignIn} hasNotification={false} />
+    <div className={pathname.includes("/auth/") || pathname === "/" ? "" : "py-28 px-20"}>
+      {pathname.includes("/auth/") ? null : (
+        <Navigation 
+          isSignIn={isSignIn} 
+          onSignInChange={setSignIn} 
+          hasNotification={false}
+        />
+      )}
       <Outlet />
     </div>
   )
