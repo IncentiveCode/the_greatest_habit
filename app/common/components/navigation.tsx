@@ -182,7 +182,7 @@ export default function Navigation({
 					: 
 					<div className="flex items-center gap-4">
 						<Button asChild variant="outline">
-							<Link to="/auth/signin">Sign In</Link>
+							<Link to="/auth/sign-in">Sign In</Link>
 						</Button>
 						<Button>
 							<Link to="/auth/join">Join</Link>

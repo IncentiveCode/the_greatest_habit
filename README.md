@@ -7,7 +7,23 @@ The Greatest Habit 은 현재 MVP 제작 단계에 있습니다.
 
 ## 개발 타임라인
 
-- 2025.06.25 : routes.ts 에 정의된 페이지에 대한 파일 생성 및 네비게이션 연결.
-- 2025.06.24 : navigation 추가.
+- 2025.06.30 :
+  - join-page, sign-in-page > UI 작업 완료.
+  - navigation 수정.
+  - home-page > CoverPage component 작업 완료. scroll snap 추가.
+- 2025.06.25 :
+  - routes.ts 에 정의된 페이지에 대한 파일 생성 및 네비게이션 연결.
+- 2025.06.24 :
+  - navigation 추가.
   - navigation bar 영역에 배치한 test switch 를 통해 navigation 변경을 테스트.
-- 2025.06.22 : create project.
+- 2025.06.22 :
+  - create project.
+
+## 이번 주 완료하지 못한 작업 정리
+
+- 전체 UI 에 대한 Wireframe 정리
+- Dashboard UI 작업
+- Habits / Goals page UI 작업
+- Habit / Goal detail page UI 작업
+- Reward page UI 작업
+- Notification / Profile / Settings page UI 작업

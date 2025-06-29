@@ -60,7 +60,7 @@ export default function JoinPage() {
             <Button className="w-full">회원가입</Button> 
 
             <Button variant={"secondary"} className="w-full" asChild>
-              <Link to="/auth/signin" className="text-sm">이미 계정이 있으신가요?</Link>
+              <Link to="/auth/sign-in" className="text-sm">이미 계정이 있으신가요?</Link>
             </Button> 
           </Form>
         </CardContent>
