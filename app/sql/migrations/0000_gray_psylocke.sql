@@ -59,12 +59,9 @@ CREATE TABLE "profiles" (
 	"last_name" text NOT NULL,
 	"username" text NOT NULL,
 	"headline" text,
+	"status" "status" DEFAULT 'active' NOT NULL,
 	"created_at" timestamp DEFAULT now() NOT NULL,
 	"updated_at" timestamp DEFAULT now() NOT NULL
-);
---> statement-breakpoint
-CREATE TABLE "auth"."users" (
-	"id" uuid PRIMARY KEY NOT NULL
 );
 --> statement-breakpoint
 ALTER TABLE "action_plans" ADD CONSTRAINT "action_plans_goal_id_goals_goal_id_fk" FOREIGN KEY ("goal_id") REFERENCES "public"."goals"("goal_id") ON DELETE cascade ON UPDATE no action;--> statement-breakpoint

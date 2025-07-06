@@ -1,5 +1,7 @@
 import type { MetaFunction } from "react-router";
 import { CoverPage } from "../components/cover-page";
+import { AnimatedGridPattern } from "~/common/components/ui/animated-grid-pattern";
+import { cn } from "~/lib/utils";
 
 export const meta: MetaFunction = () => {
   return [
@@ -11,11 +13,22 @@ export const meta: MetaFunction = () => {
 export default function HomePage() {
   return (
     <div className="h-screen overflow-y-scroll snap-y snap-mandatory scroll-smooth">
+      <AnimatedGridPattern
+        numSquares={30}
+        maxOpacity={0.1}
+        duration={3}
+        repeatDelay={1}
+        className={cn(
+          "[mask-image:radial-gradient(800px_circle_at_center,white,transparent)]",
+          "skew-y-12",
+        )}
+      />
+
       <section className="h-screen snap-start flex justify-center items-center" id="home">
-        <CoverPage
-          title="작은 습관, 위대한 변화" 
-          description="위대한 변화는 거창한 결심이 아니라 작은 습관에서 시작됩니다.||이 작은 습관 하나가 언젠가 당신이 꿈꾸던 인생의 시작점이 됩니다."
-        />
+          <CoverPage
+            title="작은 습관, 위대한 변화" 
+            description="위대한 변화는 거창한 결심이 아니라 작은 습관에서 시작됩니다.||이 작은 습관 하나가 언젠가 당신이 꿈꾸던 인생의 시작점이 됩니다."
+          />
       </section>
 
       <section className="h-screen snap-start flex justify-center items-center" id="about">
@@ -37,8 +50,7 @@ export default function HomePage() {
       <section className="h-screen snap-start flex justify-center items-center" id="plan">
         <CoverPage
           title="가격정책"
-          description="제공하는 도구와 요금제를 확인해보세요."
-          link="/plan"
+          description="현재는 MVP 제작 중이라 가격정책이 정해지지 않았습니다.||추후 안내드리겠습니다."
         />
       </section>
     </div>

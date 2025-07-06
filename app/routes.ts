@@ -20,9 +20,9 @@ export default [
 	route("/dashboard", "features/dashboard/pages/dashboard.tsx"),
 
 	// habit & goal
-	route("/habits", "features/goal/pages/habits.tsx"),
-	route("/goals", "features/goal/pages/goals.tsx"),
-	route("/create-habit", "features/goal/pages/create-habit.tsx"),
+	route("/habits", "features/goals/pages/habits.tsx"),
+	route("/goals", "features/goals/pages/goals.tsx"),
+	route("/create-habit", "features/goals/pages/create-habit.tsx"),
 
 	// reward
 	route("/reward", "features/reward/pages/reward.tsx"),

@@ -1,6 +1,6 @@
 import { pgEnum, pgSchema, pgTable, text, timestamp, uuid } from "drizzle-orm/pg-core";
 
-export const users = pgSchema("auth").table("users", {
+const users = pgSchema("auth").table("users", {
   id: uuid().primaryKey(),
 });
 
@@ -19,6 +19,7 @@ export const profiles = pgTable("profiles", {
   last_name: text().notNull(),
   username: text().notNull(),
   headline: text(),
+  status: status().default("active").notNull(),
   created_at: timestamp().notNull().defaultNow(),
   updated_at: timestamp().notNull().defaultNow(),
 });

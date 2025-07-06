@@ -7,6 +7,10 @@ The Greatest Habit 은 현재 MVP 제작 단계에 있습니다.
 
 ## 개발 타임라인
 
+- 2025.07.07 :
+  - DB schema 추가.
+  - wemake 에서 배운 DB 관련 작업 추가.
+  - about-page.tsx 에 loader 적용.
 - 2025.06.30 :
   - join-page, sign-in-page > UI 작업 완료.
   - navigation 수정.
@@ -19,7 +23,7 @@ The Greatest Habit 은 현재 MVP 제작 단계에 있습니다.
 - 2025.06.22 :
   - create project.
 
-## 이번 주 완료하지 못한 작업 정리
+## 완료하지 못한 작업 정리
 
 - 전체 UI 에 대한 Wireframe 정리
 - Dashboard UI 작업
@@ -27,3 +31,6 @@ The Greatest Habit 은 현재 MVP 제작 단계에 있습니다.
 - Habit / Goal detail page UI 작업
 - Reward page UI 작업
 - Notification / Profile / Settings page UI 작업
+- public page 작업
+  - Tutorial page UI 작업 & DB 연결
+  - About page UI 개선
