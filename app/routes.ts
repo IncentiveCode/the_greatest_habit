@@ -4,7 +4,12 @@ export default [
 	// public page
 	index("common/pages/home-page.tsx"),
 	route("/about", "common/pages/about-page.tsx"),
-	route("/tutorial", "common/pages/tutorial-page.tsx"),
+	layout("common/layouts/tutorial-layout.tsx", [
+		...prefix("tutorial", [
+			index("common/pages/tutorial-page.tsx"),
+			route("/:tutorialId", "common/pages/tutorial-detail-page.tsx"),
+		])
+	]),
 	route("/plan", "common/pages/plan-page.tsx"),
 
 	// auth
@@ -12,8 +17,8 @@ export default [
 		layout("features/auth/layouts/auth-layout.tsx", [
 			route("/join", "features/auth/pages/join-page.tsx"),
 			route("/sign-in", "features/auth/pages/sign-in-page.tsx"),
-			route("/signout", "features/auth/pages/signout.tsx"),
 		]),
+		route("/sign-out", "features/auth/pages/sign-out-page.tsx"),
 	]),
 		
 	// dashboard

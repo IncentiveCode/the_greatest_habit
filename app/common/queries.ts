@@ -1,7 +1,9 @@
-import { asc } from "drizzle-orm";
-import client from "~/supa-client";
+// import client from "~/supa-client";
 
-export const getAboutContents = async () => {
+// browser client, server side client
+import type pkg from "@supabase/supabase-js";
+
+export const getAboutContents = async (client: pkg.SupabaseClient) => {
 	const { data, error } = await client
 		.from("about_content")
 		.select(`title, description`)

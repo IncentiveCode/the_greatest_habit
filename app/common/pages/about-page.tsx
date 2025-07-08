@@ -1,6 +1,7 @@
 import { getAboutContents } from "../queries";
 import { AboutCard } from "../components/about-card";
 import type { Route } from "./+types/about-page";
+import { makeSSRClient } from "~/supa-client";
 
 export const meta: Route.MetaFunction = () => {
   return [
@@ -9,8 +10,9 @@ export const meta: Route.MetaFunction = () => {
   ];
 }
 
-export const loader = async () => {
-	const contents = await getAboutContents();
+export const loader = async ({ request }: Route.LoaderArgs ) => {
+	const { client, headers } = makeSSRClient(request);
+	const contents = await getAboutContents(client);
 
 	return { contents };
 }

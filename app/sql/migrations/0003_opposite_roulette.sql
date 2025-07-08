@@ -1,0 +1,1 @@
+ALTER TABLE "profiles" ALTER COLUMN "phone" DROP NOT NULL;

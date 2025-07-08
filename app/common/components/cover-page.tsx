@@ -6,15 +6,14 @@ interface CoverPageProps {
 	description?: string;
 	link?: string;
 	imagePath?: string;
-	reverse?: boolean;
 }
 
-export function CoverPage({ title, description, link, imagePath, reverse }: CoverPageProps) {
+export function CoverPage({ title, description, link, imagePath }: CoverPageProps) {
 	const arrDesc = description?.split("||") ?? [];
 
 	return (
 		<div className="flex flex-col justify-center items-center w-screen h-screen rounded-md space-y-10">
-			<div className={`flex justify-around items-center ${reverse ? "flex-row-reverse" : ""}`}>
+			<div className="flex justify-around items-center">
 			{imagePath ? (
 				<div className="w-full h-full rounded-xl shadow-xl">
 					<img 

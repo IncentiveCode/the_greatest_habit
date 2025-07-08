@@ -65,12 +65,18 @@ const menus = [
 
 export default function Navigation({
 	isSignIn,
-	onSignInChange,
+	// onSignInChange,
 	hasNotification,
+	email,
+	avatar,
+	username,
 }: {
-	isSignIn: boolean,
-	onSignInChange: (checked: boolean) => void,
-	hasNotification: boolean,
+	isSignIn: boolean;
+	// onSignInChange: (checked: boolean) => void;
+	hasNotification: boolean;
+	email: string;
+	avatar: string | null;
+	username: string;
 }) {
 	return (
 		<nav className="flex px-20 h-16 items-center justify-between backdrop-blur-50 fixed top-0 left-0 right-0 z-50 bg-background/50">
@@ -123,14 +129,7 @@ export default function Navigation({
 					</NavigationMenuList>
 				</NavigationMenu>
 			</div>
-			<div className="flex items-center gap-4">
-				<Label htmlFor="sign-in-mode">Sign out</Label>
-				<Switch id="sign-in-mode" 
-					checked={isSignIn}
-					onCheckedChange={onSignInChange}
-				 />
-				<Label htmlFor="sign-in-mode">Sign in</Label>
-			</div>
+
 			<div>
 				{isSignIn ?
 					<div className="flex items-center gap-2">
@@ -145,14 +144,17 @@ export default function Navigation({
 						<DropdownMenu>
 							<DropdownMenuTrigger asChild>
 								<Avatar>
-									<AvatarImage src="https://github.com/incentivecode.png" />
-									<AvatarFallback>N</AvatarFallback>
+								{avatar ? (
+									<AvatarImage src={avatar} />
+								) : (
+									<AvatarFallback>{username?.[0]}</AvatarFallback>
+								)}
 								</Avatar>
 							</DropdownMenuTrigger>
 							<DropdownMenuContent className="w-56">
 								<DropdownMenuLabel className="flex flex-col">
-									<span className="font-medium">incentivecode</span>
-									<span className="text-xs text-muted-foreground">@username</span>
+									<span className="text-sm font-medium">{email}</span>
+									<span className="text-xs text-muted-foreground">@{username}</span>
 								</DropdownMenuLabel>
 								<DropdownMenuSeparator />
 								<DropdownMenuGroup>
@@ -170,7 +172,7 @@ export default function Navigation({
 									</DropdownMenuItem>
 									<DropdownMenuSeparator />
 									<DropdownMenuItem asChild className="cursor-pointer">
-										<Link to="/signout">
+										<Link to="/auth/sign-out">
 											<LogOutIcon className="w-4 h-4 mr-2" />
 											Sign-out
 										</Link>

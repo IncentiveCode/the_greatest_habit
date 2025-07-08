@@ -1,9 +1,14 @@
-import { Form, Link, type MetaFunction } from "react-router";
+import { Form, Link, redirect, useNavigation, type MetaFunction } from "react-router";
 import InputPair from "~/common/components/input-pair";
 import { Button } from "~/common/components/ui/button";
 import { Card, CardAction, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "~/common/components/ui/card";
 import { SENTENCES } from "~/common/sentences";
 import { getRandomInt } from "~/lib/utils";
+import type { Route } from "./+types/join-page";
+import z from "zod";
+import { checkUsernameExists } from "../queries";
+import { makeSSRClient } from "~/supa-client";
+import { LoaderCircle } from "lucide-react";
 
 export const meta: MetaFunction = () => {
   return [
@@ -12,9 +17,82 @@ export const meta: MetaFunction = () => {
   ];
 }
 
-export default function JoinPage() {
+const formSchema = z.object({
+  email: z.string({
+    required_error: "'e-mail'이 입력되지 않았습니다.",
+    invalid_type_error: "입력된 값이 e-mail 형식에 맞지 않습니다.",
+  }).email("잘못된 e-mail 형식입니다."),
+  username: z.string({
+    required_error: "'이름'이 입력되지 않았습니다.",
+  }).min(2, {
+    message: "최소 2글자 이상의 이름을 입력해주세요.",
+  }),
+  password: z.string().min(8, {
+    message: "최소 8글자 이상의 비밀번호를 입력해주세요.",
+  }),
+  password_confirm: z.string().min(8, {
+    message: "최소 8글자 이상의 비밀번호를 입력해주세요.",
+  }),
+});
+
+export const loader = () => {
   const randIndex = getRandomInt(0, SENTENCES.length - 1);
   const sentence = SENTENCES[randIndex];
+  return { sentence };
+}
+
+export const action = async ({ request }: Route.ActionArgs) => {
+  // await new Promise((resolve) => setTimeout(resolve, 4000));
+  const formData = await request.formData();
+  const { success, data, error } = formSchema.safeParse(Object.fromEntries(formData)); 
+  if (!success) {
+    return {
+      signUpError: null,
+      formErrors: error.flatten().fieldErrors
+    };
+  }
+
+  const passwordEquals = data.password === data.password_confirm;
+  if (!passwordEquals) {
+    return {
+      signUpError: null,
+      formErrors: { password_confirm: ["비밀번호가 일치하지 않습니다."] },
+    };
+  }
+
+  const usernameExists = await checkUsernameExists(request, {
+    username: data.username,
+  });
+  if (usernameExists) {
+    return {
+      signUpError: null,
+      formErrors: { username: ["이미 사용중인 이름입니다."] },
+    };
+  }
+
+  const { client, headers } = makeSSRClient(request);
+  const { error: signUpError } = await client.auth.signUp({
+    email: data.email, 
+    password: data.password,
+    options: {
+      data: {
+        username: data.username,
+      }
+    }
+  });
+  if (signUpError) {
+    return {
+      signUpError: signUpError.message,
+      formErrors: null,
+    }
+  };
+
+  return redirect("/", { headers });
+}
+
+export default function JoinPage({ loaderData, actionData }: Route.ComponentProps) {
+  const navigation = useNavigation();
+  const isSubmitting = navigation.state === "submitting" || navigation.state === "loading";
 
   return (
     <div className="flex justify-center items-center w-screen h-screen">
@@ -29,15 +107,30 @@ export default function JoinPage() {
           </CardDescription>
         </CardHeader>
         <CardContent>
-          <Form className="space-y-5 p-5">
+          <Form className="space-y-5 p-5" method="post">
             <InputPair
               label="e-mail" 
-              name="e-mail"
-              id="e-mail"
+              name="email"
+              id="email"
               required
               type="email"
               placeholder="사용하실 e-mail을 입력하세요."
             />
+            {actionData && "formErrors" in actionData && (
+              <p className="text-sm text-red-500">{actionData?.formErrors?.email?.join(", ")}</p>
+            )}
+
+            <InputPair
+              label="이름" 
+              name="username"
+              id="username"
+              required
+              type="text"
+              placeholder="사용하실 이름을 입력하세요."
+            />
+            {actionData && "formErrors" in actionData && (
+              <p className="text-sm text-red-500">{actionData?.formErrors?.username?.join(", ")}</p>
+            )}
 
             <InputPair
               label="비밀번호" 
@@ -47,6 +140,9 @@ export default function JoinPage() {
               type="password"
               placeholder="비밀번호를 입력하세요."
             />
+            {actionData && "formErrors" in actionData && (
+              <p className="text-sm text-red-500">{actionData?.formErrors?.password?.join(", ")}</p>
+            )}
 
             <InputPair
               label="비밀번호 확인" 
@@ -56,8 +152,20 @@ export default function JoinPage() {
               type="password"
               placeholder="비밀번호를 한번 더 입력하세요."
             />
+            {actionData && "formErrors" in actionData && (
+              <p className="text-sm text-red-500">{actionData?.formErrors?.password_confirm?.join(", ")}</p>
+            )}
 
-            <Button className="w-full">회원가입</Button> 
+            <Button className="w-full" disabled={isSubmitting}>
+            {isSubmitting ? ( 
+              <LoaderCircle className="animate-spin" />
+            ) : (
+              "회원가입"
+            )}
+            </Button> 
+            {actionData && "loginError" in actionData && (
+              <p className="text-sm text-red-500">{actionData.signUpError}</p>
+            )}
 
             <Button variant={"secondary"} className="w-full" asChild>
               <Link to="/auth/sign-in" className="text-sm">이미 계정이 있으신가요?</Link>
@@ -65,7 +173,7 @@ export default function JoinPage() {
           </Form>
         </CardContent>
         <CardFooter className="flex justify-center items-center text-xs text-muted-foreground">
-          {sentence}
+          {loaderData.sentence}
         </CardFooter>
       </Card>
     </div>

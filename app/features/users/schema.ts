@@ -13,10 +13,8 @@ export const profiles = pgTable("profiles", {
     .primaryKey()
     .references(() => users.id, { onDelete: "cascade" }),
 	email: text().notNull(),
-	phone: text().notNull(),
+	phone: text(),
   avatar: text(),
-  first_name: text().notNull(),
-  last_name: text().notNull(),
   username: text().notNull(),
   headline: text(),
   status: status().default("active").notNull(),
