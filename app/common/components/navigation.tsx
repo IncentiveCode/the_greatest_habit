@@ -1,10 +1,8 @@
 import { Link } from "react-router";
 import { NavigationMenu, NavigationMenuContent, NavigationMenuItem, NavigationMenuLink, NavigationMenuList, NavigationMenuTrigger, navigationMenuTriggerStyle } from "./ui/navigation-menu";
-import { BarChart3Icon, BellIcon, CircleCheckIcon, CircleHelpIcon, CircleIcon, LogOutIcon, MessageCircleIcon, SettingsIcon, UserIcon } from "lucide-react";
+import { BellIcon, LogOutIcon, SettingsIcon, UserIcon } from "lucide-react";
 import { Separator } from "./ui/separator";
 import { Button } from "./ui/button";
-import { Switch } from "./ui/switch";
-import { Label } from "./ui/label";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuGroup, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from "./ui/dropdown-menu";
 import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
 
@@ -63,16 +61,67 @@ const menus = [
 ];
 
 
+function signInNavMenu() {
+	return (
+		<div className="flex items-center gap-4">
+		{menus.map((menu) => (
+			<NavigationMenuItem 
+				key={menu.name}
+			>
+			{menu.items ? (
+				<div>
+					<NavigationMenuTrigger>{menu.name}</NavigationMenuTrigger>
+					<NavigationMenuContent>
+						<ul className="grid w-[400px] gap-4">
+						{menu.items?.map((item) => (
+							<li key={item.name}>
+								<NavigationMenuLink asChild>
+									<Link to={item.to}>
+										<div className="text-sm leading-none font-medium">{item.name}</div>
+										<p className="text-muted-foreground line-clamp-2 text-sm leading-snug">
+											{item.description}
+										</p>
+									</Link>
+								</NavigationMenuLink>
+							</li>
+						))}
+						</ul>
+					</NavigationMenuContent>
+				</div>
+			) : (
+				<NavigationMenuLink asChild className={navigationMenuTriggerStyle()}>
+					<Link to={menu.to}>{menu.name}</Link>
+				</NavigationMenuLink>
+			)}
+			</NavigationMenuItem>
+		))}
+		</div>
+	);
+}
+
+function signOutNavMenu() {
+	return (
+		<div className="flex items-center gap-4">
+		{public_menus.map((menu) => (
+			<NavigationMenuItem key={menu.name}>
+				<NavigationMenuLink asChild className={navigationMenuTriggerStyle()}>
+					<Link to={menu.to}>{menu.name}</Link>
+				</NavigationMenuLink>
+			</NavigationMenuItem>
+		))}
+		</div>
+	);
+}
+
+
 export default function Navigation({
 	isSignIn,
-	// onSignInChange,
 	hasNotification,
 	email,
 	avatar,
 	username,
 }: {
 	isSignIn: boolean;
-	// onSignInChange: (checked: boolean) => void;
 	hasNotification: boolean;
 	email: string;
 	avatar: string | null;
@@ -85,47 +134,7 @@ export default function Navigation({
 				<Separator orientation="vertical" className="!h-6 mx-4 bg-primary" />
 				<NavigationMenu>
 					<NavigationMenuList>
-					{isSignIn ? <>
-						{menus.map((menu) => (
-						<NavigationMenuItem key={menu.name}>
-							{menu.items ? <>
-							<NavigationMenuTrigger>{menu.name}</NavigationMenuTrigger>
-								<NavigationMenuContent>
-									<ul className="grid w-[400px] gap-4">
-									{menu.items?.map((item) => (
-										<li key={item.name}>
-											<NavigationMenuLink asChild>
-												<Link to={item.to}>
-													<div className="text-sm leading-none font-medium">{item.name}</div>
-													<p className="text-muted-foreground line-clamp-2 text-sm leading-snug">
-														{item.description}
-													</p>
-												</Link>
-											</NavigationMenuLink>
-										</li>
-									))}
-									</ul>
-								</NavigationMenuContent>
-							</> : <>
-								<NavigationMenuItem>
-									<NavigationMenuLink asChild className={navigationMenuTriggerStyle()}>
-										<Link to={menu.to}>{menu.name}</Link>
-									</NavigationMenuLink>
-								</NavigationMenuItem>
-							</>
-						}
-						</NavigationMenuItem>
-					))}
-					</> : <>
-						{public_menus.map((menu) => (
-							<NavigationMenuItem key={menu.name}>
-								<NavigationMenuLink asChild className={navigationMenuTriggerStyle()}>
-									<Link to={menu.to}>{menu.name}</Link>
-								</NavigationMenuLink>
-							</NavigationMenuItem>
-						))}
-					</>
-					}
+					{isSignIn ? signInNavMenu() : signOutNavMenu()}
 					</NavigationMenuList>
 				</NavigationMenu>
 			</div>
@@ -153,8 +162,8 @@ export default function Navigation({
 							</DropdownMenuTrigger>
 							<DropdownMenuContent className="w-56">
 								<DropdownMenuLabel className="flex flex-col">
-									<span className="text-sm font-medium">{email}</span>
-									<span className="text-xs text-muted-foreground">@{username}</span>
+									<span className="text-sm font-medium">{username}</span>
+									<span className="text-xs text-muted-foreground">{email}</span>
 								</DropdownMenuLabel>
 								<DropdownMenuSeparator />
 								<DropdownMenuGroup>
