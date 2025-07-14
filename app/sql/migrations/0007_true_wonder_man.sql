@@ -1,0 +1,2 @@
+ALTER TABLE "action_plans" ALTER COLUMN "owner_id" SET NOT NULL;--> statement-breakpoint
+ALTER POLICY "challenge_members_policy" ON "challenge_members" TO authenticated USING ((select auth.uid()) = "challenge_members"."profile_id");

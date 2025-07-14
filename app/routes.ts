@@ -4,8 +4,8 @@ export default [
 	// public page
 	index("common/pages/home-page.tsx"),
 	route("/about", "common/pages/about-page.tsx"),
-	layout("common/layouts/tutorial-layout.tsx", [
-		...prefix("tutorial", [
+	...prefix("tutorial", [
+		layout("common/layouts/tutorial-layout.tsx", [
 			index("common/pages/tutorial-page.tsx"),
 			route("/:tutorialId", "common/pages/tutorial-detail-page.tsx"),
 		])
@@ -25,15 +25,27 @@ export default [
 	route("/dashboard", "features/dashboard/pages/dashboard.tsx"),
 
 	// habit & goal
-	route("/habits", "features/goals/pages/habits.tsx"),
-	route("/goals", "features/goals/pages/goals.tsx"),
+	...prefix("habits", [
+		index("features/goals/pages/habits-page.tsx"),
+		route("/:habitId", "features/goals/pages/habit-detail-page.tsx"),
+	]),
+	...prefix("challenges", [
+		index("features/goals/pages/challenges-page.tsx"),
+		route("/:challengeId", "features/goals/pages/challenge-detail-page.tsx"),
+	]),
 	route("/create-habit", "features/goals/pages/create-habit.tsx"),
 
-	// reward
-	route("/reward", "features/reward/pages/reward.tsx"),
+	// action-plans
+	...prefix("actions", [
+		index("features/actions/pages/actions-page.tsx"),
+		route("/:planId", "features/actions/pages/action-detail-page.tsx"),
+	]),
+
+	// rewards
+	route("/rewards", "features/rewards/pages/rewards-page.tsx"),
 
 	// my
-	route("/notifications", "features/my/pages/notifications.tsx"),
-	route("/profile", "features/my/pages/profile.tsx"),
-	route("/settings", "features/my/pages/settings.tsx"),
+	route("/notifications", "features/users/pages/notifications.tsx"),
+	route("/profile", "features/users/pages/profile.tsx"),
+	route("/settings", "features/users/pages/settings.tsx"),
 ] satisfies RouteConfig;

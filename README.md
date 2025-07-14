@@ -7,6 +7,11 @@ The Greatest Habit 은 현재 MVP 제작 단계에 있습니다.
 
 ## 개발 타임라인
 
+- 2025.07.14:
+  - 모든 테이블에 대한 RLS 정책을 작성.
+  - 일부 DB schema 수정.
+  - url map 수정. 그에 따라 routes.ts 수정 및 페이지 변경.
+  - data model planning 수정.
 - 2025.07.07 :
   - DB schema 추가.
   - wemake 에서 배운 DB 관련 작업 추가.

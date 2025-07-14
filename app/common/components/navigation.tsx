@@ -5,6 +5,7 @@ import { Separator } from "./ui/separator";
 import { Button } from "./ui/button";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuGroup, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from "./ui/dropdown-menu";
 import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
+import { cn } from "~/lib/utils";
 
 
 const public_menus = [
@@ -38,26 +39,31 @@ const menus = [
 		items: [
 			{
 				name: "습관 관리",	
-				description: "당신의 삶을 바꾸고 있는 습관 보기",
+				description: "당신의 삶을 바꾸는 습관",
 				to: "/habits",	
 			},
 			{
-				name: "목표 관리",
-				description: "목표 달성을 위해 오늘 해야 할 일",
-				to: "/goals",
+				name: "챌린지",
+				description: "함께 성장하는 쉬운 방법",
+				to: "/challenges",
 			},
 			{
-				name: "습관/목표 만들기",
-				description: "새로운 습관 또는 목표를 작성합니다.",
-				to: "create-habit",
+				name: "새로운 도전",
+				description: "새로운 도전을 시작합니다.",
+				to: "/create-habit",
 			}
 		]
 	},
 	{
 		name: "Reward",
 		description: "당신을 움직이게 만들 정적/부정적 동기부여",
-		to: "reward",
-	}
+		to: "/reward",
+	},
+	{
+		name: "How to use",
+		description: "",
+		to: "/tutorial"
+	},
 ];
 
 
@@ -70,20 +76,32 @@ function signInNavMenu() {
 			>
 			{menu.items ? (
 				<div>
-					<NavigationMenuTrigger>{menu.name}</NavigationMenuTrigger>
+					<Link to={menu.to}>
+						<NavigationMenuTrigger>{menu.name}</NavigationMenuTrigger>
+					</Link>
 					<NavigationMenuContent>
-						<ul className="grid w-[400px] gap-4">
+						<ul className="grid grid-cols-2 w-[500px] gap-4 font-light">
 						{menu.items?.map((item) => (
-							<li key={item.name}>
-								<NavigationMenuLink asChild>
-									<Link to={item.to}>
-										<div className="text-sm leading-none font-medium">{item.name}</div>
-										<p className="text-muted-foreground line-clamp-2 text-sm leading-snug">
+							<NavigationMenuItem
+								key={item.name}
+								className={cn([
+									"select-none rounded-md transition-colors focus:bg-accent hover:bg-accent",
+									item.to === "/create-habit" &&
+										"col-span-2 bg-primary/5 hover:bg-primary/10 focus:bg-primary/10",
+								])}
+							>
+								<NavigationMenuLink>
+									<Link 
+										className="block leading-none no-underline outline-none"
+										to={item.to}
+									>
+										<span className="leading-none font-medium">{item.name}</span>
+										<p className="text-muted-foreground line-clamp-2 text-xs leading-snug pt-2">
 											{item.description}
 										</p>
 									</Link>
 								</NavigationMenuLink>
-							</li>
+							</NavigationMenuItem>
 						))}
 						</ul>
 					</NavigationMenuContent>
@@ -104,9 +122,12 @@ function signOutNavMenu() {
 		<div className="flex items-center gap-4">
 		{public_menus.map((menu) => (
 			<NavigationMenuItem key={menu.name}>
-				<NavigationMenuLink asChild className={navigationMenuTriggerStyle()}>
-					<Link to={menu.to}>{menu.name}</Link>
-				</NavigationMenuLink>
+				<Link 
+					className={navigationMenuTriggerStyle()}
+					to={menu.to}
+				>
+					{menu.name}
+				</Link>
 			</NavigationMenuItem>
 		))}
 		</div>
