@@ -24,6 +24,11 @@ const TempSchema = z.object({
 
 // get method
 export const loader = async () => {
+
+	// 404 로 리턴.
+  return new Response(null, { status: 404 });
+	
+	/*
 	const completion = await openai.chat.completions.parse({
 		model: "gpt-4o",
 		messages: [
@@ -59,13 +64,12 @@ export const loader = async () => {
 	}
 
 	// return Response.json(challenges);
-
 	await insertChallenges(adminClient, challenges);
 	return Response.json({
 		ok: true
 	})
+	 */
 };
-
 
 // cron 작업시 필요 : post method 사용해야 함.
 export const action = async ({ request }: Route.ActionArgs) => {
