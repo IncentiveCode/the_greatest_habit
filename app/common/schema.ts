@@ -1,14 +1,15 @@
 import { sql } from "drizzle-orm";
-import { bigint, integer, pgPolicy, pgTable, text, timestamp } from "drizzle-orm/pg-core";
+import { bigint, boolean, integer, pgPolicy, pgTable, text, timestamp } from "drizzle-orm/pg-core";
 
 export const aboutContent = pgTable(
 	"about_content", {
 		id: bigint({ mode: "number" }).primaryKey().generatedAlwaysAsIdentity(),
 		title: text().notNull(),
 		description: text().notNull(),
-		order: integer().notNull().default(1),
+		orderNo: integer().notNull().default(1),
 		created_at: timestamp().notNull().defaultNow(),
 		updated_at: timestamp().notNull().defaultNow(),
+		state: boolean().notNull().default(true),
 	},
 	(table) => [
 		pgPolicy("about-select-policy", {

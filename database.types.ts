@@ -14,128 +14,130 @@ export type Database = {
   }
   public: {
     Tables: {
-      categories: {
+      about_content: {
         Row: {
-          category_id: number
           created_at: string
           description: string
-          name: string
+          id: number
+          orderNo: number
+          state: boolean
+          title: string
           updated_at: string
         }
         Insert: {
-          category_id?: never
           created_at?: string
           description: string
-          name: string
+          id?: never
+          orderNo?: number
+          state?: boolean
+          title: string
           updated_at?: string
         }
         Update: {
-          category_id?: never
           created_at?: string
           description?: string
-          name?: string
+          id?: never
+          orderNo?: number
+          state?: boolean
+          title?: string
           updated_at?: string
         }
         Relationships: []
       }
-      follows: {
+      action_plans: {
         Row: {
+          completed_at: string | null
           created_at: string
-          follower_id: string | null
-          following_id: string | null
+          description: string
+          end_date: string
+          goal_id: number
+          owner_id: string
+          period: Database["public"]["Enums"]["period"]
+          plan_id: number
+          start_date: string
+          title: string
         }
         Insert: {
+          completed_at?: string | null
           created_at?: string
-          follower_id?: string | null
-          following_id?: string | null
+          description: string
+          end_date?: string
+          goal_id: number
+          owner_id: string
+          period: Database["public"]["Enums"]["period"]
+          plan_id?: never
+          start_date?: string
+          title: string
         }
         Update: {
+          completed_at?: string | null
           created_at?: string
-          follower_id?: string | null
-          following_id?: string | null
+          description?: string
+          end_date?: string
+          goal_id?: number
+          owner_id?: string
+          period?: Database["public"]["Enums"]["period"]
+          plan_id?: never
+          start_date?: string
+          title?: string
         }
         Relationships: [
           {
-            foreignKeyName: "follows_follower_id_profiles_profile_id_fk"
-            columns: ["follower_id"]
+            foreignKeyName: "action_plans_goal_id_goals_goal_id_fk"
+            columns: ["goal_id"]
             isOneToOne: false
-            referencedRelation: "profiles"
-            referencedColumns: ["profile_id"]
+            referencedRelation: "challenge_list_view"
+            referencedColumns: ["goal_id"]
           },
           {
-            foreignKeyName: "follows_following_id_profiles_profile_id_fk"
-            columns: ["following_id"]
+            foreignKeyName: "action_plans_goal_id_goals_goal_id_fk"
+            columns: ["goal_id"]
+            isOneToOne: false
+            referencedRelation: "goals"
+            referencedColumns: ["goal_id"]
+          },
+          {
+            foreignKeyName: "action_plans_owner_id_profiles_profile_id_fk"
+            columns: ["owner_id"]
             isOneToOne: false
             referencedRelation: "profiles"
             referencedColumns: ["profile_id"]
           },
         ]
       }
-      gpt_ideas: {
+      challenge_members: {
         Row: {
-          claimed_at: string | null
-          claimed_by: string | null
-          created_at: string
-          gpt_idea_id: number
-          idea: string
-          views: number
-        }
-        Insert: {
-          claimed_at?: string | null
-          claimed_by?: string | null
-          created_at?: string
-          gpt_idea_id?: never
-          idea: string
-          views?: number
-        }
-        Update: {
-          claimed_at?: string | null
-          claimed_by?: string | null
-          created_at?: string
-          gpt_idea_id?: never
-          idea?: string
-          views?: number
-        }
-        Relationships: [
-          {
-            foreignKeyName: "gpt_ideas_claimed_by_profiles_profile_id_fk"
-            columns: ["claimed_by"]
-            isOneToOne: false
-            referencedRelation: "profiles"
-            referencedColumns: ["profile_id"]
-          },
-        ]
-      }
-      gpt_ideas_likes: {
-        Row: {
-          gpt_idea_id: number
+          goal_id: number
+          joined_at: string
           profile_id: string
         }
         Insert: {
-          gpt_idea_id: number
+          goal_id: number
+          joined_at?: string
           profile_id: string
         }
         Update: {
-          gpt_idea_id?: number
+          goal_id?: number
+          joined_at?: string
           profile_id?: string
         }
         Relationships: [
           {
-            foreignKeyName: "gpt_ideas_likes_gpt_idea_id_gpt_ideas_gpt_idea_id_fk"
-            columns: ["gpt_idea_id"]
+            foreignKeyName: "challenge_members_goal_id_goals_goal_id_fk"
+            columns: ["goal_id"]
             isOneToOne: false
-            referencedRelation: "gpt_ideas"
-            referencedColumns: ["gpt_idea_id"]
+            referencedRelation: "challenge_list_view"
+            referencedColumns: ["goal_id"]
           },
           {
-            foreignKeyName: "gpt_ideas_likes_gpt_idea_id_gpt_ideas_gpt_idea_id_fk"
-            columns: ["gpt_idea_id"]
+            foreignKeyName: "challenge_members_goal_id_goals_goal_id_fk"
+            columns: ["goal_id"]
             isOneToOne: false
-            referencedRelation: "gpt_ideas_view"
-            referencedColumns: ["gpt_idea_id"]
+            referencedRelation: "goals"
+            referencedColumns: ["goal_id"]
           },
           {
-            foreignKeyName: "gpt_ideas_likes_profile_id_profiles_profile_id_fk"
+            foreignKeyName: "challenge_members_profile_id_profiles_profile_id_fk"
             columns: ["profile_id"]
             isOneToOne: false
             referencedRelation: "profiles"
@@ -143,199 +145,105 @@ export type Database = {
           },
         ]
       }
-      jobs: {
+      goals: {
         Row: {
-          apply_url: string
-          benefits: string
-          company_location: string
-          company_logo: string
-          company_name: string
           created_at: string
-          job_id: number
-          job_type: Database["public"]["Enums"]["job_type"]
-          location: Database["public"]["Enums"]["location"]
-          overview: string
-          position: string
-          qualifications: string
-          responsibilities: string
-          salary_range: Database["public"]["Enums"]["salary_range"]
-          skills: string
+          description: string
+          end_date: string
+          goal_id: number
+          goal_status: Database["public"]["Enums"]["goal_status"]
+          goal_type: Database["public"]["Enums"]["goal_type"]
+          message_frequency: Database["public"]["Enums"]["message_frequency"]
+          owner_id: string
+          reward_id: number
+          start_date: string
+          title: string
           updated_at: string
         }
         Insert: {
-          apply_url: string
-          benefits: string
-          company_location: string
-          company_logo: string
-          company_name: string
           created_at?: string
-          job_id?: never
-          job_type: Database["public"]["Enums"]["job_type"]
-          location: Database["public"]["Enums"]["location"]
-          overview: string
-          position: string
-          qualifications: string
-          responsibilities: string
-          salary_range: Database["public"]["Enums"]["salary_range"]
-          skills: string
+          description: string
+          end_date?: string
+          goal_id?: never
+          goal_status?: Database["public"]["Enums"]["goal_status"]
+          goal_type?: Database["public"]["Enums"]["goal_type"]
+          message_frequency: Database["public"]["Enums"]["message_frequency"]
+          owner_id: string
+          reward_id: number
+          start_date?: string
+          title: string
           updated_at?: string
         }
         Update: {
-          apply_url?: string
-          benefits?: string
-          company_location?: string
-          company_logo?: string
-          company_name?: string
           created_at?: string
-          job_id?: never
-          job_type?: Database["public"]["Enums"]["job_type"]
-          location?: Database["public"]["Enums"]["location"]
-          overview?: string
-          position?: string
-          qualifications?: string
-          responsibilities?: string
-          salary_range?: Database["public"]["Enums"]["salary_range"]
-          skills?: string
+          description?: string
+          end_date?: string
+          goal_id?: never
+          goal_status?: Database["public"]["Enums"]["goal_status"]
+          goal_type?: Database["public"]["Enums"]["goal_type"]
+          message_frequency?: Database["public"]["Enums"]["message_frequency"]
+          owner_id?: string
+          reward_id?: number
+          start_date?: string
+          title?: string
           updated_at?: string
-        }
-        Relationships: []
-      }
-      message_room_members: {
-        Row: {
-          created_at: string
-          message_room_id: number
-          profile_id: string
-        }
-        Insert: {
-          created_at?: string
-          message_room_id: number
-          profile_id: string
-        }
-        Update: {
-          created_at?: string
-          message_room_id?: number
-          profile_id?: string
         }
         Relationships: [
           {
-            foreignKeyName: "message_room_members_message_room_id_message_rooms_message_room"
-            columns: ["message_room_id"]
-            isOneToOne: false
-            referencedRelation: "message_rooms"
-            referencedColumns: ["message_room_id"]
-          },
-          {
-            foreignKeyName: "message_room_members_profile_id_profiles_profile_id_fk"
-            columns: ["profile_id"]
+            foreignKeyName: "goals_owner_id_profiles_profile_id_fk"
+            columns: ["owner_id"]
             isOneToOne: false
             referencedRelation: "profiles"
             referencedColumns: ["profile_id"]
           },
-        ]
-      }
-      message_rooms: {
-        Row: {
-          created_at: string
-          message_room_id: number
-        }
-        Insert: {
-          created_at?: string
-          message_room_id?: never
-        }
-        Update: {
-          created_at?: string
-          message_room_id?: never
-        }
-        Relationships: []
-      }
-      messages: {
-        Row: {
-          content: string
-          created_at: string
-          message_id: number
-          message_room_id: number | null
-          sender_id: string | null
-        }
-        Insert: {
-          content: string
-          created_at?: string
-          message_id?: never
-          message_room_id?: number | null
-          sender_id?: string | null
-        }
-        Update: {
-          content?: string
-          created_at?: string
-          message_id?: never
-          message_room_id?: number | null
-          sender_id?: string | null
-        }
-        Relationships: [
           {
-            foreignKeyName: "messages_message_room_id_message_rooms_message_room_id_fk"
-            columns: ["message_room_id"]
+            foreignKeyName: "goals_reward_id_rewards_reward_id_fk"
+            columns: ["reward_id"]
             isOneToOne: false
-            referencedRelation: "message_rooms"
-            referencedColumns: ["message_room_id"]
-          },
-          {
-            foreignKeyName: "messages_sender_id_profiles_profile_id_fk"
-            columns: ["sender_id"]
-            isOneToOne: false
-            referencedRelation: "profiles"
-            referencedColumns: ["profile_id"]
+            referencedRelation: "rewards"
+            referencedColumns: ["reward_id"]
           },
         ]
       }
       notifications: {
         Row: {
           created_at: string
+          goal_id: number | null
           notification_id: number
-          post_id: number | null
-          product_id: number | null
           source_id: string | null
           target_id: string
           type: Database["public"]["Enums"]["notification_type"]
         }
         Insert: {
           created_at?: string
+          goal_id?: number | null
           notification_id?: never
-          post_id?: number | null
-          product_id?: number | null
           source_id?: string | null
           target_id: string
           type: Database["public"]["Enums"]["notification_type"]
         }
         Update: {
           created_at?: string
+          goal_id?: number | null
           notification_id?: never
-          post_id?: number | null
-          product_id?: number | null
           source_id?: string | null
           target_id?: string
           type?: Database["public"]["Enums"]["notification_type"]
         }
         Relationships: [
           {
-            foreignKeyName: "notifications_post_id_posts_post_id_fk"
-            columns: ["post_id"]
+            foreignKeyName: "notifications_goal_id_goals_goal_id_fk"
+            columns: ["goal_id"]
             isOneToOne: false
-            referencedRelation: "community_post_list_view"
-            referencedColumns: ["post_id"]
+            referencedRelation: "challenge_list_view"
+            referencedColumns: ["goal_id"]
           },
           {
-            foreignKeyName: "notifications_post_id_posts_post_id_fk"
-            columns: ["post_id"]
+            foreignKeyName: "notifications_goal_id_goals_goal_id_fk"
+            columns: ["goal_id"]
             isOneToOne: false
-            referencedRelation: "posts"
-            referencedColumns: ["post_id"]
-          },
-          {
-            foreignKeyName: "notifications_product_id_products_product_id_fk"
-            columns: ["product_id"]
-            isOneToOne: false
-            referencedRelation: "products"
-            referencedColumns: ["product_id"]
+            referencedRelation: "goals"
+            referencedColumns: ["goal_id"]
           },
           {
             foreignKeyName: "notifications_source_id_profiles_profile_id_fk"
@@ -353,419 +261,181 @@ export type Database = {
           },
         ]
       }
-      post_replies: {
-        Row: {
-          created_at: string
-          parent_id: number | null
-          post_id: number | null
-          post_reply_id: number
-          profile_id: string
-          reply: string
-          updated_at: string
-        }
-        Insert: {
-          created_at?: string
-          parent_id?: number | null
-          post_id?: number | null
-          post_reply_id?: never
-          profile_id: string
-          reply: string
-          updated_at?: string
-        }
-        Update: {
-          created_at?: string
-          parent_id?: number | null
-          post_id?: number | null
-          post_reply_id?: never
-          profile_id?: string
-          reply?: string
-          updated_at?: string
-        }
-        Relationships: [
-          {
-            foreignKeyName: "post_replies_parent_id_post_replies_post_reply_id_fk"
-            columns: ["parent_id"]
-            isOneToOne: false
-            referencedRelation: "post_replies"
-            referencedColumns: ["post_reply_id"]
-          },
-          {
-            foreignKeyName: "post_replies_post_id_posts_post_id_fk"
-            columns: ["post_id"]
-            isOneToOne: false
-            referencedRelation: "community_post_list_view"
-            referencedColumns: ["post_id"]
-          },
-          {
-            foreignKeyName: "post_replies_post_id_posts_post_id_fk"
-            columns: ["post_id"]
-            isOneToOne: false
-            referencedRelation: "posts"
-            referencedColumns: ["post_id"]
-          },
-          {
-            foreignKeyName: "post_replies_profile_id_profiles_profile_id_fk"
-            columns: ["profile_id"]
-            isOneToOne: false
-            referencedRelation: "profiles"
-            referencedColumns: ["profile_id"]
-          },
-        ]
-      }
-      post_upvotes: {
-        Row: {
-          post_id: number
-          profile_id: string
-        }
-        Insert: {
-          post_id: number
-          profile_id: string
-        }
-        Update: {
-          post_id?: number
-          profile_id?: string
-        }
-        Relationships: [
-          {
-            foreignKeyName: "post_upvotes_post_id_posts_post_id_fk"
-            columns: ["post_id"]
-            isOneToOne: false
-            referencedRelation: "community_post_list_view"
-            referencedColumns: ["post_id"]
-          },
-          {
-            foreignKeyName: "post_upvotes_post_id_posts_post_id_fk"
-            columns: ["post_id"]
-            isOneToOne: false
-            referencedRelation: "posts"
-            referencedColumns: ["post_id"]
-          },
-          {
-            foreignKeyName: "post_upvotes_profile_id_profiles_profile_id_fk"
-            columns: ["profile_id"]
-            isOneToOne: false
-            referencedRelation: "profiles"
-            referencedColumns: ["profile_id"]
-          },
-        ]
-      }
-      posts: {
-        Row: {
-          content: string
-          created_at: string
-          post_id: number
-          profile_id: string | null
-          title: string
-          topic_id: number | null
-          updated_at: string
-          upvotes: number | null
-        }
-        Insert: {
-          content: string
-          created_at?: string
-          post_id?: never
-          profile_id?: string | null
-          title: string
-          topic_id?: number | null
-          updated_at?: string
-          upvotes?: number | null
-        }
-        Update: {
-          content?: string
-          created_at?: string
-          post_id?: never
-          profile_id?: string | null
-          title?: string
-          topic_id?: number | null
-          updated_at?: string
-          upvotes?: number | null
-        }
-        Relationships: [
-          {
-            foreignKeyName: "posts_profile_id_profiles_profile_id_fk"
-            columns: ["profile_id"]
-            isOneToOne: false
-            referencedRelation: "profiles"
-            referencedColumns: ["profile_id"]
-          },
-          {
-            foreignKeyName: "posts_topic_id_topics_topic_id_fk"
-            columns: ["topic_id"]
-            isOneToOne: false
-            referencedRelation: "topics"
-            referencedColumns: ["topic_id"]
-          },
-        ]
-      }
-      product_upvotes: {
-        Row: {
-          product_id: number
-          profile_id: string
-        }
-        Insert: {
-          product_id: number
-          profile_id: string
-        }
-        Update: {
-          product_id?: number
-          profile_id?: string
-        }
-        Relationships: [
-          {
-            foreignKeyName: "product_upvotes_product_id_products_product_id_fk"
-            columns: ["product_id"]
-            isOneToOne: false
-            referencedRelation: "products"
-            referencedColumns: ["product_id"]
-          },
-          {
-            foreignKeyName: "product_upvotes_profile_id_profiles_profile_id_fk"
-            columns: ["profile_id"]
-            isOneToOne: false
-            referencedRelation: "profiles"
-            referencedColumns: ["profile_id"]
-          },
-        ]
-      }
-      products: {
-        Row: {
-          category_id: number | null
-          created_at: string
-          description: string
-          how_it_works: string
-          icon: string
-          name: string
-          product_id: number
-          profile_id: string
-          stats: Json
-          tagline: string
-          updated_at: string
-          url: string
-        }
-        Insert: {
-          category_id?: number | null
-          created_at?: string
-          description: string
-          how_it_works: string
-          icon: string
-          name: string
-          product_id?: never
-          profile_id: string
-          stats?: Json
-          tagline: string
-          updated_at?: string
-          url: string
-        }
-        Update: {
-          category_id?: number | null
-          created_at?: string
-          description?: string
-          how_it_works?: string
-          icon?: string
-          name?: string
-          product_id?: never
-          profile_id?: string
-          stats?: Json
-          tagline?: string
-          updated_at?: string
-          url?: string
-        }
-        Relationships: [
-          {
-            foreignKeyName: "products_category_id_categories_category_id_fk"
-            columns: ["category_id"]
-            isOneToOne: false
-            referencedRelation: "categories"
-            referencedColumns: ["category_id"]
-          },
-          {
-            foreignKeyName: "products_profile_id_profiles_profile_id_fk"
-            columns: ["profile_id"]
-            isOneToOne: false
-            referencedRelation: "profiles"
-            referencedColumns: ["profile_id"]
-          },
-        ]
-      }
       profiles: {
         Row: {
           avatar: string | null
-          bio: string | null
           created_at: string
+          email: string
           headline: string | null
-          name: string
+          phone: string | null
           profile_id: string
-          role: Database["public"]["Enums"]["role"]
-          stats: Json | null
+          status: Database["public"]["Enums"]["status"]
           updated_at: string
           username: string
-          views: Json | null
         }
         Insert: {
           avatar?: string | null
-          bio?: string | null
           created_at?: string
+          email: string
           headline?: string | null
-          name: string
+          phone?: string | null
           profile_id: string
-          role?: Database["public"]["Enums"]["role"]
-          stats?: Json | null
+          status?: Database["public"]["Enums"]["status"]
           updated_at?: string
           username: string
-          views?: Json | null
         }
         Update: {
           avatar?: string | null
-          bio?: string | null
           created_at?: string
+          email?: string
           headline?: string | null
-          name?: string
+          phone?: string | null
           profile_id?: string
-          role?: Database["public"]["Enums"]["role"]
-          stats?: Json | null
+          status?: Database["public"]["Enums"]["status"]
           updated_at?: string
           username?: string
-          views?: Json | null
         }
         Relationships: []
       }
-      reviews: {
+      reward_history: {
         Row: {
-          created_at: string
-          product_id: number | null
-          profile_id: string | null
-          rating: number
-          review: string
-          review_id: number
-          updated_at: string
+          profile_id: string
+          remains: number
+          reward_id: number
         }
         Insert: {
-          created_at?: string
-          product_id?: number | null
-          profile_id?: string | null
-          rating: number
-          review: string
-          review_id?: never
-          updated_at?: string
+          profile_id: string
+          remains?: number
+          reward_id: number
         }
         Update: {
-          created_at?: string
-          product_id?: number | null
-          profile_id?: string | null
-          rating?: number
-          review?: string
-          review_id?: never
-          updated_at?: string
+          profile_id?: string
+          remains?: number
+          reward_id?: number
         }
         Relationships: [
           {
-            foreignKeyName: "reviews_product_id_products_product_id_fk"
-            columns: ["product_id"]
-            isOneToOne: false
-            referencedRelation: "products"
-            referencedColumns: ["product_id"]
-          },
-          {
-            foreignKeyName: "reviews_profile_id_profiles_profile_id_fk"
+            foreignKeyName: "reward_history_profile_id_profiles_profile_id_fk"
             columns: ["profile_id"]
             isOneToOne: false
             referencedRelation: "profiles"
             referencedColumns: ["profile_id"]
           },
+          {
+            foreignKeyName: "reward_history_reward_id_rewards_reward_id_fk"
+            columns: ["reward_id"]
+            isOneToOne: false
+            referencedRelation: "rewards"
+            referencedColumns: ["reward_id"]
+          },
         ]
       }
-      teams: {
+      rewards: {
         Row: {
           created_at: string
-          equity_split: number
-          product_description: string
-          product_name: string
-          product_stage: Database["public"]["Enums"]["product_stage"]
-          roles: string
-          team_id: number
-          team_leader_id: string
-          team_size: number
+          point: number
+          reward_id: number
+          title: string
+        }
+        Insert: {
+          created_at?: string
+          point: number
+          reward_id?: never
+          title: string
+        }
+        Update: {
+          created_at?: string
+          point?: number
+          reward_id?: never
+          title?: string
+        }
+        Relationships: []
+      }
+      tutorial_content: {
+        Row: {
+          created_at: string
+          descriptions: string[] | null
+          id: number
+          images: string[] | null
+          tutorial_id: number
           updated_at: string
         }
         Insert: {
           created_at?: string
-          equity_split: number
-          product_description: string
-          product_name: string
-          product_stage: Database["public"]["Enums"]["product_stage"]
-          roles: string
-          team_id?: never
-          team_leader_id: string
-          team_size: number
+          descriptions?: string[] | null
+          id?: never
+          images?: string[] | null
+          tutorial_id: number
           updated_at?: string
         }
         Update: {
           created_at?: string
-          equity_split?: number
-          product_description?: string
-          product_name?: string
-          product_stage?: Database["public"]["Enums"]["product_stage"]
-          roles?: string
-          team_id?: never
-          team_leader_id?: string
-          team_size?: number
+          descriptions?: string[] | null
+          id?: never
+          images?: string[] | null
+          tutorial_id?: number
           updated_at?: string
         }
         Relationships: [
           {
-            foreignKeyName: "teams_team_leader_id_profiles_profile_id_fk"
-            columns: ["team_leader_id"]
+            foreignKeyName: "tutorial_content_item_id_tutorials_id_fk"
+            columns: ["tutorial_id"]
             isOneToOne: false
-            referencedRelation: "profiles"
-            referencedColumns: ["profile_id"]
+            referencedRelation: "tutorials"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "tutorial_content_tutorial_id_tutorials_id_fk"
+            columns: ["tutorial_id"]
+            isOneToOne: false
+            referencedRelation: "tutorials"
+            referencedColumns: ["id"]
           },
         ]
       }
-      topics: {
+      tutorials: {
         Row: {
           created_at: string
-          name: string
-          slug: string
-          topic_id: number
+          description: string | null
+          id: number
+          order: number
+          title: string
+          updated_at: string
         }
         Insert: {
           created_at?: string
-          name: string
-          slug: string
-          topic_id?: never
+          description?: string | null
+          id?: never
+          order?: number
+          title: string
+          updated_at?: string
         }
         Update: {
           created_at?: string
-          name?: string
-          slug?: string
-          topic_id?: never
+          description?: string | null
+          id?: never
+          order?: number
+          title?: string
+          updated_at?: string
         }
         Relationships: []
       }
     }
     Views: {
-      community_post_list_view: {
+      challenge_list_view: {
         Row: {
-          author: string | null
-          author_avatar: string | null
-          author_username: string | null
-          created_at: string | null
-          post_id: number | null
+          count: number | null
+          description: string | null
+          end_date: string | null
+          goal_id: number | null
+          goal_status: Database["public"]["Enums"]["goal_status"] | null
+          message_frequency:
+            | Database["public"]["Enums"]["message_frequency"]
+            | null
+          point: number | null
+          reward: string | null
+          start_date: string | null
           title: string | null
-          topic: string | null
-          topic_slug: string | null
-          upvotes: number | null
-        }
-        Relationships: []
-      }
-      gpt_ideas_view: {
-        Row: {
-          created_at: string | null
-          gpt_idea_id: number | null
-          idea: string | null
-          is_claimed: boolean | null
-          likes: number | null
-          views: number | null
         }
         Relationships: []
       }
@@ -774,24 +444,12 @@ export type Database = {
       [_ in never]: never
     }
     Enums: {
-      job_type: "full-time" | "part-time" | "freelance" | "internship"
-      location: "remote" | "in-pserson" | "hybrid"
-      notification_type: "follow" | "review" | "reply" | "mention"
-      product_stage: "idea" | "prototype" | "mvp" | "product"
-      role:
-        | "developer"
-        | "designer"
-        | "marketer"
-        | "founder"
-        | "product-manager"
-      salary_range:
-        | "$0 - $50,000"
-        | "$50,000 - $70,000"
-        | "$70,000 - $100,000"
-        | "$100,000 - $120,000"
-        | "$120,000 - $150,000"
-        | "$150,000 - $250,000"
-        | "$250,000 +"
+      goal_status: "Not started" | "Started" | "Failed" | "Finished"
+      goal_type: "habit" | "challenge"
+      message_frequency: "None" | "once a day" | "once a week" | "once a month"
+      notification_type: "message" | "review" | "reply" | "mention"
+      period: "day" | "week" | "month"
+      status: "active" | "inactive"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -919,20 +577,12 @@ export type CompositeTypes<
 export const Constants = {
   public: {
     Enums: {
-      job_type: ["full-time", "part-time", "freelance", "internship"],
-      location: ["remote", "in-pserson", "hybrid"],
-      notification_type: ["follow", "review", "reply", "mention"],
-      product_stage: ["idea", "prototype", "mvp", "product"],
-      role: ["developer", "designer", "marketer", "founder", "product-manager"],
-      salary_range: [
-        "$0 - $50,000",
-        "$50,000 - $70,000",
-        "$70,000 - $100,000",
-        "$100,000 - $120,000",
-        "$120,000 - $150,000",
-        "$150,000 - $250,000",
-        "$250,000 +",
-      ],
+      goal_status: ["Not started", "Started", "Failed", "Finished"],
+      goal_type: ["habit", "challenge"],
+      message_frequency: ["None", "once a day", "once a week", "once a month"],
+      notification_type: ["message", "review", "reply", "mention"],
+      period: ["day", "week", "month"],
+      status: ["active", "inactive"],
     },
   },
 } as const

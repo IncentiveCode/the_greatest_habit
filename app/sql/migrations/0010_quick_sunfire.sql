@@ -1,0 +1,1 @@
+ALTER POLICY "about-select-policy" ON "about_content" TO public USING (true);

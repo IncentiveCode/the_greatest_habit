@@ -7,6 +7,8 @@ The Greatest Habit 은 현재 MVP 제작 단계에 있습니다.
 
 ## 개발 타임라인
 
+- 2025.07.16:
+  - cron job 추가.
 - 2025.07.14:
   - 모든 테이블에 대한 RLS 정책을 작성.
   - 일부 DB schema 수정.

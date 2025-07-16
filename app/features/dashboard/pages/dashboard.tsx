@@ -7,13 +7,23 @@ import { cn } from "~/lib/utils";
 import { ChallengeCard } from "../components/challenge-card";
 import { HabitCard } from "../components/habit-card";
 import { ActionCard } from "../components/action-card";
+import ChallengeSampleCard from "~/features/goals/components/challenge-card";
+import type { Route } from "./+types/dashboard";
+import { makeSSRClient } from "~/supa-client";
+import { getChallenges } from "../queries";
 
-export const meta: MetaFunction = () => {
+export const meta: Route.MetaFunction = () => {
   return [
     { title: "The greatest habit" },
     { name: "description", content: "Welcome to the greatest habit!" },
   ];
 }
+
+export const loader = async ({ request }: Route.LoaderArgs) => {
+  const { client, headers } = makeSSRClient(request);
+  const challenges = await getChallenges(client, { limit: 5 });
+  return { challenges };
+};
 
 const ReviewCard = ({
   img,
@@ -50,27 +60,7 @@ const ReviewCard = ({
   );
 };
 
-function MarqueeDemo() {
-  return (
-    <div className="relative flex w-full flex-col items-center justify-center overflow-hidden">
-      <Marquee pauseOnHover className="[--duration:80s]">
-        {Array.from({ length: 10 }).map((_, index) => (
-          <ChallengeCard
-            key={`challenge_${index}`}
-            id={`challenge_${index}`}
-            name={`Challenge ${index + 1}`}
-            description="Challenge 에 대한 간단한 설명이 들어갑니다."
-            participantCount={Math.floor(Math.random() * 100) + 10}
-          />
-        ))}
-      </Marquee>
-      <div className="pointer-events-none absolute inset-y-0 left-0 w-1/4 bg-gradient-to-r from-background"></div>
-      <div className="pointer-events-none absolute inset-y-0 right-0 w-1/4 bg-gradient-to-l from-background"></div>
-    </div>
-  );
-}
-
-export default function DashboardPage() {
+export default function DashboardPage({ loaderData }: Route.ComponentProps) {
   return (
     <div>
       {
@@ -107,12 +97,12 @@ export default function DashboardPage() {
             <Link to="/habits">모든 습관 보기 &rarr;</Link>
           </Button>
           <div className="grid grid-cols-2 lg:grid-cols-3 w-full gap-5 pt-2"> 
-          {Array.from({ length: 6 }).map((_, index) => (
+          {loaderData.challenges.map((challenge) => (
             <HabitCard
-              key={`challenge_${index}`}
-              id={`challenge_${index}`}
-              name={`Challenge ${index + 1}`}
-              description="습관에 대한 간단한 설명이 들어갑니다."
+              key={challenge.goal_id}
+              id={challenge.goal_id}
+              name={challenge.title}
+              description={challenge.description}
             />
           ))}
           </div>
@@ -154,14 +144,29 @@ export default function DashboardPage() {
          */
       }
       <div className="pt-10">&nbsp;</div>
-      <Button 
-        variant={ "ghost" }
-        className="text-xl font-bold self-start" 
-        asChild
-      >
-        <Link to="/challenges">모든 챌린지 보기 &rarr;</Link>
-      </Button>
-      { MarqueeDemo() }
+        <Button 
+          variant={ "ghost" }
+          className="text-xl font-bold self-start" 
+          asChild
+        >
+          <Link to="/challenges">모든 챌린지 보기 &rarr;</Link>
+        </Button>
+
+        <div className="relative flex flex-col items-center justify-center overflow-hidden">
+          <Marquee pauseOnHover className="[--duration:80s]">
+            {loaderData.challenges.map((challenge) => (
+              <ChallengeCard
+                key={challenge.goal_id}
+                id={challenge.goal_id}
+                name={challenge.title}
+                description={challenge.description}
+                participantCount={challenge.count}
+              />
+            ))}
+          </Marquee>
+        <div className="pointer-events-none absolute inset-y-0 left-0 w-1/4 bg-gradient-to-r from-background"></div>
+        <div className="pointer-events-none absolute inset-y-0 right-0 w-1/4 bg-gradient-to-l from-background"></div>
+      </div>
     </div>
   );
 }

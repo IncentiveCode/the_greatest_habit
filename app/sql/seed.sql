@@ -17,13 +17,13 @@ VALUES
   (5, '마스터 보상', 500, now());
 
 -- goals
-INSERT INTO goals (goal_id, title, description, start_date, end_date, owner_id, reward_id, message_frequency, created_at, updated_at)
+INSERT INTO goals (title, description, start_date, end_date, owner_id, reward_id, message_frequency, created_at, updated_at)
 VALUES
-  (1, '아침 6시 기상', '매일 아침 6시에 일어나기', now(), now() + interval '30 days', '14f68b63-414e-41de-8738-ae96f1104e37', 1, 'once a day', now(), now()),
-  (2, '매일 운동', '매일 30분 운동하기', now(), now() + interval '30 days', '11111111-1111-1111-1111-111111111111', 2, 'once a day', now(), now()),
-  (3, '책 읽기', '일주일에 한 권 읽기', now(), now() + interval '60 days', '22222222-2222-2222-2222-222222222222', 3, 'once a week', now(), now()),
-  (4, '물 2L 마시기', '매일 2L 물 마시기', now(), now() + interval '30 days', '33333333-3333-3333-3333-333333333333', 4, 'once a day', now(), now()),
-  (5, '영어 공부', '매일 영어 단어 10개 외우기', now(), now() + interval '30 days', '44444444-4444-4444-4444-444444444444', 5, 'once a day', now(), now());
+  ('아침 6시 기상', '매일 아침 6시에 일어나기', now(), now() + interval '30 days', '14f68b63-414e-41de-8738-ae96f1104e37', 1, 'once a day', now(), now()),
+  ('매일 운동', '매일 30분 운동하기', now(), now() + interval '30 days', '11111111-1111-1111-1111-111111111111', 2, 'once a day', now(), now()),
+  ('책 읽기', '일주일에 한 권 읽기', now(), now() + interval '60 days', '22222222-2222-2222-2222-222222222222', 3, 'once a week', now(), now()),
+  ('물 2L 마시기', '매일 2L 물 마시기', now(), now() + interval '30 days', '33333333-3333-3333-3333-333333333333', 4, 'once a day', now(), now()),
+  ('영어 공부', '매일 영어 단어 10개 외우기', now(), now() + interval '30 days', '44444444-4444-4444-4444-444444444444', 5, 'once a day', now(), now());
 
 -- action_plans
 INSERT INTO action_plans (plan_id, title, description, period, start_date, end_date, goal_id, created_at, completed_at)

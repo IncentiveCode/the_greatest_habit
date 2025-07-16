@@ -55,9 +55,9 @@ const menus = [
 		]
 	},
 	{
-		name: "Reward",
+		name: "Rewards",
 		description: "당신을 움직이게 만들 정적/부정적 동기부여",
-		to: "/reward",
+		to: "/rewards",
 	},
 	{
 		name: "How to use",

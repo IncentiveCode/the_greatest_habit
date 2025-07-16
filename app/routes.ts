@@ -32,6 +32,7 @@ export default [
 	...prefix("challenges", [
 		index("features/goals/pages/challenges-page.tsx"),
 		route("/:challengeId", "features/goals/pages/challenge-detail-page.tsx"),
+		route("/generate", "features/goals/pages/generate-challenge-page.tsx"),
 	]),
 	route("/create-habit", "features/goals/pages/create-habit.tsx"),
 

@@ -3,7 +3,7 @@ import { Button } from "~/common/components/ui/button";
 import { Link } from "react-router";
 
 interface ChallengeCardProps {
-  id: string;
+  id: number;
   name: string;
   description: string;
   participantCount: number;
@@ -11,13 +11,13 @@ interface ChallengeCardProps {
 
 export function ChallengeCard({ id, name, description, participantCount }: ChallengeCardProps) {
   return (
-    <Card className="w-full">
+    <Card className="w-75">
       <CardHeader>
         <CardDescription className="w-full text-xs">Challenge</CardDescription>
         <CardTitle className="text-lg font-bold">{name}</CardTitle>
       </CardHeader>
       <CardContent>
-        <p>{description}</p>
+        <p className="leading-relaxed">{description}</p>
       </CardContent>
       <CardFooter className="flex flex-col items-end gap-2">
         <p className="text-muted-foreground text-xs">

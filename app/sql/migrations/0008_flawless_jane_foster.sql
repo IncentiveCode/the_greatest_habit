@@ -1,0 +1,1 @@
+ALTER TABLE "about_content" RENAME COLUMN "order" TO "orderNo";

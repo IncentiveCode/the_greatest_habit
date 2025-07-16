@@ -57,6 +57,34 @@
       "when": 1752484737156,
       "tag": "0007_true_wonder_man",
       "breakpoints": true
+    },
+    {
+      "idx": 8,
+      "version": "7",
+      "when": 1752504510383,
+      "tag": "0008_flawless_jane_foster",
+      "breakpoints": true
+    },
+    {
+      "idx": 9,
+      "version": "7",
+      "when": 1752506596441,
+      "tag": "0009_known_bucky",
+      "breakpoints": true
+    },
+    {
+      "idx": 10,
+      "version": "7",
+      "when": 1752506817615,
+      "tag": "0010_quick_sunfire",
+      "breakpoints": true
+    },
+    {
+      "idx": 11,
+      "version": "7",
+      "when": 1752507152026,
+      "tag": "0011_romantic_thunderbolt_ross",
+      "breakpoints": true
     }
   ]
 }

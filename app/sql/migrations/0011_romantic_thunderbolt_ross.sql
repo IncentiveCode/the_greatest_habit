@@ -1,0 +1,1 @@
+ALTER TABLE "about_content" ADD COLUMN "state" boolean DEFAULT true NOT NULL;
