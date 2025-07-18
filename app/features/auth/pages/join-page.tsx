@@ -7,7 +7,7 @@ import { getRandomInt } from "~/lib/utils";
 import type { Route } from "./+types/join-page";
 import z from "zod";
 import { checkUsernameExists } from "../queries";
-import { adminClient, makeSSRClient } from "~/supa-client";
+import { makeSSRClient } from "~/supa-client";
 import { LoaderCircle } from "lucide-react";
 
 export const meta: MetaFunction = () => {
@@ -43,7 +43,7 @@ export const loader = async ({ request }: Route.LoaderArgs) => {
     'f6474963-4d69-42a8-87b2-3af3ad61bc04'
   )
   console.log('계정 삭제 오류 : ', error)
-  // */
+   */
 
   const randIndex = getRandomInt(0, SENTENCES.length - 1);
   const sentence = SENTENCES[randIndex];
@@ -79,7 +79,6 @@ export const action = async ({ request }: Route.ActionArgs) => {
     };
   }
 
-  // return redirect(`/users/${data.username}/welcome`);
   const { client, headers } = makeSSRClient(request);
   const { error: signUpError } = await client.auth.signUp({
     email: data.email, 
@@ -97,8 +96,8 @@ export const action = async ({ request }: Route.ActionArgs) => {
     }
   };
 
-  // send e-mail
   // return redirect("/", { headers });
+  // send e-mail
   return redirect(`/users/${data.username}/welcome/${data.email}`, { headers });
 }
 

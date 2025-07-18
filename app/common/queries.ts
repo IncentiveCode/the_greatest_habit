@@ -2,8 +2,9 @@
 
 // browser client, server side client
 import type pkg from "@supabase/supabase-js";
+import type { db } from "~/supa-client";
 
-export const getAboutContents = async (client: pkg.SupabaseClient) => {
+export const getAboutContents = async (client: pkg.SupabaseClient<db>) => {
 	const { data, error } = await client
 		.from("about_content")
 		.select(`

@@ -167,7 +167,7 @@ export type Database = {
           goal_id?: never
           goal_status?: Database["public"]["Enums"]["goal_status"]
           goal_type?: Database["public"]["Enums"]["goal_type"]
-          message_frequency: Database["public"]["Enums"]["message_frequency"]
+          message_frequency?: Database["public"]["Enums"]["message_frequency"]
           owner_id: string
           reward_id: number
           start_date?: string

@@ -23,7 +23,7 @@ export function HabitCard({ id, name, description }: HabitCardProps) {
           습관 형성 20일차 입니다.
         </p>
         <Button asChild>
-          <Link to={`/habits/${id}/details`}>상세 정보 확인 &rarr;</Link>
+          <Link to={`/habits/${id}`}>상세 정보 확인 &rarr;</Link>
         </Button>
       </CardFooter>
     </Card>

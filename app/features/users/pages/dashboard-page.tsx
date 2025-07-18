@@ -1,17 +1,17 @@
 import { data, Link, redirect, type MetaFunction } from "react-router";
 import { Button } from "~/common/components/ui/button";
-import { Card, CardAction, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "~/common/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "~/common/components/ui/card";
 import { Marquee } from "~/common/components/ui/marquee";
 import { Tabs, TabsList, TabsTrigger } from "~/common/components/ui/tabs";
 import { cn, formatForDashboard } from "~/lib/utils";
 import { makeSSRClient } from "~/supa-client";
 import { getChallenges } from "~/features/goals/queries";
-import { HabitCard } from "~/features/goals/components/habit-card";
-import { ActionCard } from "~/features/goals/components/action-card";
-import { ChallengeCard } from "~/features/goals/components/challenge-card";
-import { getUserById, getUserProfile } from "../queries";
-import type { Route } from "./+types/dashboard-page";
+import { getUserById } from "../queries";
 import { DateTime } from "luxon";
+import { ActionCard } from "~/features/goals/components/action-card";
+import { HabitCard } from "~/features/goals/components/habit-card";
+import { ChallengeCard } from "~/features/goals/components/challenge-card";
+import type { Route } from "./+types/dashboard-page";
 
 export const meta: Route.MetaFunction = ({ data }) => {
   return [
@@ -20,7 +20,7 @@ export const meta: Route.MetaFunction = ({ data }) => {
   ];
 }
 
-export const loader = async ({ params, request }: Route.LoaderArgs) => {
+export const loader = async ({ request }: Route.LoaderArgs) => {
   const { client, headers } = makeSSRClient(request);
   const { data: { user } } = await client.auth.getUser();
   if (user !== null) {
@@ -82,7 +82,6 @@ export default function DashboardPage({ loaderData }: Route.ComponentProps) {
   const created_at = DateTime.fromISO(loaderData.profile.created_at, {
     zone: "utc",
   });
-  console.log("created at :", created_at);
 
   return (
     <div>

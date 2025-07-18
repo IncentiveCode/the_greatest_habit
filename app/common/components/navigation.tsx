@@ -222,7 +222,7 @@ export default function Navigation({
 						<Button asChild variant="outline">
 							<Link to="/auth/sign-in">Sign In</Link>
 						</Button>
-						<Button>
+						<Button asChild>
 							<Link to="/auth/join">Join</Link>
 						</Button>
 					</div>

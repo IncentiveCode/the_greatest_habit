@@ -56,7 +56,7 @@ export const action = async ({ request }: Route.ActionArgs) => {
     };
   }
 
-  return redirect("/dashboard", { headers });
+  return redirect("/", { headers });
 }
 
 export default function SignInPage({ loaderData, actionData }: Route.ComponentProps) {
