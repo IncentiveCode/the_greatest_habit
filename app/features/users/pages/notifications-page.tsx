@@ -1,4 +1,4 @@
-import type { Route } from "./+types/notifications";
+import type { Route } from "./+types/notifications-page";
 
 export const meta: Route.MetaFunction = () => {
   return [

@@ -103,9 +103,9 @@ export default function App({ loaderData }: Route.ComponentProps) {
       {pathname.includes("/auth/") ? null : (
         <Navigation 
           isSignIn={isSignIn} 
-          email={loaderData.profile?.email}
-          avatar={loaderData.profile?.avatar}
-          username={loaderData.profile?.username}
+          email={loaderData.profile?.email ?? ""}
+          avatar={loaderData.profile?.avatar ?? ""}
+          username={loaderData.profile?.username ?? ""}
           hasNotification={false}
         />
       )}

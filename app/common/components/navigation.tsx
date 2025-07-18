@@ -1,6 +1,6 @@
 import { Link } from "react-router";
 import { NavigationMenu, NavigationMenuContent, NavigationMenuItem, NavigationMenuLink, NavigationMenuList, NavigationMenuTrigger, navigationMenuTriggerStyle } from "./ui/navigation-menu";
-import { BellIcon, LogOutIcon, SettingsIcon, UserIcon } from "lucide-react";
+import { BellIcon, LayoutDashboardIcon, LogOutIcon, SettingsIcon, UserIcon } from "lucide-react";
 import { Separator } from "./ui/separator";
 import { Button } from "./ui/button";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuGroup, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from "./ui/dropdown-menu";
@@ -151,7 +151,7 @@ export default function Navigation({
 	return (
 		<nav className="flex px-20 h-16 items-center justify-between backdrop-blur-50 fixed top-0 left-0 right-0 z-50 bg-background/50">
 			<div className="flex items-center gap-4">
-				<Link to={isSignIn ? "/dashboard" : "/#home"} className="font-bold tracking-tighter text-lg">The greatest habit</Link>
+				<Link to={"/#home"} className="font-bold tracking-tighter text-lg">The greatest habit</Link>
 				<Separator orientation="vertical" className="!h-6 mx-4 bg-primary" />
 				<NavigationMenu>
 					<NavigationMenuList>
@@ -189,13 +189,19 @@ export default function Navigation({
 								<DropdownMenuSeparator />
 								<DropdownMenuGroup>
 									<DropdownMenuItem asChild className="cursor-pointer">
-										<Link to="/profile">
+										<Link to="/user">
+											<LayoutDashboardIcon className="w-4 h-4 mr-2" />
+											Dashboard
+										</Link>
+									</DropdownMenuItem>
+									<DropdownMenuItem asChild className="cursor-pointer">
+										<Link to="/user/profile">
 											<UserIcon className="w-4 h-4 mr-2" />
 											Profile
 										</Link>
 									</DropdownMenuItem>
 									<DropdownMenuItem asChild className="cursor-pointer">
-										<Link to="/settings">
+										<Link to="/user/settings">
 											<SettingsIcon className="w-4 h-4 mr-2" />
 											Settings
 										</Link>

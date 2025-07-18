@@ -1,28 +1,35 @@
-import { Link, type MetaFunction } from "react-router";
+import { data, Link, redirect, type MetaFunction } from "react-router";
 import { Button } from "~/common/components/ui/button";
 import { Card, CardAction, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "~/common/components/ui/card";
 import { Marquee } from "~/common/components/ui/marquee";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "~/common/components/ui/tabs";
-import { cn } from "~/lib/utils";
-import { ChallengeCard } from "../components/challenge-card";
-import { HabitCard } from "../components/habit-card";
-import { ActionCard } from "../components/action-card";
-import ChallengeSampleCard from "~/features/goals/components/challenge-card";
-import type { Route } from "./+types/dashboard";
+import { Tabs, TabsList, TabsTrigger } from "~/common/components/ui/tabs";
+import { cn, formatForDashboard } from "~/lib/utils";
 import { makeSSRClient } from "~/supa-client";
-import { getChallenges } from "../queries";
+import { getChallenges } from "~/features/goals/queries";
+import { HabitCard } from "~/features/goals/components/habit-card";
+import { ActionCard } from "~/features/goals/components/action-card";
+import { ChallengeCard } from "~/features/goals/components/challenge-card";
+import { getUserById, getUserProfile } from "../queries";
+import type { Route } from "./+types/dashboard-page";
+import { DateTime } from "luxon";
 
-export const meta: Route.MetaFunction = () => {
+export const meta: Route.MetaFunction = ({ data }) => {
   return [
-    { title: "The greatest habit" },
+    { title: `${data?.profile?.username}'s Dashboard | The greatest habit` },
     { name: "description", content: "Welcome to the greatest habit!" },
   ];
 }
 
-export const loader = async ({ request }: Route.LoaderArgs) => {
+export const loader = async ({ params, request }: Route.LoaderArgs) => {
   const { client, headers } = makeSSRClient(request);
-  const challenges = await getChallenges(client, { limit: 5 });
-  return { challenges };
+  const { data: { user } } = await client.auth.getUser();
+  if (user !== null) {
+    const profile = await getUserById(client, { id: user?.id });
+    const challenges = await getChallenges(client, { limit: 5 });
+    return { profile, challenges };
+  }
+    
+  redirect("/", { headers });
 };
 
 const ReviewCard = ({
@@ -61,6 +68,22 @@ const ReviewCard = ({
 };
 
 export default function DashboardPage({ loaderData }: Route.ComponentProps) {
+  if (loaderData === null || loaderData === undefined || 
+      loaderData?.profile === null || loaderData?.challenges === null) {
+    throw data(
+      {
+        error_code: "400",
+        message: "로그인이 필요합니다.",
+      },
+      { status: 400 }
+    );
+  }
+
+  const created_at = DateTime.fromISO(loaderData.profile.created_at, {
+    zone: "utc",
+  });
+  console.log("created at :", created_at);
+
   return (
     <div>
       {
@@ -70,10 +93,10 @@ export default function DashboardPage({ loaderData }: Route.ComponentProps) {
       }
       <Card className="flex flex-col rounded-md w-full bg-transparent">
         <CardHeader className="w-full">
-          <CardTitle>어서오세요, @username 님.</CardTitle>
+          <CardTitle>어서오세요, {loaderData.profile.username} 님.</CardTitle>
         </CardHeader>
         <CardContent className="w-full">
-          최고의 습관을 만들기 시작한지 1000일 째 입니다.
+          { formatForDashboard(created_at) }
         </CardContent>
       </Card>
 

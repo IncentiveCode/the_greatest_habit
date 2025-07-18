@@ -20,10 +20,15 @@ export default [
 		]),
 		route("/sign-out", "features/auth/pages/sign-out-page.tsx"),
 	]),
-		
-	// dashboard
-	route("/dashboard", "features/dashboard/pages/dashboard.tsx"),
 
+	// my info 
+	...prefix("user", [
+		index("features/users/pages/dashboard-page.tsx"),
+		route("/notifications", "features/users/pages/notifications-page.tsx"),
+		route("/profile", "features/users/pages/profile-page.tsx"),
+		route("/settings", "features/users/pages/settings-page.tsx"),
+	]),
+	
 	// habit & goal
 	...prefix("habits", [
 		index("features/goals/pages/habits-page.tsx"),
@@ -35,18 +40,18 @@ export default [
 		route("/generate", "features/goals/pages/generate-challenge-page.tsx"),
 	]),
 	route("/create-habit", "features/goals/pages/create-habit.tsx"),
-
+	
 	// action-plans
 	...prefix("actions", [
 		index("features/actions/pages/actions-page.tsx"),
 		route("/:planId", "features/actions/pages/action-detail-page.tsx"),
 	]),
-
+	
 	// rewards
 	route("/rewards", "features/rewards/pages/rewards-page.tsx"),
 
-	// my
-	route("/notifications", "features/users/pages/notifications.tsx"),
-	route("/profile", "features/users/pages/profile.tsx"),
-	route("/settings", "features/users/pages/settings.tsx"),
+	// users (타인의 정보 확인, 이메일 트랜잭션 등)
+	...prefix("users/:username", [
+		route("/welcome/:email", "features/users/pages/welcome-page.tsx"),
+	]),
 ] satisfies RouteConfig;

@@ -1,7 +1,8 @@
 import type pkg from "@supabase/supabase-js";
+import type { db } from "~/supa-client";
 
 export const insertChallenges = async (
-  client: pkg.SupabaseClient,
+  client: pkg.SupabaseClient<db>,
   challenges: { title: string, description: string}[]
 ) => {
 
@@ -21,15 +22,13 @@ export const insertChallenges = async (
 				end_date: endDate,
 			 	owner_id: "14f68b63-414e-41de-8738-ae96f1104e37", 
 				reward_id: 6, 
-				message_frequency: "once a day",
+				message_frequency: "once a day" as const,
 				created_at: startDate,
 				updated_at: startDate,
-				goal_type: "challenge",
-				goal_status: "Started",
+				goal_type: "challenge" as const,
+				goal_status: "Started" as const,
 			}))
 		);
 
-  if (error) {
-    throw error;
-  }
+  if (error) throw error;
 };

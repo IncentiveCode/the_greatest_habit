@@ -33,11 +33,11 @@ export const goals = pgTable(
 				onDelete: "cascade",
 			})
 			.notNull(),
-		message_frequency: message_frequency().notNull(),
+		message_frequency: message_frequency().notNull().default("once a day"),
 		created_at: timestamp().notNull().defaultNow(),
 		updated_at: timestamp().notNull().defaultNow(),
 		goal_type: goal_type().notNull().default("habit"),
-		goal_status: goal_status().notNull().default("Not started"),
+		goal_status: goal_status().notNull().default("Started"),
 	},
 	(table) => [
 		pgPolicy("goals-insert-policy", {

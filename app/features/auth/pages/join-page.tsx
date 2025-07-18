@@ -7,7 +7,7 @@ import { getRandomInt } from "~/lib/utils";
 import type { Route } from "./+types/join-page";
 import z from "zod";
 import { checkUsernameExists } from "../queries";
-import { makeSSRClient } from "~/supa-client";
+import { adminClient, makeSSRClient } from "~/supa-client";
 import { LoaderCircle } from "lucide-react";
 
 export const meta: MetaFunction = () => {
@@ -35,7 +35,16 @@ const formSchema = z.object({
   }),
 });
 
-export const loader = () => {
+export const loader = async ({ request }: Route.LoaderArgs) => {
+  /**
+  // 계정 삭제를 위한 임시 코드
+  const { client, headers } = makeSSRClient(request);
+  const { data, error } = await adminClient.auth.admin.deleteUser(
+    'f6474963-4d69-42a8-87b2-3af3ad61bc04'
+  )
+  console.log('계정 삭제 오류 : ', error)
+  // */
+
   const randIndex = getRandomInt(0, SENTENCES.length - 1);
   const sentence = SENTENCES[randIndex];
   return { sentence };
@@ -70,6 +79,7 @@ export const action = async ({ request }: Route.ActionArgs) => {
     };
   }
 
+  // return redirect(`/users/${data.username}/welcome`);
   const { client, headers } = makeSSRClient(request);
   const { error: signUpError } = await client.auth.signUp({
     email: data.email, 
@@ -87,7 +97,9 @@ export const action = async ({ request }: Route.ActionArgs) => {
     }
   };
 
-  return redirect("/", { headers });
+  // send e-mail
+  // return redirect("/", { headers });
+  return redirect(`/users/${data.username}/welcome/${data.email}`, { headers });
 }
 
 export default function JoinPage({ loaderData, actionData }: Route.ComponentProps) {

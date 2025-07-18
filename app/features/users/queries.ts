@@ -2,10 +2,36 @@
 // import client from "~/supa-client";
 
 // browser client, server side client
+import type { db } from "~/supa-client";
 import type pkg from "@supabase/supabase-js";
 
+export const getUserProfile = async (
+  client: pkg.SupabaseClient<db>,
+  { username }: { username: string }
+) => {
+  const { data, error } = await client
+    .from("profiles")
+    .select(
+      `
+        profile_id,
+				email,
+        phone,
+        username,
+        avatar,
+        headline,
+        status,
+        created_at
+      `
+    )
+    .eq("username", username)
+    .single();
+
+  if (error) throw error;
+  return data;
+};
+
 export const getUserById = async (
-  client: pkg.SupabaseClient,
+  client: pkg.SupabaseClient<db>,
   { id }: { id: string }
 ) => {
   const { data, error } = await client
@@ -14,14 +40,17 @@ export const getUserById = async (
       `
         profile_id,
 				email,
+        phone,
+        username,
         avatar,
-        username
+        headline,
+        status,
+        created_at
       `
     )
     .eq("profile_id", id)
     .single();
-  if (error) {
-    throw error;
-  }
+
+  if (error) throw error;
   return data;
 };

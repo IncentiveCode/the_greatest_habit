@@ -62,7 +62,7 @@ export const makeSSRClient = (request: Request) => {
 };
 
 // admin client
-export const adminClient = createClient(
+export const adminClient = createClient<db>(
   process.env.SUPABASE_URL!,
   process.env.SUPABASE_SERVICE_ROLE_KEY!
 );
