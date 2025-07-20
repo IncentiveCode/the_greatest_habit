@@ -107,7 +107,7 @@ export default function JoinPage({ loaderData, actionData }: Route.ComponentProp
 
   return (
     <div className="flex justify-center items-center w-screen h-screen">
-      <Card className="w-lg">
+      <Card className="w-lg px-5 mx-5">
         <CardHeader>
           <CardTitle>
             환영합니다.
@@ -118,7 +118,7 @@ export default function JoinPage({ loaderData, actionData }: Route.ComponentProp
           </CardDescription>
         </CardHeader>
         <CardContent>
-          <Form className="space-y-5 p-5" method="post">
+          <Form className="space-y-5 py-5" method="post">
             <InputPair
               label="e-mail" 
               name="email"

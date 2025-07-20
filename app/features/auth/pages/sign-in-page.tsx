@@ -65,7 +65,7 @@ export default function SignInPage({ loaderData, actionData }: Route.ComponentPr
 
   return (
     <div className="flex justify-center items-center w-screen h-screen">
-      <Card className="w-lg">
+      <Card className="w-lg px-5 mx-5">
         <CardHeader>
           <CardTitle>
             돌아오신 것을 환영합니다.
@@ -76,7 +76,7 @@ export default function SignInPage({ loaderData, actionData }: Route.ComponentPr
           </CardDescription>
         </CardHeader>
         <CardContent>
-          <Form className="space-y-5 p-5" method="post">
+          <Form className="space-y-5 py-5" method="post">
             <InputPair
               label="e-mail" 
               name="email"

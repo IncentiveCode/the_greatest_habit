@@ -11,6 +11,7 @@ export default [
 		])
 	]),
 	route("/plan", "common/pages/plan-page.tsx"),
+	route("/faq", "common/pages/faq-page.tsx"),
 
 	// auth
 	...prefix("auth", [

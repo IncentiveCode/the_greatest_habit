@@ -17,6 +17,7 @@ import { Settings } from "luxon";
 import { makeSSRClient } from "./supa-client";
 import { cn } from "./lib/utils";
 import { getUserById } from "./features/users/queries";
+import { useIsMobile } from "./hooks/use-mobile";
 
 export const links: Route.LinksFunction = () => [
   { rel: "preconnect", href: "https://fonts.googleapis.com" },
@@ -93,7 +94,8 @@ export default function App({ loaderData }: Route.ComponentProps) {
   const navigation = useNavigation();
   const isLoading = navigation.state === "loading";
   const isSignIn = loaderData.user !== null;
-
+  const isMobile = useIsMobile()
+  
   return (
     <div className={cn({
         "py-28 px-5 md:px-20": !pathname.includes("/auth/") && pathname !== "/",

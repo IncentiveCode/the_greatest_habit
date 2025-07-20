@@ -1,6 +1,6 @@
 import { Link } from "react-router";
 import { NavigationMenu, NavigationMenuContent, NavigationMenuItem, NavigationMenuLink, NavigationMenuList, NavigationMenuTrigger, navigationMenuTriggerStyle } from "./ui/navigation-menu";
-import { BellIcon, LayoutDashboardIcon, LogOutIcon, SettingsIcon, UserIcon } from "lucide-react";
+import { BellIcon, LayoutDashboardIcon, LogOutIcon, MenuIcon, SettingsIcon, UserIcon } from "lucide-react";
 import { Separator } from "./ui/separator";
 import { Button } from "./ui/button";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuGroup, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from "./ui/dropdown-menu";
@@ -25,9 +25,9 @@ const public_menus = [
 		to: "/#plan",
 	},
 	{
-		name: "Blog",
-		description: "blog 로 이동합니다.",
-		to: "https://cloudylab.blogspot.kr",
+		name: "FAQ",
+		description: "자주 하는 질문을 살펴봅니다.",
+		to: "/faq",
 	},
 ];
 
@@ -73,6 +73,7 @@ function signInNavMenu() {
 		{menus.map((menu) => (
 			<NavigationMenuItem 
 				key={menu.name}
+				className="hidden lg:visible"
 			>
 			{menu.items ? (
 				<div>
@@ -119,21 +120,63 @@ function signInNavMenu() {
 
 function signOutNavMenu() {
 	return (
-		<div className="flex items-center gap-4">
-		{public_menus.map((menu) => (
-			<NavigationMenuItem key={menu.name}>
-				<Link 
-					className={navigationMenuTriggerStyle()}
-					to={menu.to}
-				>
-					{menu.name}
-				</Link>
-			</NavigationMenuItem>
-		))}
+		<div>
+			<div className="hidden md:visible md:flex items-center gap-4">
+			{public_menus.map((menu) => (
+				<NavigationMenuItem key={menu.name}>
+					<Link 
+						className={navigationMenuTriggerStyle()}
+						to={menu.to}
+					>
+						{menu.name}
+					</Link>
+				</NavigationMenuItem>
+			))}
+			</div>
 		</div>
 	);
 }
 
+function signOutDropdownMenu() {
+	return (
+		<div className="visible md:hidden">
+			<DropdownMenu>
+				<DropdownMenuTrigger asChild>
+					<MenuIcon className="w-6 h-6" />	
+				</DropdownMenuTrigger>
+				<DropdownMenuContent className="w-60">
+					<DropdownMenuLabel className="flex flex-col">
+						<span className="text-sm font-medium">환영합니다</span>
+						<span className="text-xs text-muted-foreground">습관 관리를 시작해보세요.</span>
+					</DropdownMenuLabel>
+					<DropdownMenuSeparator />
+					<DropdownMenuGroup>
+					{public_menus.map((menu) => (
+						<DropdownMenuItem asChild className="cursor-pointer">
+							<Link to={menu.to}>
+								{menu.name}
+							</Link>
+						</DropdownMenuItem>
+					))}
+					</DropdownMenuGroup>
+					<DropdownMenuSeparator />
+					<DropdownMenuItem asChild className="cursor-pointer">
+						<Link to="/auth/sign-in">
+							입장하기	
+						</Link>
+					</DropdownMenuItem>
+
+					<DropdownMenuSeparator />
+					<DropdownMenuItem asChild className="cursor-pointer">
+						<Link to="/auth/join">
+							관리 시작하기 
+						</Link>
+					</DropdownMenuItem>
+				</DropdownMenuContent>
+			</DropdownMenu>
+		</div>
+	);
+}
 
 export default function Navigation({
 	isSignIn,
@@ -148,8 +191,9 @@ export default function Navigation({
 	avatar: string | null;
 	username: string;
 }) {
+
 	return (
-		<nav className="flex px-20 h-16 items-center justify-between backdrop-blur-50 fixed top-0 left-0 right-0 z-50 bg-background/50">
+		<nav className="flex px-5 md:px-20 h-16 items-center justify-between backdrop-blur-50 fixed top-0 left-0 right-0 z-50 bg-background/50">
 			<div className="flex items-center gap-4">
 				<Link to={"/#home"} className="font-bold tracking-tighter text-lg">The greatest habit</Link>
 				<Separator orientation="vertical" className="!h-6 mx-4 bg-primary" />
@@ -164,7 +208,7 @@ export default function Navigation({
 				{isSignIn ?
 					<div className="flex items-center gap-2">
 						<Button size="icon" variant="ghost" asChild className="relative">
-							<Link to="/notifications">
+							<Link to="/user/notifications">
 								<BellIcon className="size-4" />
 								{hasNotification && (
 									<span className="absolute top-1.5 right-1.5 size-2 bg-red-500 text-white rounded-full" />
@@ -218,13 +262,17 @@ export default function Navigation({
 						</DropdownMenu>
 					</div> 
 					: 
-					<div className="flex items-center gap-4">
-						<Button asChild variant="outline">
-							<Link to="/auth/sign-in">Sign In</Link>
-						</Button>
-						<Button asChild>
-							<Link to="/auth/join">Join</Link>
-						</Button>
+					<div>
+						<div className="hidden md:flex items-center gap-4">
+							<Button asChild variant="outline">
+								<Link to="/auth/sign-in">Sign In</Link>
+							</Button>
+							<Button asChild>
+								<Link to="/auth/join">Join</Link>
+							</Button>
+						</div>
+
+						{ signOutDropdownMenu() }
 					</div>
 				}
 			</div>

@@ -15,21 +15,48 @@ import type { Route } from "./+types/dashboard-page";
 
 export const meta: Route.MetaFunction = ({ data }) => {
   return [
-    { title: `${data?.profile?.username}'s Dashboard | The greatest habit` },
+    { title: `${data?.profile?.username ?? "Anonymous"}'s Dashboard | The greatest habit` },
     { name: "description", content: "Welcome to the greatest habit!" },
   ];
 }
 
+type DashboardLoaderData = {
+  profile: {
+     profile_id: string;
+     email: string;
+     phone: string | null;
+     username: string;
+     avatar: string | null;
+     headline: string | null;
+     status: "active" | "inactive";
+     created_at: string;
+  },
+  challenges: {
+    count: number;
+    description: string;
+    end_date: string;
+    goal_id: number;
+    goal_status: NonNullable<"Not started" | "Started" | "Failed" | "Finished">;
+    message_frequency: NonNullable<"None" | "once a day" | "once a week" | "once a month">;
+    point: number;
+    reward: string;
+    start_date: string;
+    title: string;
+  }[]
+};
+
 export const loader = async ({ request }: Route.LoaderArgs) => {
   const { client, headers } = makeSSRClient(request);
   const { data: { user } } = await client.auth.getUser();
-  if (user !== null) {
+
+  if (user === null || user === undefined) {
+    redirect("/", { headers });
+  } 
+  else {
     const profile = await getUserById(client, { id: user?.id });
-    const challenges = await getChallenges(client, { limit: 5 });
+    var challenges = await getChallenges(client, { limit: 5 });
     return { profile, challenges };
   }
-    
-  redirect("/", { headers });
 };
 
 const ReviewCard = ({
@@ -67,7 +94,7 @@ const ReviewCard = ({
   );
 };
 
-export default function DashboardPage({ loaderData }: Route.ComponentProps) {
+export default function DashboardPage({ loaderData }: { loaderData: DashboardLoaderData }) {
   if (loaderData === null || loaderData === undefined || 
       loaderData?.profile === null || loaderData?.challenges === null) {
     throw data(

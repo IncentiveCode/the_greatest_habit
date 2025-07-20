@@ -24,12 +24,12 @@ export function CoverPage({ title, description, link, imagePath }: CoverPageProp
 				) : null
 			}
 				<div className="w-full h-full space-y-10 m-5">
-					<h1 className="text-5xl font-bold text-center">
+					<h1 className="text-3xl md:text-5xl font-bold text-center">
 						{title}
 					</h1>
 					<div className="space-y-2.5">
 					{arrDesc.map((desc) => (
-						<h4 key={desc} className="text-2xl font-light text-center text-muted-foreground">{desc}</h4>
+						<h4 key={desc} className="text-lg md:text-2xl font-light text-center">{desc}</h4>
 					))}
 					</div>
 				</div>
