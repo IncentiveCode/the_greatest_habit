@@ -11,7 +11,12 @@ export default [
 		])
 	]),
 	route("/plan", "common/pages/plan-page.tsx"),
-	route("/faq", "common/pages/faq-page.tsx"),
+	...prefix("faq", [
+		layout("common/layouts/faq-layout.tsx", [
+			index("common/pages/faq-redirect-page.tsx"),
+			route("/:groupId", "common/pages/faq-page.tsx"),
+		]),
+	]),
 
 	// auth
 	...prefix("auth", [

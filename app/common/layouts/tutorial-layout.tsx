@@ -13,7 +13,7 @@ export const loader = async ({ request, params }: Route.LoaderArgs) => {
 	// 	
 };
 
-export default function MessagesLayout() {
+export default function TutorialLayout() {
 	return (
 		<SidebarProvider className="max-h-[calc(100vh-14rem)] h-[calc(100vh-14rem)] overflow-hidden min-h-full">
 			<Sidebar>

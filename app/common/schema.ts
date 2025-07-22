@@ -59,3 +59,43 @@ export const tutorialContent = pgTable(
 		}),
 	]
 );
+
+export const faqGroups = pgTable(
+	"faq_groups", {
+		id: bigint({ mode: "number" }).primaryKey().generatedAlwaysAsIdentity(),
+		name: text().notNull(),
+		description: text(),
+		sort_order: integer().notNull().default(1),
+	},
+	(table) => [
+		pgPolicy("faq-groups-policy", {
+			for: "select",
+			to: "public",
+			as: "permissive",
+			using: sql`true`,
+		}),
+	]
+);
+
+export const faqContents = pgTable(
+	"faq_contents", {
+		id: bigint({ mode: "number" }).primaryKey().generatedAlwaysAsIdentity(),
+		group_id: bigint({ mode: "number" })
+			.references(() => faqGroups.id, {
+				onDelete: "cascade",
+			})
+			.notNull(),
+		question: text().notNull(),
+		answer: text().notNull(),
+		sort_order: integer().notNull().default(1),
+		is_active: boolean().notNull().default(true),
+	},
+	(table) => [
+		pgPolicy("faq-contents-policy", {
+			for: "select",
+			to: "public",
+			as: "permissive",
+			using: sql`true`,
+		}),
+	]
+);

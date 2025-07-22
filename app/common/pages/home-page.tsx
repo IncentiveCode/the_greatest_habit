@@ -5,6 +5,7 @@ import { cn } from "~/lib/utils";
 import type { Route } from "./+types/home-page";
 import { BellIcon, CalendarIcon, CopyrightIcon, FileInputIcon, FileTextIcon, GlobeIcon } from "lucide-react";
 import { BentoCard, BentoGrid } from "../components/ui/bento-grid";
+import Footer from "../components/footer";
 
 export const meta: Route.MetaFunction = () => {
   return [
@@ -83,7 +84,6 @@ export default function HomePage() {
           />
       </section>
 
-      {/**
       <section className="flex justify-center items-center p-5" id="about">
         <div className="flex flex-col justify-center items-center w-screen h-screen rounded-md space-y-20">
           <h1 className="text-5xl font-bold text-center">
@@ -171,21 +171,6 @@ export default function HomePage() {
           description="현재는 MVP 제작 중이라 가격정책이 정해지지 않았습니다.||추후 안내드리겠습니다."
         />
       </section>
-
-      <div 
-				className="flex flex-col gap-5 justify-center items-center px-10 md:px-20 py-10 w-full border-t-2 border-accent/20" 
-				id="footer"
-			>
-				<p className="text-center">
-					We create what inspires. <br/>
-					We create <span className="text-accent font-bold text-shadow-md capitalize">incentive</span>.
-				</p>
-				<p className="flex gap-1 justify-center items-center mx-auto">
-					<CopyrightIcon className="w-4 h-4" /> 
-					<p className="text-sm leading-relaxed">2025 Incentive code. All rights reserved.</p>
-				</p>
-			</div>
-      */}
     </div>
   );
 }

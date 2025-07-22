@@ -1,7 +1,13 @@
 import { CircleQuestionMarkIcon, GroupIcon } from "lucide-react";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "../components/ui/accordion";
 import type { Route } from "./+types/faq-page";
-
+import Hero from "../components/hero";
+import z from "zod";
+import { makeSSRClient } from "~/supa-client";
+import { getFaqContents } from "../queries";
+import { useOutletContext } from "react-router";
+import FaqItem from "../components/faq-item";
+import Footer from "../components/footer";
 
 export const meta: Route.MetaFunction = () => {
 	return [
@@ -9,94 +15,58 @@ export const meta: Route.MetaFunction = () => {
 	];
 };
 
-export const loader = async ({ request }: Route.LoaderArgs) => {
-	// TODO. FAQ loading
+const searchParams = z.object({
+	groupId: z.coerce.number()
+});
+
+type FaqPageProps = {
+	contents: {
+		group_id: number;
+    question: string;
+    answer: string;
+    sort_order: number;
+	}[];
+};
+
+export const loader = async ({ params, request }: Route.LoaderArgs) => {
+	const { client } = makeSSRClient(request);
+	const { success, data } = searchParams.safeParse(params);
+	if (! success) {
+		return console.log('parse failure');
+	}
+
+	const contents = await getFaqContents(client, {
+		group_id: data.groupId
+	}); 
+	return { contents };
 }
 
-export default function FaqPage() {
+export default function FaqPage({ loaderData }: { loaderData: FaqPageProps }) {
+	const { currentName } = useOutletContext<{
+		currentName: string;
+	}>();
+
 	return (
 		<div>
-			<section className="flex flex-col items-center px-10 md:px-20 py-20">
-				<h2 className="text-4xl font-bold mb-6 text-center">
-					FAQ	
-				</h2>
-				<p className="text-lg mb-16 leading-relaxed text-center">
-					고객들께서 자주 물어보시는 질문들입니다.	
-				</p>
-			</section>
-
-			<h2 className="flex gap-2 items-center text-xl text-accent p-2 border-b-2">
+			<h2 className="flex gap-2 justify-center items-center text-xl text-accent p-2 mb-5">
 				<CircleQuestionMarkIcon className="w-6 h-6" />
-				습관 관리
+				{ currentName }	
 			</h2>
+
 			<Accordion
 				type="single"
 				collapsible
 				className="w-full"
-				defaultValue="item-1"
 			>
-				<AccordionItem value="item-1">
-					<AccordionTrigger className="font-semibold">습관은 최대 몇 개까지 만들 수 있나요?</AccordionTrigger>
-					<AccordionContent className="font-light flex flex-col gap-4 text-balance">
-						<p>
-							무료 플랜은 최대 3개, 프로 플랜은 무제한으로 습관을 만들 수 있습니다.
-						</p>
-					</AccordionContent>
-				</AccordionItem>
-				
-				<AccordionItem value="item-2">
-					<AccordionTrigger className="font-semibold">진행 완료는 하루에 한 번만 체크할 수 있나요?</AccordionTrigger>
-					<AccordionContent className="font-light flex flex-col gap-4 text-balance">
-						<p>
-							네. 진행 완료는 하루에 한번 체크하실 수 있습니다.
-						</p>
-					</AccordionContent>
-				</AccordionItem>
-
-				<AccordionItem value="item-3">
-					<AccordionTrigger className="font-semibold">진행도나 통계는 어디서 볼 수 있나요?</AccordionTrigger>
-					<AccordionContent className="font-light flex flex-col gap-4 text-balance">
-						<p>
-						서비스에 로그인 하신 후, 대시보드 페이지에서 확인하실 수 있습니다.
-						</p>
-					</AccordionContent>
-				</AccordionItem>
-
-				<AccordionItem value="item-4">
-					<AccordionTrigger className="font-semibold">습관 정보는 중간에 수정할 수 있나요?</AccordionTrigger>
-					<AccordionContent className="font-light flex flex-col gap-4 text-balance">
-						<p>
-						네, 습관 정보는 언제든 수정하실 수 있습니다.
-						</p>
-					</AccordionContent>
-				</AccordionItem>
-
-				<AccordionItem value="item-5">
-					<AccordionTrigger className="font-semibold">습관을 잠시 멈추거나 숨길 수 있나요?</AccordionTrigger>
-					<AccordionContent className="font-light flex flex-col gap-4 text-balance">
-						<p>
-						멈추는 기능의 구현은 예정되어 있지 않습니다. 숨기는 기능은 추후 업데이트 될 예정입니다.
-						</p>
-					</AccordionContent>
-				</AccordionItem>
-
-				<AccordionItem value="item-6">
-					<AccordionTrigger className="font-semibold">목표 달성 후 보상 기능이 있나요?</AccordionTrigger>
-					<AccordionContent className="font-light flex flex-col gap-4 text-balance">
-						<p>
-						소량의 리워드와 목표 달성 배지가 제공됩니다.
-						</p>
-					</AccordionContent>
-				</AccordionItem>
-
-				<AccordionItem value="item-7">
-					<AccordionTrigger className="font-semibold">기록을 PDF나 이미지로 저장할 수 있나요?</AccordionTrigger>
-					<AccordionContent className="font-light flex flex-col gap-4 text-balance">
-						<p>
-						현재는 구현되어 있지 않으나, 추후 업데이트 될 예정입니다.
-						</p>
-					</AccordionContent>
-				</AccordionItem>
+			{ loaderData.contents.map((content) => (
+				<FaqItem
+					key={content.sort_order}
+					group_id={content.group_id}
+					question={content.question}
+					answer={content.answer}
+					sort_order={content.sort_order}
+				/>
+			)) }
 			</Accordion>
 		</div>
 	);

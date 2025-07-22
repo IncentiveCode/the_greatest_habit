@@ -145,6 +145,62 @@ export type Database = {
           },
         ]
       }
+      faq_contents: {
+        Row: {
+          answer: string
+          group_id: number
+          id: number
+          is_active: boolean
+          question: string
+          sort_order: number
+        }
+        Insert: {
+          answer: string
+          group_id: number
+          id?: never
+          is_active?: boolean
+          question: string
+          sort_order?: number
+        }
+        Update: {
+          answer?: string
+          group_id?: number
+          id?: never
+          is_active?: boolean
+          question?: string
+          sort_order?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "faq_contents_group_id_faq_groups_id_fk"
+            columns: ["group_id"]
+            isOneToOne: false
+            referencedRelation: "faq_groups"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      faq_groups: {
+        Row: {
+          description: string | null
+          id: number
+          name: string
+          sort_order: number
+        }
+        Insert: {
+          description?: string | null
+          id?: never
+          name: string
+          sort_order?: number
+        }
+        Update: {
+          description?: string | null
+          id?: never
+          name?: string
+          sort_order?: number
+        }
+        Relationships: []
+      }
       goals: {
         Row: {
           created_at: string

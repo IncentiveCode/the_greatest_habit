@@ -18,6 +18,7 @@ import { makeSSRClient } from "./supa-client";
 import { cn } from "./lib/utils";
 import { getUserById } from "./features/users/queries";
 import { useIsMobile } from "./hooks/use-mobile";
+import Footer from "./common/components/footer";
 
 export const links: Route.LinksFunction = () => [
   { rel: "preconnect", href: "https://fonts.googleapis.com" },
@@ -98,7 +99,7 @@ export default function App({ loaderData }: Route.ComponentProps) {
   
   return (
     <div className={cn({
-        "py-28 px-5 md:px-20": !pathname.includes("/auth/") && pathname !== "/",
+        "pt-28 pb-28 px-5 md:px-20": !pathname.includes("/auth/") && pathname !== "/" && !pathname.includes("/faq/"),
         "transition-opacity animate-pulse": isLoading,
       })}
     >
@@ -112,6 +113,10 @@ export default function App({ loaderData }: Route.ComponentProps) {
         />
       )}
       <Outlet />
+
+      {pathname.includes("/auth/") ? null : (
+        <Footer /> 
+      )}
     </div>
   )
 }
