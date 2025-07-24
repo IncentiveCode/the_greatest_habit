@@ -195,7 +195,7 @@ export default function Navigation({
 	return (
 		<nav className="flex px-5 md:px-20 h-16 items-center justify-between backdrop-blur-50 fixed top-0 left-0 right-0 z-50 bg-background/50">
 			<div className="flex items-center gap-4">
-				<Link to={"/#home"} className="font-bold tracking-tighter text-lg">The greatest habit</Link>
+				<Link to={"/"} className="font-bold tracking-tighter text-lg">The greatest habit</Link>
 				<Separator orientation="vertical" className="!h-6 mx-4 bg-primary" />
 				<NavigationMenu>
 					<NavigationMenuList>
@@ -221,7 +221,7 @@ export default function Navigation({
 								{avatar ? (
 									<AvatarImage src={avatar} />
 								) : (
-									<AvatarFallback>{username?.[0]}</AvatarFallback>
+									<AvatarFallback className="bg-primary">{username?.[0]}</AvatarFallback>
 								)}
 								</Avatar>
 							</DropdownMenuTrigger>

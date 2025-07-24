@@ -3,9 +3,10 @@ import { AnimatedGridPattern } from "~/common/components/ui/animated-grid-patter
 import { Card, CardContent, CardHeader, CardTitle } from "../components/ui/card";
 import { cn } from "~/lib/utils";
 import type { Route } from "./+types/home-page";
-import { BellIcon, CalendarIcon, CopyrightIcon, FileInputIcon, FileTextIcon, GlobeIcon } from "lucide-react";
+import { BadgeQuestionMarkIcon, BellIcon, CalendarIcon, CopyrightIcon, FileInputIcon, FileTextIcon, FlagIcon, GlobeIcon, LayoutDashboardIcon, PresentationIcon, TableOfContentsIcon } from "lucide-react";
 import { BentoCard, BentoGrid } from "../components/ui/bento-grid";
 import Footer from "../components/footer";
+import Hero from "../components/hero";
 
 export const meta: Route.MetaFunction = () => {
   return [
@@ -16,50 +17,49 @@ export const meta: Route.MetaFunction = () => {
 
 const features = [
   {
-    Icon: FileTextIcon,
-    name: "Save your files",
-    description: "We automatically save your files as you type.",
-    href: "/",
-    cta: "Learn more",
+    Icon: BadgeQuestionMarkIcon,
+    name: "The greatest habit?",
+    description: "당신에게 이 서비스가 왜 필요할까요?",
+    href: "/about",
+    cta: "서비스 톺아보기",
+    background: <img className="absolute -right-20 -top-20 opacity-60" />,
+    className: "lg:col-start-1 lg:col-end-2 lg:row-start-1 lg:row-end-2",
+  },
+  {
+    Icon: PresentationIcon,
+    name: "사용 방법이 궁금하신가요?",
+    description: "목표를 세우고, 습관을 만드는 방법부터 하나하나 차근차근 안내해드립니다.",
+    href: "/tutorial",
+    cta: "사용 방법 배워보기",
+    background: <img className="absolute -right-20 -top-20 opacity-60" />,
+    className: "lg:col-start-1 lg:col-end-2 lg:row-start-2 lg:row-end-4",
+  },
+  {
+    Icon: LayoutDashboardIcon,
+    name: "대시보드",
+    description: "당신의 모든 활동 기록을 확인해보세요. 그리고 오늘도 좋은 습관을 만들기 위해 함께 노력해요.",
+    href: "/user",
+    cta: "오늘도 한 뼘 성장하기",
     background: <img className="absolute -right-20 -top-20 opacity-60" />,
     className: "lg:row-start-1 lg:row-end-4 lg:col-start-2 lg:col-end-3",
   },
   {
-    Icon: FileInputIcon,
-    name: "Full text search",
-    description: "Search through all your files in one place.",
-    href: "/",
-    cta: "Learn more",
+    Icon: FlagIcon,
+    name: "챌린지",
+    description: "습관 만들기가 처음이시라면, 여러 사람과 함께하는 챌린지로 시작해보세요.",
+    href: "/challengs",
+    cta: "챌린지로 시작하기",
     background: <img className="absolute -right-20 -top-20 opacity-60" />,
-    className: "lg:col-start-1 lg:col-end-2 lg:row-start-1 lg:row-end-3",
+    className: "lg:col-start-3 lg:col-end-3 lg:row-start-1 lg:row-end-3",
   },
   {
-    Icon: GlobeIcon,
-    name: "Multilingual",
-    description: "Supports 100+ languages and counting.",
-    href: "/",
-    cta: "Learn more",
+    Icon: TableOfContentsIcon,
+    name: "더 궁금하신 사항이 있으시다면,",
+    description: "'자주 물어보시는 질문들'을 한번 확인해보세요. 도움이 될 거에요.",
+    href: "/faq",
+    cta: "FAQ 살펴보기",
     background: <img className="absolute -right-20 -top-20 opacity-60" />,
-    className: "lg:col-start-1 lg:col-end-2 lg:row-start-3 lg:row-end-4",
-  },
-  {
-    Icon: CalendarIcon,
-    name: "Calendar",
-    description: "Use the calendar to filter your files by date.",
-    href: "/",
-    cta: "Learn more",
-    background: <img className="absolute -right-20 -top-20 opacity-60" />,
-    className: "lg:col-start-3 lg:col-end-3 lg:row-start-1 lg:row-end-2",
-  },
-  {
-    Icon: BellIcon,
-    name: "Notifications",
-    description:
-      "Get notified when someone shares a file or mentions you in a comment.",
-    href: "/",
-    cta: "Learn more",
-    background: <img className="absolute -right-20 -top-20 opacity-60" />,
-    className: "lg:col-start-3 lg:col-end-3 lg:row-start-2 lg:row-end-4",
+    className: "lg:col-start-3 lg:col-end-3 lg:row-start-3 lg:row-end-4",
   },
 ];
 
@@ -73,29 +73,38 @@ export default function HomePage() {
         repeatDelay={1}
         className={cn(
           "[mask-image:radial-gradient(800px_circle_at_center,white,transparent)]",
-          "inset-x-0 inset-y-[-30%] h-[200%] skew-y-12",
+          "inset-x-0 inset-y-[-30%] h-[140%] skew-y-12",
         )}
       />
 
-      <section className="h-screen flex justify-center items-center p-5" id="home">
-          <CoverPage
-            title="작은 습관, 위대한 변화" 
-            description="위대한 변화는 거창한 결심이 아니라 작은 습관에서 시작됩니다.||이 작은 습관 하나가 언젠가 당신이 꿈꾸던 인생의 시작점이 됩니다."
-          />
+      <section className="flex justify-center items-center p-5">
+        <Hero
+          title="작은 습관, 위대한 변화" 
+          description="&nbsp;&nbsp;||위대한 변화는 거창한 결심이 아니라||작은 습관에서 시작됩니다.||&nbsp;&nbsp;||오늘 만든 작은 습관 하나가||당신이 꿈꾸던 인생의 시작점이 됩니다."
+        />
       </section>
 
-      <section className="flex justify-center items-center p-5" id="about">
-        <div className="flex flex-col justify-center items-center w-screen h-screen rounded-md space-y-20">
+      <section className="flex flex-col justify-start items-center p-5">
+        <BentoGrid className="w-full lg:w-3/4 grid grid-rows-5 lg:grid-rows-3">
+          {features.map((feature) => (
+            <BentoCard key={feature.name} {...feature} />
+          ))}
+        </BentoGrid>
+      </section>
+
+      <section className="flex justify-center items-center p-5">
+        <Hero
+          title="The greatest habit" 
+          description="우리는 삶의 변화를 만들어가는||당신의 도전을 응원합니다."
+        />
+      </section>
+
+        {
+          /*  
+        }
           <h1 className="text-5xl font-bold text-center">
             혹시 이런 경험이 있으신가요?
 					</h1>
-
-          <BentoGrid className="w-full lg:w-3/4 grid grid-rows-5 lg:grid-rows-3">
-            {features.map((feature) => (
-              <BentoCard key={feature.name} {...feature} />
-            ))}
-          </BentoGrid>
-
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-10 w-full">
             <Card className="w-2/3 lg:w-full justify-self-center">
               <CardHeader>
@@ -171,6 +180,9 @@ export default function HomePage() {
           description="현재는 MVP 제작 중이라 가격정책이 정해지지 않았습니다.||추후 안내드리겠습니다."
         />
       </section>
+      {
+        */
+      }
     </div>
   );
 }

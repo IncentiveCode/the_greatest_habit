@@ -56,7 +56,7 @@ export default function FaqLayout({ loaderData }: { loaderData: FaqLayoutProps }
 					className={({ isActive }) => 
 						cn(
 							buttonVariants({ variant: "outline" }),
-							group.id === loaderData.currentId ? "bg-primary" : "")
+							isActive ? "bg-primary" : "")
 					}
 					to={`/faq/${group.id}`}
 				>

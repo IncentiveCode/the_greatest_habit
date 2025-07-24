@@ -17,8 +17,8 @@ export const loader = async ({ params, request }: Route.LoaderArgs) => {
 	const { data, error } = await mailClient.emails.send({
 		from: 'The greatest habit <inceitve@mail.thegreatesthabit.com>',
 		to: params?.email,
-		subject: '환영합니다! 오늘부터 당신의 변화를 시작해보세요.',
-		react: <WelcomeEmail username={params?.username ?? "Logan"} />,
+		subject: `${params?.username ?? ""}님, 환영합니다! 오늘부터 변화를 시작해보세요!`,
+		react: <WelcomeEmail username={params?.username ?? ""} />,
 	});
 
 	if (error) throw error;
