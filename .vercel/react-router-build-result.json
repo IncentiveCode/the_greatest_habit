@@ -1,0 +1,551 @@
+{
+  "buildManifest": {
+    "serverBundles": {
+      "nodejs_eyJydW50aW1lIjoibm9kZWpzIn0": {
+        "id": "nodejs_eyJydW50aW1lIjoibm9kZWpzIn0",
+        "file": "build/server/nodejs_eyJydW50aW1lIjoibm9kZWpzIn0/index.js",
+        "config": {
+          "runtime": "nodejs"
+        }
+      }
+    },
+    "routeIdToServerBundleId": {
+      "common/pages/home-page": "nodejs_eyJydW50aW1lIjoibm9kZWpzIn0",
+      "common/pages/about-page": "nodejs_eyJydW50aW1lIjoibm9kZWpzIn0",
+      "common/pages/tutorial-page": "nodejs_eyJydW50aW1lIjoibm9kZWpzIn0",
+      "common/pages/tutorial-detail-page": "nodejs_eyJydW50aW1lIjoibm9kZWpzIn0",
+      "common/pages/plan-page": "nodejs_eyJydW50aW1lIjoibm9kZWpzIn0",
+      "common/pages/faq-redirect-page": "nodejs_eyJydW50aW1lIjoibm9kZWpzIn0",
+      "common/pages/faq-page": "nodejs_eyJydW50aW1lIjoibm9kZWpzIn0",
+      "features/auth/pages/join-page": "nodejs_eyJydW50aW1lIjoibm9kZWpzIn0",
+      "features/auth/pages/sign-in-page": "nodejs_eyJydW50aW1lIjoibm9kZWpzIn0",
+      "features/auth/pages/sign-out-page": "nodejs_eyJydW50aW1lIjoibm9kZWpzIn0",
+      "features/goals/pages/habits-page": "nodejs_eyJydW50aW1lIjoibm9kZWpzIn0",
+      "features/goals/pages/habit-detail-page": "nodejs_eyJydW50aW1lIjoibm9kZWpzIn0",
+      "features/goals/pages/generate-action-page": "nodejs_eyJydW50aW1lIjoibm9kZWpzIn0",
+      "features/goals/pages/challenges-page": "nodejs_eyJydW50aW1lIjoibm9kZWpzIn0",
+      "features/goals/pages/challenge-detail-page": "nodejs_eyJydW50aW1lIjoibm9kZWpzIn0",
+      "features/goals/pages/challenge-join-page": "nodejs_eyJydW50aW1lIjoibm9kZWpzIn0",
+      "features/goals/pages/generate-challenge-page": "nodejs_eyJydW50aW1lIjoibm9kZWpzIn0",
+      "features/goals/pages/create-habit-page": "nodejs_eyJydW50aW1lIjoibm9kZWpzIn0",
+      "features/goals/pages/create-challenge-page": "nodejs_eyJydW50aW1lIjoibm9kZWpzIn0",
+      "features/actions/pages/actions-page": "nodejs_eyJydW50aW1lIjoibm9kZWpzIn0",
+      "features/actions/pages/action-detail-page": "nodejs_eyJydW50aW1lIjoibm9kZWpzIn0",
+      "features/rewards/pages/rewards-page": "nodejs_eyJydW50aW1lIjoibm9kZWpzIn0",
+      "features/users/pages/my-profile-page": "nodejs_eyJydW50aW1lIjoibm9kZWpzIn0",
+      "features/users/pages/notifications-page": "nodejs_eyJydW50aW1lIjoibm9kZWpzIn0",
+      "features/users/pages/dashboard-page": "nodejs_eyJydW50aW1lIjoibm9kZWpzIn0",
+      "features/users/pages/settings-page": "nodejs_eyJydW50aW1lIjoibm9kZWpzIn0",
+      "features/users/pages/profile-page": "nodejs_eyJydW50aW1lIjoibm9kZWpzIn0",
+      "features/users/pages/welcome-page": "nodejs_eyJydW50aW1lIjoibm9kZWpzIn0"
+    },
+    "routes": {
+      "root": {
+        "path": "",
+        "id": "root",
+        "file": "app/root.tsx",
+        "config": {}
+      },
+      "common/pages/home-page": {
+        "id": "common/pages/home-page",
+        "parentId": "root",
+        "file": "app/common/pages/home-page.tsx",
+        "index": true,
+        "config": {
+          "runtime": "nodejs"
+        }
+      },
+      "common/pages/about-page": {
+        "id": "common/pages/about-page",
+        "parentId": "root",
+        "file": "app/common/pages/about-page.tsx",
+        "path": "/about",
+        "config": {
+          "runtime": "nodejs"
+        }
+      },
+      "common/layouts/tutorial-layout": {
+        "id": "common/layouts/tutorial-layout",
+        "parentId": "root",
+        "file": "app/common/layouts/tutorial-layout.tsx",
+        "config": {}
+      },
+      "common/pages/tutorial-page": {
+        "id": "common/pages/tutorial-page",
+        "parentId": "common/layouts/tutorial-layout",
+        "file": "app/common/pages/tutorial-page.tsx",
+        "path": "tutorial",
+        "index": true,
+        "config": {
+          "runtime": "nodejs"
+        }
+      },
+      "common/pages/tutorial-detail-page": {
+        "id": "common/pages/tutorial-detail-page",
+        "parentId": "common/layouts/tutorial-layout",
+        "file": "app/common/pages/tutorial-detail-page.tsx",
+        "path": "tutorial/:tutorialId",
+        "config": {
+          "runtime": "nodejs"
+        }
+      },
+      "common/pages/plan-page": {
+        "id": "common/pages/plan-page",
+        "parentId": "root",
+        "file": "app/common/pages/plan-page.tsx",
+        "path": "/plan",
+        "config": {
+          "runtime": "nodejs"
+        }
+      },
+      "common/layouts/faq-layout": {
+        "id": "common/layouts/faq-layout",
+        "parentId": "root",
+        "file": "app/common/layouts/faq-layout.tsx",
+        "config": {}
+      },
+      "common/pages/faq-redirect-page": {
+        "id": "common/pages/faq-redirect-page",
+        "parentId": "common/layouts/faq-layout",
+        "file": "app/common/pages/faq-redirect-page.tsx",
+        "path": "faq",
+        "index": true,
+        "config": {
+          "runtime": "nodejs"
+        }
+      },
+      "common/pages/faq-page": {
+        "id": "common/pages/faq-page",
+        "parentId": "common/layouts/faq-layout",
+        "file": "app/common/pages/faq-page.tsx",
+        "path": "faq/:groupId",
+        "config": {
+          "runtime": "nodejs"
+        }
+      },
+      "features/auth/layouts/auth-layout": {
+        "id": "features/auth/layouts/auth-layout",
+        "parentId": "root",
+        "file": "app/features/auth/layouts/auth-layout.tsx",
+        "config": {}
+      },
+      "features/auth/pages/join-page": {
+        "id": "features/auth/pages/join-page",
+        "parentId": "features/auth/layouts/auth-layout",
+        "file": "app/features/auth/pages/join-page.tsx",
+        "path": "auth/join",
+        "config": {
+          "runtime": "nodejs"
+        }
+      },
+      "features/auth/pages/sign-in-page": {
+        "id": "features/auth/pages/sign-in-page",
+        "parentId": "features/auth/layouts/auth-layout",
+        "file": "app/features/auth/pages/sign-in-page.tsx",
+        "path": "auth/sign-in",
+        "config": {
+          "runtime": "nodejs"
+        }
+      },
+      "features/auth/pages/sign-out-page": {
+        "id": "features/auth/pages/sign-out-page",
+        "parentId": "root",
+        "file": "app/features/auth/pages/sign-out-page.tsx",
+        "path": "auth/sign-out",
+        "config": {
+          "runtime": "nodejs"
+        }
+      },
+      "features/goals/pages/habits-page": {
+        "id": "features/goals/pages/habits-page",
+        "parentId": "root",
+        "file": "app/features/goals/pages/habits-page.tsx",
+        "path": "habits",
+        "index": true,
+        "config": {
+          "runtime": "nodejs"
+        }
+      },
+      "features/goals/pages/habit-detail-page": {
+        "id": "features/goals/pages/habit-detail-page",
+        "parentId": "root",
+        "file": "app/features/goals/pages/habit-detail-page.tsx",
+        "path": "habits/:habitId",
+        "config": {
+          "runtime": "nodejs"
+        }
+      },
+      "features/goals/pages/generate-action-page": {
+        "id": "features/goals/pages/generate-action-page",
+        "parentId": "root",
+        "file": "app/features/goals/pages/generate-action-page.tsx",
+        "path": "habits/:habitId/generate",
+        "config": {
+          "runtime": "nodejs"
+        }
+      },
+      "features/goals/pages/challenges-page": {
+        "id": "features/goals/pages/challenges-page",
+        "parentId": "root",
+        "file": "app/features/goals/pages/challenges-page.tsx",
+        "path": "challenges",
+        "index": true,
+        "config": {
+          "runtime": "nodejs"
+        }
+      },
+      "features/goals/pages/challenge-detail-page": {
+        "id": "features/goals/pages/challenge-detail-page",
+        "parentId": "root",
+        "file": "app/features/goals/pages/challenge-detail-page.tsx",
+        "path": "challenges/:challengeId",
+        "index": true,
+        "config": {
+          "runtime": "nodejs"
+        }
+      },
+      "features/goals/pages/challenge-join-page": {
+        "id": "features/goals/pages/challenge-join-page",
+        "parentId": "root",
+        "file": "app/features/goals/pages/challenge-join-page.tsx",
+        "path": "challenges/:challengeId/join",
+        "config": {
+          "runtime": "nodejs"
+        }
+      },
+      "features/goals/pages/generate-challenge-page": {
+        "id": "features/goals/pages/generate-challenge-page",
+        "parentId": "root",
+        "file": "app/features/goals/pages/generate-challenge-page.tsx",
+        "path": "challenges/generate",
+        "config": {
+          "runtime": "nodejs"
+        }
+      },
+      "features/goals/pages/create-habit-page": {
+        "id": "features/goals/pages/create-habit-page",
+        "parentId": "root",
+        "file": "app/features/goals/pages/create-habit-page.tsx",
+        "path": "/create-habit",
+        "config": {
+          "runtime": "nodejs"
+        }
+      },
+      "features/goals/pages/create-challenge-page": {
+        "id": "features/goals/pages/create-challenge-page",
+        "parentId": "root",
+        "file": "app/features/goals/pages/create-challenge-page.tsx",
+        "path": "/create-challenge",
+        "config": {
+          "runtime": "nodejs"
+        }
+      },
+      "features/actions/pages/actions-page": {
+        "id": "features/actions/pages/actions-page",
+        "parentId": "root",
+        "file": "app/features/actions/pages/actions-page.tsx",
+        "path": "actions",
+        "index": true,
+        "config": {
+          "runtime": "nodejs"
+        }
+      },
+      "features/actions/pages/action-detail-page": {
+        "id": "features/actions/pages/action-detail-page",
+        "parentId": "root",
+        "file": "app/features/actions/pages/action-detail-page.tsx",
+        "path": "actions/:planId",
+        "config": {
+          "runtime": "nodejs"
+        }
+      },
+      "features/rewards/pages/rewards-page": {
+        "id": "features/rewards/pages/rewards-page",
+        "parentId": "root",
+        "file": "app/features/rewards/pages/rewards-page.tsx",
+        "path": "/rewards",
+        "config": {
+          "runtime": "nodejs"
+        }
+      },
+      "features/users/pages/my-profile-page": {
+        "id": "features/users/pages/my-profile-page",
+        "parentId": "root",
+        "file": "app/features/users/pages/my-profile-page.tsx",
+        "path": "user",
+        "index": true,
+        "config": {
+          "runtime": "nodejs"
+        }
+      },
+      "features/users/pages/notifications-page": {
+        "id": "features/users/pages/notifications-page",
+        "parentId": "root",
+        "file": "app/features/users/pages/notifications-page.tsx",
+        "path": "user/notifications",
+        "config": {
+          "runtime": "nodejs"
+        }
+      },
+      "features/users/pages/dashboard-page": {
+        "id": "features/users/pages/dashboard-page",
+        "parentId": "root",
+        "file": "app/features/users/pages/dashboard-page.tsx",
+        "path": "user/dashboard",
+        "config": {
+          "runtime": "nodejs"
+        }
+      },
+      "features/users/pages/settings-page": {
+        "id": "features/users/pages/settings-page",
+        "parentId": "root",
+        "file": "app/features/users/pages/settings-page.tsx",
+        "path": "user/settings",
+        "config": {
+          "runtime": "nodejs"
+        }
+      },
+      "features/users/pages/profile-page": {
+        "id": "features/users/pages/profile-page",
+        "parentId": "root",
+        "file": "app/features/users/pages/profile-page.tsx",
+        "path": "users/:username",
+        "index": true,
+        "config": {
+          "runtime": "nodejs"
+        }
+      },
+      "features/users/pages/welcome-page": {
+        "id": "features/users/pages/welcome-page",
+        "parentId": "root",
+        "file": "app/features/users/pages/welcome-page.tsx",
+        "path": "users/:username/welcome/:email",
+        "config": {
+          "runtime": "nodejs"
+        }
+      }
+    }
+  },
+  "reactRouterConfig": {
+    "appDirectory": "/Users/code/Documents/workspace/the_greatest_habit/app",
+    "basename": "/",
+    "buildDirectory": "/Users/code/Documents/workspace/the_greatest_habit/build",
+    "future": {
+      "unstable_middleware": false,
+      "unstable_optimizeDeps": false,
+      "unstable_splitRouteModules": false,
+      "unstable_subResourceIntegrity": false,
+      "unstable_viteEnvironmentApi": false
+    },
+    "routes": {
+      "root": {
+        "path": "",
+        "id": "root",
+        "file": "root.tsx"
+      },
+      "common/pages/home-page": {
+        "id": "common/pages/home-page",
+        "parentId": "root",
+        "file": "common/pages/home-page.tsx",
+        "index": true
+      },
+      "common/pages/about-page": {
+        "id": "common/pages/about-page",
+        "parentId": "root",
+        "file": "common/pages/about-page.tsx",
+        "path": "/about"
+      },
+      "common/layouts/tutorial-layout": {
+        "id": "common/layouts/tutorial-layout",
+        "parentId": "root",
+        "file": "common/layouts/tutorial-layout.tsx"
+      },
+      "common/pages/tutorial-page": {
+        "id": "common/pages/tutorial-page",
+        "parentId": "common/layouts/tutorial-layout",
+        "file": "common/pages/tutorial-page.tsx",
+        "path": "tutorial",
+        "index": true
+      },
+      "common/pages/tutorial-detail-page": {
+        "id": "common/pages/tutorial-detail-page",
+        "parentId": "common/layouts/tutorial-layout",
+        "file": "common/pages/tutorial-detail-page.tsx",
+        "path": "tutorial/:tutorialId"
+      },
+      "common/pages/plan-page": {
+        "id": "common/pages/plan-page",
+        "parentId": "root",
+        "file": "common/pages/plan-page.tsx",
+        "path": "/plan"
+      },
+      "common/layouts/faq-layout": {
+        "id": "common/layouts/faq-layout",
+        "parentId": "root",
+        "file": "common/layouts/faq-layout.tsx"
+      },
+      "common/pages/faq-redirect-page": {
+        "id": "common/pages/faq-redirect-page",
+        "parentId": "common/layouts/faq-layout",
+        "file": "common/pages/faq-redirect-page.tsx",
+        "path": "faq",
+        "index": true
+      },
+      "common/pages/faq-page": {
+        "id": "common/pages/faq-page",
+        "parentId": "common/layouts/faq-layout",
+        "file": "common/pages/faq-page.tsx",
+        "path": "faq/:groupId"
+      },
+      "features/auth/layouts/auth-layout": {
+        "id": "features/auth/layouts/auth-layout",
+        "parentId": "root",
+        "file": "features/auth/layouts/auth-layout.tsx"
+      },
+      "features/auth/pages/join-page": {
+        "id": "features/auth/pages/join-page",
+        "parentId": "features/auth/layouts/auth-layout",
+        "file": "features/auth/pages/join-page.tsx",
+        "path": "auth/join"
+      },
+      "features/auth/pages/sign-in-page": {
+        "id": "features/auth/pages/sign-in-page",
+        "parentId": "features/auth/layouts/auth-layout",
+        "file": "features/auth/pages/sign-in-page.tsx",
+        "path": "auth/sign-in"
+      },
+      "features/auth/pages/sign-out-page": {
+        "id": "features/auth/pages/sign-out-page",
+        "parentId": "root",
+        "file": "features/auth/pages/sign-out-page.tsx",
+        "path": "auth/sign-out"
+      },
+      "features/goals/pages/habits-page": {
+        "id": "features/goals/pages/habits-page",
+        "parentId": "root",
+        "file": "features/goals/pages/habits-page.tsx",
+        "path": "habits",
+        "index": true
+      },
+      "features/goals/pages/habit-detail-page": {
+        "id": "features/goals/pages/habit-detail-page",
+        "parentId": "root",
+        "file": "features/goals/pages/habit-detail-page.tsx",
+        "path": "habits/:habitId"
+      },
+      "features/goals/pages/generate-action-page": {
+        "id": "features/goals/pages/generate-action-page",
+        "parentId": "root",
+        "file": "features/goals/pages/generate-action-page.tsx",
+        "path": "habits/:habitId/generate"
+      },
+      "features/goals/pages/challenges-page": {
+        "id": "features/goals/pages/challenges-page",
+        "parentId": "root",
+        "file": "features/goals/pages/challenges-page.tsx",
+        "path": "challenges",
+        "index": true
+      },
+      "features/goals/pages/challenge-detail-page": {
+        "id": "features/goals/pages/challenge-detail-page",
+        "parentId": "root",
+        "file": "features/goals/pages/challenge-detail-page.tsx",
+        "path": "challenges/:challengeId",
+        "index": true
+      },
+      "features/goals/pages/challenge-join-page": {
+        "id": "features/goals/pages/challenge-join-page",
+        "parentId": "root",
+        "file": "features/goals/pages/challenge-join-page.tsx",
+        "path": "challenges/:challengeId/join"
+      },
+      "features/goals/pages/generate-challenge-page": {
+        "id": "features/goals/pages/generate-challenge-page",
+        "parentId": "root",
+        "file": "features/goals/pages/generate-challenge-page.tsx",
+        "path": "challenges/generate"
+      },
+      "features/goals/pages/create-habit-page": {
+        "id": "features/goals/pages/create-habit-page",
+        "parentId": "root",
+        "file": "features/goals/pages/create-habit-page.tsx",
+        "path": "/create-habit"
+      },
+      "features/goals/pages/create-challenge-page": {
+        "id": "features/goals/pages/create-challenge-page",
+        "parentId": "root",
+        "file": "features/goals/pages/create-challenge-page.tsx",
+        "path": "/create-challenge"
+      },
+      "features/actions/pages/actions-page": {
+        "id": "features/actions/pages/actions-page",
+        "parentId": "root",
+        "file": "features/actions/pages/actions-page.tsx",
+        "path": "actions",
+        "index": true
+      },
+      "features/actions/pages/action-detail-page": {
+        "id": "features/actions/pages/action-detail-page",
+        "parentId": "root",
+        "file": "features/actions/pages/action-detail-page.tsx",
+        "path": "actions/:planId"
+      },
+      "features/rewards/pages/rewards-page": {
+        "id": "features/rewards/pages/rewards-page",
+        "parentId": "root",
+        "file": "features/rewards/pages/rewards-page.tsx",
+        "path": "/rewards"
+      },
+      "features/users/pages/my-profile-page": {
+        "id": "features/users/pages/my-profile-page",
+        "parentId": "root",
+        "file": "features/users/pages/my-profile-page.tsx",
+        "path": "user",
+        "index": true
+      },
+      "features/users/pages/notifications-page": {
+        "id": "features/users/pages/notifications-page",
+        "parentId": "root",
+        "file": "features/users/pages/notifications-page.tsx",
+        "path": "user/notifications"
+      },
+      "features/users/pages/dashboard-page": {
+        "id": "features/users/pages/dashboard-page",
+        "parentId": "root",
+        "file": "features/users/pages/dashboard-page.tsx",
+        "path": "user/dashboard"
+      },
+      "features/users/pages/settings-page": {
+        "id": "features/users/pages/settings-page",
+        "parentId": "root",
+        "file": "features/users/pages/settings-page.tsx",
+        "path": "user/settings"
+      },
+      "features/users/pages/profile-page": {
+        "id": "features/users/pages/profile-page",
+        "parentId": "root",
+        "file": "features/users/pages/profile-page.tsx",
+        "path": "users/:username",
+        "index": true
+      },
+      "features/users/pages/welcome-page": {
+        "id": "features/users/pages/welcome-page",
+        "parentId": "root",
+        "file": "features/users/pages/welcome-page.tsx",
+        "path": "users/:username/welcome/:email"
+      }
+    },
+    "routeDiscovery": {
+      "mode": "lazy",
+      "manifestPath": "/__manifest"
+    },
+    "serverBuildFile": "index.js",
+    "serverModuleFormat": "esm",
+    "ssr": true
+  },
+  "viteConfig": {
+    "build": {
+      "assetsDir": "assets"
+    }
+  }
+}
