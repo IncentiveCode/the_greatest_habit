@@ -1,5 +1,4 @@
 import type pkg from "@supabase/supabase-js";
-import { DateTime } from "luxon";
 import type { db } from "~/supa-client";
 
 export const insertChallenges = async (
@@ -82,30 +81,3 @@ export const createHabit = async (
 		return data.goal_id;
 };
 	
-export const generateAction = async (
-  client: pkg.SupabaseClient<db>,
-	{ goal_id, owner_id, difficulty }: { goal_id: number, owner_id: string, difficulty: number },
-  actions: { title: string, description: string}[]
-) => {
-
-	const sd = new Date();
-	const date = sd.toISOString();
-
-  const { error } = await client
-		.from("action_plans")
-		.insert(
-			actions.map((action) => ({
-				title: action.title,
-				description: action.description,
-				period: "day" as const,
-				start_date: date, 	
-				end_date: date,
-				goal_id: goal_id,
-				created_at: date,
-				owner_id: owner_id, 
-				difficulty: difficulty,
-			}))
-		);
-
-  if (error) throw error;
-};

@@ -49,6 +49,7 @@ export default [
 	...prefix("actions", [
 		index("features/actions/pages/actions-page.tsx"),
 		route("/:planId", "features/actions/pages/action-detail-page.tsx"),
+		route("/:planId/complete", "features/actions/pages/set-complete-page.tsx"),
 	]),
 	
 	// rewards

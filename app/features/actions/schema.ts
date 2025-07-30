@@ -37,6 +37,12 @@ export const actionPlans = pgTable(
 			as: "permissive",
 			withCheck: sql`${authUid} = ${table.owner_id}`,
 		}),
+		pgPolicy("actions-update-policy", {
+			for: "update",
+			to: authenticatedRole,
+			as: "permissive",
+			withCheck: sql`${authUid} = ${table.owner_id}`,
+		}),
 		pgPolicy("actions-select-policy", {
 			for: "select",
 			to: authenticatedRole,

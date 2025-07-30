@@ -2,7 +2,7 @@ import { makeSSRClient } from "~/supa-client";
 import type { Route } from "./+types/habit-detail-page";
 import { getLoggedInUserId, getUserById } from "~/features/users/queries";
 import z from "zod";
-import { getActions, getHabit } from "../queries";
+import { getHabit } from "../queries";
 import Hero from "~/common/components/hero";
 import { DateTime } from "luxon";
 import { formatForHabitDetail } from "~/lib/utils";
@@ -11,6 +11,8 @@ import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle }
 import { Dialog, DialogContent, DialogDescription, DialogTitle, DialogTrigger } from "~/common/components/ui/dialog";
 import { Button } from "~/common/components/ui/button";
 import { Separator } from "~/common/components/ui/separator";
+import { getActions } from "~/features/actions/queries";
+import { NavLink, useFetcher } from "react-router";
 
 export const meta: Route.MetaFunction = ({ data }) => {
   return [
@@ -75,12 +77,8 @@ export const loader = async ({ request, params }: Route.LoaderArgs) => {
 };
 
 export default function HabitDetailPage({ loaderData }: { loaderData: detailLoaderData }) {
-  const created_at = DateTime.fromISO(loaderData.habit.start_date, {
-    zone: "utc",
-  });
-
+  const fetcher = useFetcher();
   const todayAction = loaderData.actions[loaderData.count - 1];
-  console.log(todayAction);
 
   return (
     <div className="min-h-screen px-5 md:px-20 pt-28">
@@ -108,7 +106,11 @@ export default function HabitDetailPage({ loaderData }: { loaderData: detailLoad
           {todayAction.completed_at ? (
             <span>{todayAction.completed_at}</span>
           ) : (
-            <Button>오늘의 목표 완료하기</Button>
+            <NavLink 
+              to={`/actions/${todayAction.plan_id}/complete`}
+            >
+              <Button>오늘의 목표 완료하기</Button>
+            </NavLink>
           )}
         </div>
         <Separator className="w-full lg:w-2/3" />
@@ -132,7 +134,9 @@ export default function HabitDetailPage({ loaderData }: { loaderData: detailLoad
                           {action.completed_at ? (
                             <span>{action.completed_at}</span>
                           ) : (
-                            <Button>오늘의 목표 완료하기</Button>
+                            <fetcher.Form method="post" action={`/actions/${todayAction.plan_id}/complete`}>
+                              <Button>오늘의 목표 완료하기</Button>
+                            </fetcher.Form>
                           )}
                         </DialogContent>
                       </Dialog>

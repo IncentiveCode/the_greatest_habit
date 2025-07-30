@@ -32,11 +32,26 @@ export const getChallenges = async (
 
 export const getHabitsWithLimit = async (
 	client: pkg.SupabaseClient<db>,
-	{ limit }: {limit: number }
+	{ owner_id, limit }: { owner_id: string, limit: number }
 ) => {
 	const { data, error } = await client
 		.from("habit_list_view")
 		.select("*")
+		.eq("owner_id", owner_id)
+		.limit(limit);
+
+	if (error) throw error;
+	return data;
+};
+
+export const getHabitsWithOwnerId = async (
+	client: pkg.SupabaseClient<db>,
+	{ owner_id, limit }: { owner_id: string, limit: number }
+) => {
+	const { data, error } = await client
+		.from("goals")
+		.select("*")
+		.eq("owner_id", owner_id)
 		.limit(limit);
 
 	if (error) throw error;
@@ -69,16 +84,3 @@ export const getHabit = async (
 	return data;
 };	
 
-export const getActions = async (
-	client: pkg.SupabaseClient<db>,
-	{ goal_id, owner_id }: { goal_id: number, owner_id: string, }
-) => {
-	const { data, error } = await client
-		.from("action_plans")
-		.select("*")
-		.eq("goal_id", goal_id)
-		.eq("owner_id", owner_id);
-
-	if (error) throw error;
-	return data;
-};	

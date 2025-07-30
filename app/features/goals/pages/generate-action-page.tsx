@@ -1,12 +1,12 @@
 import OpenAI from "openai"
 import { zodResponseFormat } from "openai/helpers/zod";
 import z from "zod";
-import { generateAction, insertChallenges } from "../mutations";
 import { adminClient, makeSSRClient } from "~/supa-client";
 import type { Route } from "./+types/generate-action-page";
 import { getLoggedInUserId, getUserById } from "~/features/users/queries";
 import { getHabit } from "../queries";
 import { redirect } from "react-router";
+import { generateAction } from "~/features/actions/mutations";
 
 const openai = new OpenAI();
 

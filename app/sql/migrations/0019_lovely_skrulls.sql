@@ -1,0 +1,1 @@
+CREATE POLICY "actions-update-policy" ON "action_plans" AS PERMISSIVE FOR UPDATE TO "authenticated" WITH CHECK ((select auth.uid()) = "action_plans"."owner_id");

@@ -3,7 +3,7 @@ import { Button } from "~/common/components/ui/button";
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "~/common/components/ui/card";
 import { cn, formatForDashboard } from "~/lib/utils";
 import { makeSSRClient } from "~/supa-client";
-import { getHabitsWithLimit } from "~/features/goals/queries";
+import { getHabitsWithLimit, getHabitsWithOwnerId } from "~/features/goals/queries";
 import { getUserById } from "../queries";
 import { DateTime } from "luxon";
 import { ActionCard } from "~/features/goals/components/action-card";
@@ -57,13 +57,15 @@ export const loader = async ({ request }: Route.LoaderArgs) => {
   const { client, headers } = makeSSRClient(request);
   const { data: { user } } = await client.auth.getUser();
 
-  if (user === null || user === undefined) {
-    redirect("/", { headers });
-  } 
-  else {
+  if (user) {
     const profile = await getUserById(client, { id: user?.id });
-    var habits = await getHabitsWithLimit(client, { limit: 5 });
+    var habits = await getHabitsWithOwnerId(client, { owner_id: profile.profile_id, limit: 5 });
     return { profile, habits };
+  }
+  else 
+  {
+    console.log("로그인 정보 없음");
+    return redirect("/auth/sign-in");
   }
 };
 
