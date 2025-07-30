@@ -7,23 +7,26 @@ import { DropdownMenu, DropdownMenuContent, DropdownMenuGroup, DropdownMenuItem,
 import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
 import { cn } from "~/lib/utils";
 
-
-const public_menus = [
-	{
-		name: "About",
-		description: "The greatest habit 에 대해서 알아봅니다.",
-		to: "/#about",
-	},
-	{
-		name: "How to use",
-		description: "The greatest habit 의 사용법에 대해서 알아봅니다.",
-		to: "/#tutorial"
-	},
+/*
 	{
 		name: "Plan",
 		description: "가격 정책에 대해서 알아봅니다.",
 		to: "/#plan",
 	},
+ */
+
+const public_menus = [
+	{
+		name: "About",
+		description: "The greatest habit 에 대해서 알아봅니다.",
+		to: "/about",
+	},
+	{
+		name: "How to use",
+		description: "The greatest habit 의 사용법에 대해서 알아봅니다.",
+		to: "/tutorial"
+	},
+	
 	{
 		name: "FAQ",
 		description: "자주 하는 질문을 살펴봅니다.",
