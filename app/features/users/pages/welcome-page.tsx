@@ -1,5 +1,4 @@
 import { Resend } from "resend";
-// import { render } from "@react-email/components";
 import type { Route } from "./+types/welcome-page";
 import WelcomeEmail from "react-email-starter/emails/welcome-email";
 import { redirect } from "react-router";
@@ -9,9 +8,6 @@ const mailClient = 	new Resend(process.env.RESEND_API_KEY);
 
 // get method
 export const loader = async ({ params, request }: Route.LoaderArgs) => {
-	// not using resend
-	// const html = await render(<WelcomeEmail username={params.username} />);
-
   const { client, headers } = makeSSRClient(request);
 
 	const { data, error } = await mailClient.emails.send({
@@ -22,6 +18,5 @@ export const loader = async ({ params, request }: Route.LoaderArgs) => {
 	});
 
 	if (error) throw error;
-	// return Response.json({ data, error });
 	return redirect("/", { headers });
 };
