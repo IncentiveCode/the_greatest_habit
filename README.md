@@ -7,6 +7,8 @@ The Greatest Habit 은 현재 MVP 제작 단계에 있습니다.
 
 ## 개발 타임라인
 
+- 2025.07.30:
+  - demo day 를 위한 배포.
 - 2025.07.24:
   - home-page > bento-grid 내용 정리.
 - 2025.07.22:

@@ -11,10 +11,10 @@ export default function Footer() {
 				We create what inspires. <br/>
 				We create <span className="text-accent font-bold text-shadow-md capitalize">incentive</span>.
 			</p>
-			<p className="flex gap-1 justify-center items-center mx-auto">
+			<div className="flex gap-1 justify-center items-center mx-auto">
 				<CopyrightIcon className="w-4 h-4" /> 
-				<p className="text-sm leading-relaxed">2025 Incentive code. All rights reserved.</p>
-			</p>
+				<p className="text-sm leading-relaxed">2025 Incentive Code. All rights reserved.</p>
+			</div>
 		</div>
 	);
 }

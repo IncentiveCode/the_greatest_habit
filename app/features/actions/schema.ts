@@ -1,4 +1,4 @@
-import { bigint, date, pgEnum, pgPolicy, pgTable, text, timestamp, uuid } from "drizzle-orm/pg-core";
+import { bigint, date, integer, pgEnum, pgPolicy, pgTable, text, timestamp, uuid } from "drizzle-orm/pg-core";
 import { goals } from "../goals/schema";
 import { profiles } from "../users/schema";
 import { authenticatedRole, authUid } from "drizzle-orm/supabase";
@@ -28,6 +28,7 @@ export const actionPlans = pgTable(
 			.notNull(),
 		created_at: timestamp().notNull().defaultNow(),
 		completed_at: timestamp(),
+		difficulty: integer().notNull().default(1),
 	},
 	(table) => [
 		pgPolicy("actions-insert-policy", {

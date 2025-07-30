@@ -1,16 +1,13 @@
 import { data, Link, redirect, type MetaFunction } from "react-router";
 import { Button } from "~/common/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "~/common/components/ui/card";
-import { Marquee } from "~/common/components/ui/marquee";
-import { Tabs, TabsList, TabsTrigger } from "~/common/components/ui/tabs";
+import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "~/common/components/ui/card";
 import { cn, formatForDashboard } from "~/lib/utils";
 import { makeSSRClient } from "~/supa-client";
-import { getChallenges } from "~/features/goals/queries";
+import { getHabitsWithLimit } from "~/features/goals/queries";
 import { getUserById } from "../queries";
 import { DateTime } from "luxon";
 import { ActionCard } from "~/features/goals/components/action-card";
 import { HabitCard } from "~/features/goals/components/habit-card";
-import { ChallengeCard } from "~/features/goals/components/challenge-card";
 import type { Route } from "./+types/dashboard-page";
 
 export const meta: Route.MetaFunction = ({ data }) => {
@@ -31,6 +28,17 @@ type DashboardLoaderData = {
      status: "active" | "inactive";
      created_at: string;
   },
+  habits: {
+    description: string;
+    end_date: string;
+    goal_id: number;
+    goal_status: NonNullable<"Not started" | "Started" | "Failed" | "Finished" | null>;
+    message_frequency: NonNullable<"None" | "once a day" | "once a week" | "once a month" | null>;
+    point: number;
+    reward: string;
+    start_date: string;
+    title: string;
+  }[],
   challenges: {
     count: number;
     description: string;
@@ -54,8 +62,8 @@ export const loader = async ({ request }: Route.LoaderArgs) => {
   } 
   else {
     const profile = await getUserById(client, { id: user?.id });
-    var challenges = await getChallenges(client, { limit: 5 });
-    return { profile, challenges };
+    var habits = await getHabitsWithLimit(client, { limit: 5 });
+    return { profile, habits };
   }
 };
 
@@ -73,11 +81,7 @@ const ReviewCard = ({
   return (
     <figure
       className={cn(
-        "relative h-full w-64 cursor-pointer overflow-hidden rounded-xl border p-4",
-        // light styles
-        "border-gray-950/[.1] bg-gray-950/[.01] hover:bg-gray-950/[.05]",
-        // dark styles
-        "dark:border-gray-50/[.1] dark:bg-gray-50/[.10] dark:hover:bg-gray-50/[.15]",
+        "relative h-full w-64 cursor-pointer overflow-hidden rounded-xl border p-4 border-accent/20",
       )}
     >
       <div className="flex flex-row items-center gap-2">
@@ -86,7 +90,7 @@ const ReviewCard = ({
           <figcaption className="text-sm font-medium dark:text-white">
             {name}
           </figcaption>
-          <p className="text-xs font-medium dark:text-white/40">{username}</p>
+          <p className="text-xs font-medium">{username}</p>
         </div>
       </div>
       <blockquote className="mt-2 text-sm">{body}</blockquote>
@@ -96,7 +100,7 @@ const ReviewCard = ({
 
 export default function DashboardPage({ loaderData }: { loaderData: DashboardLoaderData }) {
   if (loaderData === null || loaderData === undefined || 
-      loaderData?.profile === null || loaderData?.challenges === null) {
+      loaderData?.profile === null || loaderData?.habits === null || loaderData?.challenges === null) {
     throw data(
       {
         error_code: "400",
@@ -111,19 +115,33 @@ export default function DashboardPage({ loaderData }: { loaderData: DashboardLoa
   });
 
   return (
-    <div>
+    <div className="min-h-screen pt-28 px-5 md:px-20">
       {
         /** 
          *  top card - greetings
          */
       }
-      <Card className="flex flex-col rounded-md w-full bg-transparent">
+      <Card className="flex flex-col rounded-md w-full bg-white/90 text-background">
         <CardHeader className="w-full">
-          <CardTitle>어서오세요, {loaderData.profile.username} 님.</CardTitle>
+          <CardTitle>어서오세요, <b>{loaderData.profile.username}</b> 님.</CardTitle>
         </CardHeader>
         <CardContent className="w-full">
           { formatForDashboard(created_at) }
         </CardContent>
+        <CardFooter className="flex flex-col md:flex-row flex-wrap justify-end gap-5">
+          <Button variant={"default"} className="w-full lg:w-1/3" asChild>
+            <Link to="/create-habit">
+              새로운 습관 형성에 도전하기
+            </Link>
+          </Button>
+          { /*
+          <Button variant="outline" className="w-full lg:w-1/3 text-white" asChild disabled>
+            <Link to="/create-challenge">
+              다른 사용자들과 함께 하는 챌린지 만들기
+            </Link>
+          </Button>
+           */ }
+        </CardFooter>
       </Card>
 
       {
@@ -131,13 +149,13 @@ export default function DashboardPage({ loaderData }: { loaderData: DashboardLoa
          *  main grid. 
          */
       }
-      <div className="grid grid-cols-1 md:grid-cols-3 justify-start items-start pt-10 gap-5">
+      <div className="grid grid-cols-1 lg:grid-cols-3 justify-start items-start pt-10 gap-10">
         {
           /**
            *  habit grid 
            */
         }
-        <div className="w-full col-span-1 md:col-span-2">
+        <div className="w-full col-span-1 lg:col-span-2">
           <Button 
             variant={ "ghost" }
             className="text-xl font-bold self-start" 
@@ -145,13 +163,15 @@ export default function DashboardPage({ loaderData }: { loaderData: DashboardLoa
           >
             <Link to="/habits">모든 습관 보기 &rarr;</Link>
           </Button>
-          <div className="grid grid-cols-2 lg:grid-cols-3 w-full gap-5 pt-2"> 
-          {loaderData.challenges.map((challenge) => (
+          <div className="grid lg:grid-cols-2 w-full gap-5 pt-2"> 
+          {loaderData.habits.map((habit) => (
             <HabitCard
-              key={challenge.goal_id}
-              id={challenge.goal_id}
-              name={challenge.title}
-              description={challenge.description}
+              key={habit.goal_id}
+              id={habit.goal_id}
+              name={habit.title}
+              description={habit.description}
+              startDate={habit.start_date}
+              endDate={habit.end_date}
             />
           ))}
           </div>
@@ -162,24 +182,36 @@ export default function DashboardPage({ loaderData }: { loaderData: DashboardLoa
            *  today's goal grid 
            */
         }
-        <div className="w-full col-span-1">
-          <div className="flex gap-4 items-center">
-            <h2 className="text-lg font-bold">할 일</h2>
-            <Tabs defaultValue="day" className="w-1/2">
-              <TabsList>
+        <div className="w-full col-span-1 pt-10 pb-10 lg:pt-0">
+          <div className="flex lg:flex-col gap-4 items-center">
+            {/*
+            <Button 
+              variant={ "ghost" }
+              className="text-xl font-bold self-start" 
+              asChild
+            >
+              <Link to="/actions">모든 할 일 보기 &rarr;</Link>
+            </Button>
+            <Tabs defaultValue="day" className="w-full">
+              <TabsList className="w-full bg-primary">
                 <TabsTrigger value="day">오늘</TabsTrigger>
                 <TabsTrigger value="week">이번 주</TabsTrigger>
                 <TabsTrigger value="month">이번 달</TabsTrigger>
               </TabsList>
             </Tabs>
+             */}
+            <span className="text-xl font-bold self-start py-1">오늘의 목표</span>
           </div>
           <div className="grid grid-cols-1 w-full gap-5 pt-2"> 
-          {Array.from({ length: 6 }).map((_, index) => (
+          {Array.from({ length: 5 }).map((_, index) => (
             <ActionCard
               key={`action_${index}`}
-              id={`action_${index}`}
+              goal_type="habit"
+              goal_id={`action_${index}`}
               title={`할 일 ${index + 1}`}
               description="할 일에 대한 간단한 설명이 들어갑니다."
+              start_date="2025-06-10"
+              end_date="2025-06-15"
               defaultChecked={false}
             />
           ))}
@@ -187,35 +219,7 @@ export default function DashboardPage({ loaderData }: { loaderData: DashboardLoa
         </div>
       </div> 
 
-      {
-        /**
-         *  challenge grid 
-         */
-      }
-      <div className="pt-10">&nbsp;</div>
-        <Button 
-          variant={ "ghost" }
-          className="text-xl font-bold self-start" 
-          asChild
-        >
-          <Link to="/challenges">모든 챌린지 보기 &rarr;</Link>
-        </Button>
 
-        <div className="relative flex flex-col items-center justify-center overflow-hidden">
-          <Marquee pauseOnHover className="[--duration:80s]">
-            {loaderData.challenges.map((challenge) => (
-              <ChallengeCard
-                key={challenge.goal_id}
-                id={challenge.goal_id}
-                name={challenge.title}
-                description={challenge.description}
-                participantCount={challenge.count}
-              />
-            ))}
-          </Marquee>
-        <div className="pointer-events-none absolute inset-y-0 left-0 w-1/4 bg-gradient-to-r from-background"></div>
-        <div className="pointer-events-none absolute inset-y-0 right-0 w-1/4 bg-gradient-to-l from-background"></div>
-      </div>
     </div>
   );
 }

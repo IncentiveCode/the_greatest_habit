@@ -17,7 +17,7 @@ const searchParams = z.object({
 	groupId: z.coerce.number()
 });
 
-type FaqLayoutProps = {
+type FaqLayoutLoaderData = {
   groups: {
     description: string | null;
     id: number;
@@ -42,9 +42,9 @@ export const loader = async ({ params, request }: Route.LoaderArgs) => {
 	return { groups, currentId, currentName };
 };
 
-export default function FaqLayout({ loaderData }: { loaderData: FaqLayoutProps }) {
+export default function FaqLayout({ loaderData }: { loaderData: FaqLayoutLoaderData }) {
 	return (
-		<div className="h-screen">
+		<div className="min-h-screen">
 			<Hero
 				title="FAQ"
 				description="고객들께서 자주 물어보시는 질문들입니다."

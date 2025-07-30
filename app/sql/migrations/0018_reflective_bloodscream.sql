@@ -1,0 +1,1 @@
+ALTER TABLE "action_plans" ADD COLUMN "difficulty" integer DEFAULT 1 NOT NULL;

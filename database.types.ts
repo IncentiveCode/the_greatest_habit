@@ -49,6 +49,7 @@ export type Database = {
           completed_at: string | null
           created_at: string
           description: string
+          difficulty: number
           end_date: string
           goal_id: number
           owner_id: string
@@ -61,6 +62,7 @@ export type Database = {
           completed_at?: string | null
           created_at?: string
           description: string
+          difficulty?: number
           end_date?: string
           goal_id: number
           owner_id: string
@@ -73,6 +75,7 @@ export type Database = {
           completed_at?: string | null
           created_at?: string
           description?: string
+          difficulty?: number
           end_date?: string
           goal_id?: number
           owner_id?: string
@@ -97,6 +100,13 @@ export type Database = {
             referencedColumns: ["goal_id"]
           },
           {
+            foreignKeyName: "action_plans_goal_id_goals_goal_id_fk"
+            columns: ["goal_id"]
+            isOneToOne: false
+            referencedRelation: "habit_list_view"
+            referencedColumns: ["goal_id"]
+          },
+          {
             foreignKeyName: "action_plans_owner_id_profiles_profile_id_fk"
             columns: ["owner_id"]
             isOneToOne: false
@@ -108,16 +118,19 @@ export type Database = {
       challenge_members: {
         Row: {
           goal_id: number
+          goal_status: Database["public"]["Enums"]["goal_status"]
           joined_at: string
           profile_id: string
         }
         Insert: {
           goal_id: number
+          goal_status?: Database["public"]["Enums"]["goal_status"]
           joined_at?: string
           profile_id: string
         }
         Update: {
           goal_id?: number
+          goal_status?: Database["public"]["Enums"]["goal_status"]
           joined_at?: string
           profile_id?: string
         }
@@ -134,6 +147,13 @@ export type Database = {
             columns: ["goal_id"]
             isOneToOne: false
             referencedRelation: "goals"
+            referencedColumns: ["goal_id"]
+          },
+          {
+            foreignKeyName: "challenge_members_goal_id_goals_goal_id_fk"
+            columns: ["goal_id"]
+            isOneToOne: false
+            referencedRelation: "habit_list_view"
             referencedColumns: ["goal_id"]
           },
           {
@@ -205,13 +225,16 @@ export type Database = {
         Row: {
           created_at: string
           description: string
+          difficulty: number
           end_date: string
           goal_id: number
+          goal_period: Database["public"]["Enums"]["goal_period"]
           goal_status: Database["public"]["Enums"]["goal_status"]
           goal_type: Database["public"]["Enums"]["goal_type"]
+          keyword: string
           message_frequency: Database["public"]["Enums"]["message_frequency"]
           owner_id: string
-          reward_id: number
+          reward_id: number | null
           start_date: string
           title: string
           updated_at: string
@@ -219,13 +242,16 @@ export type Database = {
         Insert: {
           created_at?: string
           description: string
+          difficulty?: number
           end_date?: string
           goal_id?: never
+          goal_period?: Database["public"]["Enums"]["goal_period"]
           goal_status?: Database["public"]["Enums"]["goal_status"]
           goal_type?: Database["public"]["Enums"]["goal_type"]
+          keyword?: string
           message_frequency?: Database["public"]["Enums"]["message_frequency"]
           owner_id: string
-          reward_id: number
+          reward_id?: number | null
           start_date?: string
           title: string
           updated_at?: string
@@ -233,13 +259,16 @@ export type Database = {
         Update: {
           created_at?: string
           description?: string
+          difficulty?: number
           end_date?: string
           goal_id?: never
+          goal_period?: Database["public"]["Enums"]["goal_period"]
           goal_status?: Database["public"]["Enums"]["goal_status"]
           goal_type?: Database["public"]["Enums"]["goal_type"]
+          keyword?: string
           message_frequency?: Database["public"]["Enums"]["message_frequency"]
           owner_id?: string
-          reward_id?: number
+          reward_id?: number | null
           start_date?: string
           title?: string
           updated_at?: string
@@ -299,6 +328,13 @@ export type Database = {
             columns: ["goal_id"]
             isOneToOne: false
             referencedRelation: "goals"
+            referencedColumns: ["goal_id"]
+          },
+          {
+            foreignKeyName: "notifications_goal_id_goals_goal_id_fk"
+            columns: ["goal_id"]
+            isOneToOne: false
+            referencedRelation: "habit_list_view"
             referencedColumns: ["goal_id"]
           },
           {
@@ -495,13 +531,30 @@ export type Database = {
         }
         Relationships: []
       }
+      habit_list_view: {
+        Row: {
+          description: string | null
+          end_date: string | null
+          goal_id: number | null
+          goal_status: Database["public"]["Enums"]["goal_status"] | null
+          message_frequency:
+            | Database["public"]["Enums"]["message_frequency"]
+            | null
+          point: number | null
+          reward: string | null
+          start_date: string | null
+          title: string | null
+        }
+        Relationships: []
+      }
     }
     Functions: {
       [_ in never]: never
     }
     Enums: {
+      goal_period: "3 days" | "7 days" | "21 days" | "66 days" | "endless"
       goal_status: "Not started" | "Started" | "Failed" | "Finished"
-      goal_type: "habit" | "challenge"
+      goal_type: "habit" | "challenge" | "system"
       message_frequency: "None" | "once a day" | "once a week" | "once a month"
       notification_type: "message" | "review" | "reply" | "mention"
       period: "day" | "week" | "month"
@@ -633,8 +686,9 @@ export type CompositeTypes<
 export const Constants = {
   public: {
     Enums: {
+      goal_period: ["3 days", "7 days", "21 days", "66 days", "endless"],
       goal_status: ["Not started", "Started", "Failed", "Finished"],
-      goal_type: ["habit", "challenge"],
+      goal_type: ["habit", "challenge", "system"],
       message_frequency: ["None", "once a day", "once a week", "once a month"],
       notification_type: ["message", "review", "reply", "mention"],
       period: ["day", "week", "month"],

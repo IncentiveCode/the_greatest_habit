@@ -1,13 +1,11 @@
 import { CircleQuestionMarkIcon, GroupIcon } from "lucide-react";
-import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "../components/ui/accordion";
+import { Accordion } from "../components/ui/accordion";
 import type { Route } from "./+types/faq-page";
-import Hero from "../components/hero";
 import z from "zod";
 import { makeSSRClient } from "~/supa-client";
 import { getFaqContents } from "../queries";
 import { useOutletContext } from "react-router";
 import FaqItem from "../components/faq-item";
-import Footer from "../components/footer";
 
 export const meta: Route.MetaFunction = () => {
 	return [
@@ -48,11 +46,6 @@ export default function FaqPage({ loaderData }: { loaderData: FaqPageProps }) {
 
 	return (
 		<div>
-			<h2 className="flex gap-2 justify-center items-center text-xl text-accent p-2 mb-5">
-				<CircleQuestionMarkIcon className="w-6 h-6" />
-				{ currentName }	
-			</h2>
-
 			<Accordion
 				type="single"
 				collapsible

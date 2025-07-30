@@ -22,6 +22,12 @@ export type db = MergeDeep<SupabaseDatabase, {
 					SupabaseDatabase["public"]["Views"]["challenge_list_view"]["Row"]
 				>;
 			};
+
+			habit_list_view: {
+				Row: SetNonNullable<
+					SupabaseDatabase["public"]["Views"]["habit_list_view"]["Row"]
+				>;
+			};
 		}
 	}
 }>

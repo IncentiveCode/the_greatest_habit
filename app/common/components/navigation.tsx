@@ -195,7 +195,7 @@ export default function Navigation({
 	return (
 		<nav className="flex px-5 md:px-20 h-16 items-center justify-between backdrop-blur-50 fixed top-0 left-0 right-0 z-50 bg-background/50">
 			<div className="flex items-center gap-4">
-				<Link to={"/"} className="font-bold tracking-tighter text-lg">The greatest habit</Link>
+				<Link to={"/"} className="font-bold tracking-tighter text-lg">The greatest <span className="text-accent font-bold text-shadow-md">habit</span></Link>
 				<Separator orientation="vertical" className="!h-6 mx-4 bg-primary" />
 				<NavigationMenu>
 					<NavigationMenuList>
@@ -207,6 +207,7 @@ export default function Navigation({
 			<div>
 				{isSignIn ?
 					<div className="flex items-center gap-2">
+						{/*
 						<Button size="icon" variant="ghost" asChild className="relative">
 							<Link to="/user/notifications">
 								<BellIcon className="size-4" />
@@ -215,9 +216,10 @@ export default function Navigation({
 								)}
 							</Link>
 						</Button>
+						*/}
 						<DropdownMenu>
 							<DropdownMenuTrigger asChild>
-								<Avatar>
+								<Avatar className="border-1 border-white">
 								{avatar ? (
 									<AvatarImage src={avatar} />
 								) : (
@@ -234,14 +236,14 @@ export default function Navigation({
 								<DropdownMenuGroup>
 									<DropdownMenuItem asChild className="cursor-pointer">
 										<Link to="/user">
-											<LayoutDashboardIcon className="w-4 h-4 mr-2" />
-											Dashboard
+											<UserIcon className="w-4 h-4 mr-2" />
+											Profile
 										</Link>
 									</DropdownMenuItem>
 									<DropdownMenuItem asChild className="cursor-pointer">
-										<Link to="/user/profile">
-											<UserIcon className="w-4 h-4 mr-2" />
-											Profile
+										<Link to="/user/dashboard">
+											<LayoutDashboardIcon className="w-4 h-4 mr-2" />
+											Dashboard
 										</Link>
 									</DropdownMenuItem>
 									<DropdownMenuItem asChild className="cursor-pointer">

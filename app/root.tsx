@@ -97,9 +97,15 @@ export default function App({ loaderData }: Route.ComponentProps) {
   const isSignIn = loaderData.user !== null;
   const isMobile = useIsMobile()
   
+  /** 
+    <div className={cn({
+        "pt-28 px-5 md:px-20": !pathname.includes("/auth/") && pathname !== "/" && !pathname.includes("/faq/"),
+        "transition-opacity animate-pulse": isLoading,
+      })}
+    >
+   */
   return (
     <div className={cn({
-        "pt-28 pb-28 px-5 md:px-20": !pathname.includes("/auth/") && pathname !== "/" && !pathname.includes("/faq/"),
         "transition-opacity animate-pulse": isLoading,
       })}
     >
@@ -112,7 +118,13 @@ export default function App({ loaderData }: Route.ComponentProps) {
           hasNotification={false}
         />
       )}
-      <Outlet />
+      <Outlet 
+        context={{
+          isSignIn,
+          userId: loaderData.user?.id,
+          username: loaderData.profile?.username,
+        }}
+      />
 
       {pathname.includes("/auth/") ? null : (
         <Footer /> 

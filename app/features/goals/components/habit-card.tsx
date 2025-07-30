@@ -6,23 +6,25 @@ interface HabitCardProps {
   id: number;
   name: string;
   description: string;
+  startDate: string;
+  endDate: string;
 }
 
-export function HabitCard({ id, name, description }: HabitCardProps) {
+export function HabitCard({ id, name, description, startDate, endDate }: HabitCardProps) {
   return (
-    <Card className="w-full">
+    <Card className="w-full bg-primary text-white">
       <CardHeader>
-        <CardDescription className="w-full text-xs">Habit</CardDescription>
+        <CardDescription className="w-full text-xs text-accent">Habit</CardDescription>
         <CardTitle className="text-lg font-bold">{name}</CardTitle>
       </CardHeader>
-      <CardContent>
+      <CardContent className="h-full">
         <p>{description}</p>
       </CardContent>
       <CardFooter className="flex flex-col items-end gap-2">
-        <p className="text-muted-foreground text-xs">
-          습관 형성 20일차 입니다.
+        <p className="text-accent text-xs">
+          {startDate} ~ {endDate}
         </p>
-        <Button asChild>
+        <Button variant={"outline"} asChild>
           <Link to={`/habits/${id}`}>상세 정보 확인 &rarr;</Link>
         </Button>
       </CardFooter>

@@ -32,10 +32,9 @@ export const WelcomeEmail = ({ username }: WelcomeEmailProps) => (
           </Text>
           <Text style={paragraph}> 
             <span style={boldParagraph}>오늘의 작은 선택이 내일의 큰 변화를 만듭니다.</span><br/>
-            지금 바로 첫 습관을 만들어보세요.
           </Text>
-          <Button style={button} href="https://www.thegreatesthabit.com/user">
-            Dashboard 로 이동하기
+          <Button style={button} href="https://www.thegreatesthabit.com/create-habit">
+            지금 바로 첫 습관을 만들어보세요.
           </Button>
           <Hr style={hr} />
           <Text style={paragraph}>
@@ -52,8 +51,8 @@ export const WelcomeEmail = ({ username }: WelcomeEmailProps) => (
           </Text>
           <Hr style={hr} />
           <Text style={footer}>
-            We create what inspires. We create incentive. <br/>
-            – The greatest habit 팀 드림
+            The greatest habit 팀 드림 ✧<br/>
+            We create what inspires. We create incentive. 
           </Text>
         </Section>
       </Container>

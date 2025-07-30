@@ -1,0 +1,1 @@
+ALTER POLICY "goals-select-policy" ON "goals" TO authenticated USING ((select auth.uid()) = "goals"."owner_id");

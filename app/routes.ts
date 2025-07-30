@@ -27,18 +27,12 @@ export default [
 		route("/sign-out", "features/auth/pages/sign-out-page.tsx"),
 	]),
 
-	// my info 
-	...prefix("user", [
-		index("features/users/pages/dashboard-page.tsx"),
-		route("/notifications", "features/users/pages/notifications-page.tsx"),
-		route("/profile", "features/users/pages/profile-page.tsx"),
-		route("/settings", "features/users/pages/settings-page.tsx"),
-	]),
 	
 	// habit & goal
 	...prefix("habits", [
 		index("features/goals/pages/habits-page.tsx"),
 		route("/:habitId", "features/goals/pages/habit-detail-page.tsx"),
+		route("/:habitId/generate", "features/goals/pages/generate-action-page.tsx"),
 	]),
 	...prefix("challenges", [
 		index("features/goals/pages/challenges-page.tsx"),
@@ -48,7 +42,8 @@ export default [
 		]),
 		route("/generate", "features/goals/pages/generate-challenge-page.tsx"),
 	]),
-	route("/create-habit", "features/goals/pages/create-habit.tsx"),
+	route("/create-habit", "features/goals/pages/create-habit-page.tsx"),
+	route("/create-challenge", "features/goals/pages/create-challenge-page.tsx"),
 	
 	// action-plans
 	...prefix("actions", [
@@ -58,9 +53,18 @@ export default [
 	
 	// rewards
 	route("/rewards", "features/rewards/pages/rewards-page.tsx"),
+	
+	// my info 
+	...prefix("user", [
+		index("features/users/pages/my-profile-page.tsx"),
+		route("/notifications", "features/users/pages/notifications-page.tsx"),
+		route("/dashboard", "features/users/pages/dashboard-page.tsx"),
+		route("/settings", "features/users/pages/settings-page.tsx"),
+	]),
 
 	// users (타인의 정보 확인, 이메일 트랜잭션 등)
 	...prefix("users/:username", [
+		index("features/users/pages/profile-page.tsx"),
 		route("/welcome/:email", "features/users/pages/welcome-page.tsx"),
 	]),
 ] satisfies RouteConfig;

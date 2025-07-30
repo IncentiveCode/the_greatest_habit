@@ -4,6 +4,7 @@
 // browser client, server side client
 import type { db } from "~/supa-client";
 import type pkg from "@supabase/supabase-js";
+import { redirect } from "react-router";
 
 export const getUserProfile = async (
   client: pkg.SupabaseClient<db>,
@@ -53,4 +54,15 @@ export const getUserById = async (
 
   if (error) throw error;
   return data;
+};
+
+export const getLoggedInUserId = async (
+  client: pkg.SupabaseClient<db>
+) => {
+  const { data, error } = await client.auth.getUser();
+  if (error || data.user === null) {
+    throw redirect("/auth/login");
+  }
+
+  return data.user.id;
 };
