@@ -9,6 +9,7 @@ import { DateTime } from "luxon";
 import { ActionCard } from "~/features/goals/components/action-card";
 import { HabitCard } from "~/features/goals/components/habit-card";
 import type { Route } from "./+types/dashboard-page";
+import { getActions, getTodayActions } from "~/features/actions/queries";
 
 export const meta: Route.MetaFunction = ({ data }) => {
   return [
@@ -50,7 +51,19 @@ type DashboardLoaderData = {
     reward: string;
     start_date: string;
     title: string;
-  }[]
+  }[],
+  actions: {
+    plan_id: number;
+    title: string;
+    description: string;   
+    period: NonNullable<"day" | "week" | "month" | null>;
+    start_date: string;
+    end_date: string;
+    goal_id: number;
+    created_at: string;
+    completed_at: string;
+    difficulty: number;
+  }[],
 };
 
 export const loader = async ({ request }: Route.LoaderArgs) => {
@@ -60,7 +73,8 @@ export const loader = async ({ request }: Route.LoaderArgs) => {
   if (user) {
     const profile = await getUserById(client, { id: user?.id });
     var habits = await getHabitsWithOwnerId(client, { owner_id: profile.profile_id, limit: 5 });
-    return { profile, habits };
+    var actions = await getTodayActions(client, { owner_id: profile.profile_id });
+    return { profile, habits, actions };
   }
   else 
   {
@@ -205,16 +219,16 @@ export default function DashboardPage({ loaderData }: { loaderData: DashboardLoa
             <span className="text-xl font-bold self-start py-1">오늘의 목표</span>
           </div>
           <div className="grid grid-cols-1 w-full gap-5 pt-2"> 
-          {Array.from({ length: 5 }).map((_, index) => (
+          {loaderData.actions.map((action) => (
             <ActionCard
-              key={`action_${index}`}
+              key={action.plan_id}
               goal_type="habit"
-              goal_id={`action_${index}`}
-              title={`할 일 ${index + 1}`}
-              description="할 일에 대한 간단한 설명이 들어갑니다."
-              start_date="2025-06-10"
-              end_date="2025-06-15"
-              defaultChecked={false}
+              goal_id={`${action.plan_id}`}
+              title={action.title}
+              description={action.description}
+              start_date={action.start_date}
+              end_date={action.end_date}
+              defaultChecked={action.completed_at !== null}
             />
           ))}
           </div>

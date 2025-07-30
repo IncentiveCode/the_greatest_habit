@@ -1,4 +1,5 @@
 import type pkg from "@supabase/supabase-js";
+import { DateTime } from "luxon";
 import type { db } from "~/supa-client";
 
 export const getActions = async (
@@ -14,3 +15,20 @@ export const getActions = async (
 	if (error) throw error;
 	return data;
 };	
+
+export const getTodayActions = async (
+	client: pkg.SupabaseClient<db>,
+	{ owner_id }: { owner_id: string, }
+) => {
+	
+	const date = DateTime.now().startOf("day");
+
+	const { data, error } = await client
+		.from("action_plans")
+		.select("*")
+		.eq("owner_id", owner_id)
+		.eq("start_date", date.toISO());
+
+	if (error) throw error;
+	return data;
+};
