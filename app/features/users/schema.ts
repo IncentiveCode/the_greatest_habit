@@ -33,6 +33,7 @@ export const profiles = pgTable(
     status: status().default("active").notNull(),
     created_at: timestamp().notNull().defaultNow(),
     updated_at: timestamp().notNull().defaultNow(),
+    provider: text().notNull().default("e-mail"),
   },
   (table) => [
     pgPolicy("profiles-select-policy", {

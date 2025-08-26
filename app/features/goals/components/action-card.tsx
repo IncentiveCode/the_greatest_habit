@@ -1,7 +1,7 @@
 import { Label } from "~/common/components/ui/label";
 import { Checkbox } from "~/common/components/ui/checkbox";
 interface ActionCardProps {
-  goal_type: string;
+  habit_title: string;
   goal_id: string;
   title: string;
   description: string;
@@ -11,7 +11,7 @@ interface ActionCardProps {
 }
 
 export function ActionCard({ 
-  goal_type, goal_id, title, description, start_date, end_date, defaultChecked = false 
+  habit_title, goal_id, title, description, start_date, end_date, defaultChecked = false 
 }: ActionCardProps) {
   return (
     <div className="flex flex-col gap-3">
@@ -21,7 +21,7 @@ export function ActionCard({
       >
         <div className="flex flex-col gap-2">
           <span className="w-full text-xs text-accent">Habit</span>
-          <span className="text-lg font-bold">책 읽기</span>
+          <span className="text-lg font-bold">{habit_title}</span>
         </div>
         <div className="flex gap-3">
           <Checkbox

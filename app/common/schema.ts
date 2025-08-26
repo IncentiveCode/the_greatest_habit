@@ -1,24 +1,6 @@
 import { sql } from "drizzle-orm";
 import { bigint, boolean, integer, pgPolicy, pgTable, text, timestamp } from "drizzle-orm/pg-core";
-
-export const aboutContent = pgTable(
-	"about_content", {
-		id: bigint({ mode: "number" }).primaryKey().generatedAlwaysAsIdentity(),
-		title: text().notNull(),
-		description: text().notNull(),
-		orderNo: integer().notNull().default(1),
-		created_at: timestamp().notNull().defaultNow(),
-		updated_at: timestamp().notNull().defaultNow(),
-		state: boolean().notNull().default(true),
-	},
-	(table) => [
-		pgPolicy("about-select-policy", {
-			for: "select",
-			to: "public",
-			as: "permissive",
-		}),
-	]
-);
+import { anonRole } from "drizzle-orm/supabase";
 
 export const tutorials = pgTable(
 	"tutorials", {
@@ -32,7 +14,7 @@ export const tutorials = pgTable(
 	(table) => [
 		pgPolicy("tutorials-select-policy", {
 			for: "select",
-			to: "public",
+			to: anonRole,
 			as: "permissive",
 		}),
 	]
@@ -54,7 +36,7 @@ export const tutorialContent = pgTable(
 	(table) => [
 		pgPolicy("tutorial-content-select-policy", {
 			for: "select",
-			to: "public",
+			to: anonRole,
 			as: "permissive",
 		}),
 	]
@@ -70,9 +52,8 @@ export const faqGroups = pgTable(
 	(table) => [
 		pgPolicy("faq-groups-policy", {
 			for: "select",
-			to: "public",
+			to: anonRole,
 			as: "permissive",
-			using: sql`true`,
 		}),
 	]
 );
@@ -93,9 +74,8 @@ export const faqContents = pgTable(
 	(table) => [
 		pgPolicy("faq-contents-policy", {
 			for: "select",
-			to: "public",
+			to: anonRole,
 			as: "permissive",
-			using: sql`true`,
 		}),
 	]
 );

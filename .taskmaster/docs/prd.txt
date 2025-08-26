@@ -1,0 +1,112 @@
+# Overview
+**The Greatest Habit**는 사용자가 좋은 습관을 형성하고 꾸준히 유지할 수 있도록 돕는 웹 기반 서비스입니다.
+기존 습관 관리 앱의 복잡한 UI/UX 문제를 해결하고, 챌린지를 통한 참여형 동기부여 기능을 함께 제공합니다.
+서비스의 핵심 가치는 “작은 시작이 큰 변화를 만든다”이며, 개인의 습관 관리뿐 아니라 여러 사용자가 함께 성장할 수 있는 경험을 제공합니다.
+
+# Core Features
+
+### 1. 회원가입 & 로그인 (카카오 로그인 포함)
+- **무엇을 하는가:** 이메일 회원가입과 함께 카카오 로그인을 지원합니다.
+- **왜 중요한가:** 진입 허들을 낮추고, 사용자가 자주 쓰는 카카오 플랫폼을 통해 동기부여 메시지를 전달할 수 있습니다.
+- **어떻게 동작하는가:** Supabase Auth + Kakao OAuth Provider를 통해 로그인 처리. 로그인 후 카카오톡 메시지 API를 활용해 동기부여 알림 전달.
+
+### 2. 습관 관리
+- **무엇을 하는가:** 습관 생성/수정/삭제, 일일 목표 체크.
+- **왜 중요한가:** 개인 성장의 핵심 경험 제공.
+- **어떻게 동작하는가:** 습관을 등록하면 습관 일일 목표가 자동 생성. 사용자가 직접 체크하여 진행도 기록.
+
+### 3. 챌린지 관리
+- **무엇을 하는가:** 관리자 또는 사용자가 챌린지를 생성할 수 있으며, 여러 사용자가 참여 가능.
+- **왜 중요한가:** 혼자가 아닌 함께하는 동기부여 제공.
+- **어떻게 동작하는가:** 챌린지 생성 → 참가 신청 → 챌린지 일일 목표 자동 생성 → 각 참가자가 일일 체크 수행.
+
+### 4. FAQ 페이지
+- **무엇을 하는가:** 서비스 관련 질문/답변을 그룹별로 제공.
+- **왜 중요한가:** 사용자 이탈 방지, 자율적 문제 해결.
+- **어떻게 동작하는가:** DB 기반 FAQ 그룹/항목 관리 + React Accordion UI로 출력.
+
+### 5. 페이지 트랜지션 & 인터랙션
+- **무엇을 하는가:** 페이지 이동 시 자연스러운 전환 효과 제공.
+- **왜 중요한가:** 웹 서비스의 몰입감 강화.
+- **어떻게 동작하는가:** React Router 전환 시 Framer Motion 활용. Tailwind CSS + shadcn/ui로 일관된 디자인.
+
+# User Experience
+
+### User Personas
+1. **개인 성장 지향 사용자**
+   - 습관 형성이 처음이거나 꾸준히 기록이 어려운 사용자.
+   - 기대: “쉽게 시작하고, 꾸준히 성취감을 얻고 싶다.”
+
+2. **함께 성장하고 싶은 사용자**
+   - 다른 사람들과 챌린지에 참여하며 동기부여를 받고 싶어하는 사용자.
+   - 기대: “혼자보다 함께할 때 더 즐겁고 꾸준히 할 수 있다.”
+
+### Key User Flows
+1. 회원가입(이메일/카카오) → 대시보드 → 습관 등록 → 일일 목표 체크 → 진행도 확인.
+2. 챌린지 참여 → 챌린지 일일 목표 체크 → 그룹 성과 확인.
+
+### UI/UX Considerations
+- 가입 과정 최소화 (카카오 로그인으로 간편 가입).
+- 페이지 전환 0.3~0.5초 애니메이션.
+- 반응형 UI (모바일/PC 모두 최적화).
+- 명확한 CTA 버튼 (“습관 추가하기”, “챌린지 참여하기”).
+
+# Technical Architecture
+
+- **Frontend**
+  - React + React Router
+  - Tailwind CSS + shadcn/ui
+  - Framer Motion (트랜지션 효과)
+
+- **Backend / Infra (Supabase 기반)**
+  - **Auth**: Supabase Authentication (이메일/비밀번호, Kakao OAuth Provider)
+  - **Database**: Supabase PostgreSQL
+  - **API**: Supabase client SDK (JS) 사용, RLS(Row Level Security) 정책 적용
+  - **Storage**: Supabase Storage (추후 이미지 업로드에 활용 가능)
+  - **Edge Functions**: 카카오톡 메시지 전송, 커스텀 로직 처리
+
+- **Database Models (PostgreSQL)**
+  - `users`: id, email, nickname, provider, created_at
+  - `habits`: id, user_id (FK), title, frequency, is_active
+  - `habit_daily_goals`: id, habit_id (FK), date, completed
+  - `challenges`: id, creator_id (FK), title, description, start_date, end_date, is_active
+  - `challenge_participants`: id, challenge_id (FK), user_id (FK)
+  - `challenge_daily_goals`: id, challenge_id (FK), user_id (FK), date, completed
+  - `faq_groups`: id, name, sort_order
+  - `faq_items`: id, group_id (FK), question, answer, sort_order, is_active
+
+# Development Roadmap
+
+### MVP Requirements
+- Supabase Auth (이메일/카카오 로그인)
+- 습관 CRUD + 일일 목표 체크
+- 챌린지 생성/참여 + 챌린지 일일 목표 체크
+- FAQ 페이지
+- 페이지 전환 트랜지션
+- 카카오톡 메시지 알림(동기부여, 참여 독려)
+
+### Future Enhancements
+- 상세 통계 및 리포트
+- 챌린지 리더보드 및 랭킹
+- 관리자용 챌린지/FAQ 관리 UI
+- 다국어 지원
+
+# Logical Dependency Chain
+1. DB 스키마 (Supabase SQL Editor로 생성)
+2. Supabase Auth (이메일/카카오 로그인)
+3. 습관 CRUD 및 일일 목표 기록
+4. 챌린지 생성/참여 및 일일 목표 기록
+5. FAQ DB 연동 및 페이지 렌더링
+6. 페이지 전환 트랜지션 추가
+7. Edge Function 기반 카카오톡 메시지 발송
+
+# Risks and Mitigations
+- **카카오 API 제한** → 메시지 발송 정책 확인, 적절한 쿼터 관리.
+- **DB 성능 문제** → habit_daily_goals / challenge_daily_goals 인덱스 최적화.
+- **Auth UX 이탈률** → 카카오 로그인으로 간편 가입 제공.
+- **RLS 정책 오류** → 개발 단계에서 SQL Row Level Security 정책 철저히 검증.
+
+# Appendix
+- Supabase 공식 문서: https://supabase.com/docs
+- 카카오 OAuth / 메시지 API 문서 참고
+- 기존 습관/챌린지 앱 사용자 리뷰 분석

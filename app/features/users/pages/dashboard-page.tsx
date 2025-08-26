@@ -222,7 +222,6 @@ export default function DashboardPage({ loaderData }: { loaderData: DashboardLoa
           {loaderData.actions.map((action) => (
             <ActionCard
               key={action.plan_id}
-              goal_type="habit"
               goal_id={`${action.plan_id}`}
               title={action.title}
               description={action.description}
